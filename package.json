@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "atomic-algolia": "^0.3.19"
+    "@tinacms/cli": "^1.5.14",
+    "atomic-algolia": "^0.3.19",
+    "tinacms": "^1.5.6"
   }
 }
