@@ -1,4 +1,4 @@
-baseurl = "https://zhaohuabing.com"
+baseurl = "https://yukai.netlify.app"
 title = "MonsterYU Blog"
 # theme = "hugo-theme-cleanwhite"
 languageCode = "en-us"
