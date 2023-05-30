@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<style type="text/css">
+    .view-bar{
+        width: 0;
+        height: 5px;
+        background-color: #5ce1e6;
+    }
+    .default{
+        position: relative;
+        margin-top: -20px;
+    }
+    .action{
+        position: fixed;
+        top:0;
+        z-index: 10;
+    }
+</style>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="MonsterYU Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/test8.jpg">
+    <meta property="twitter:image" content="/img/test8.jpg" />
+    
+
+    
+    <meta name="title" content="複雜度 Complexity" />
+    <meta property="og:title" content="複雜度 Complexity" />
+    <meta property="twitter:title" content="複雜度 Complexity" />
+    
+
+    
+    <meta name="description" content="林鈺凱，程序員，生活探險家 | 這裡是林鈺凱的博客，與你探索科技之深奧，自然之綺麗。">
+    <meta property="og:description" content="林鈺凱，程序員，生活探險家 | 這裡是林鈺凱的博客，與你探索科技之深奧，自然之綺麗。" />
+    <meta property="twitter:description" content="林鈺凱，程序員，生活探險家 | 這裡是林鈺凱的博客，與你探索科技之深奧，自然之綺麗。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/element/selfie.gif">
+
+    <title>複雜度 Complexity | 林鈺凱的博客 | MonsterYU Blog</title>
+
+    <link rel="canonical" href="/post/2023-05-22/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/newCleab.css">
+
+    
+    <link rel="stylesheet" href="/css/zss.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">MonsterYU Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background: none;
+        overflow: hidden;
+    }
+    header.intro-header::before{
+        content: '';
+        position: absolute;
+        top: 0; left:0; right: 0; bottom: 0;
+        background-image: url('/img/test8.jpg');
+        background-size: cover;
+        background-position: center;
+        transition: all .5s;
+        transition-timing-function: cubic-bezier(0.1, 0.3, 1.0, 0.2);
+    }
+    header.intro-header:hover::before{
+        transform: scale(1.2);
+        filter: blur(5px);
+    }
+    .post-heading{
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/algorithm" title="algorithm">
+                            algorithm
+                        </a>
+                        
+                        <a class="tag" href="/tags/math" title="math">
+                            math
+                        </a>
+                        
+                    </div>
+                    <h1>複雜度 Complexity</h1>
+                    <h2 class="subheading">Complexity refers to the level of intricacy or difficulty in understanding, analyzing, or solving a problem, often measured in terms of time or space requirements for algorithms.</h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                    MonsterYU
+                             
+                            on 
+                            Monday, June 4, 2018
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar default"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                
+               
+                <p>複雜度 主要用來分析一個演算法的計算能力與記憶體空間，
+藉此用以評價該程式的能力，進而提升其計算能力。</p>
+<h3 id="時間複雜度與空間複雜度">時間複雜度與空間複雜度</h3>
+<p>Time / Space Complexity</p>
+<hr>
+<p>主要分為兩個指標，時間複雜度與空間複雜度。</p>
+<p>時間複雜度主要評價該程式的計算量，而非實際計算時間。</p>
+<p>空間複雜度主要評價該程式於記憶體所需的最大使用空間。</p>
+<p>一般而言，以空間換取時間來提升程式效能是最好的做法，並且以時間複雜度為主要指標。</p>
+<hr>
+<h3 id="常見的時間複雜度">常見的時間複雜度</h3>
+<hr>
+<p>Big O 計作 O() 表示該程式計算量的上限</p>
+<ul>
+<li><strong>O(1)</strong>： 常數型。如：一次執行
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">function</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd">int</span> nRtn <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> nRtn;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li><strong>O(n)</strong>：線性型。如：陣列搜尋
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> a[<span style="color:#bd93f9">10</span>];
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span>(<span style="color:#8be9fd">int</span> i<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>;i<span style="color:#ff79c6">&lt;</span><span style="color:#bd93f9">10</span>;i<span style="color:#ff79c6">++</span>) cin<span style="color:#ff79c6">&gt;&gt;</span>a[i];
+</span></span></code></pre></div></li>
+<li><strong>O(n^2)</strong>：平方型。如：泡沫排序、雙層迴圈
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> ans <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> (i<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">&lt;</span>n; i<span style="color:#ff79c6">++</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> (j<span style="color:#ff79c6">=</span><span style="color:#bd93f9">0</span>; j<span style="color:#ff79c6">&lt;</span>i; j<span style="color:#ff79c6">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span> (ary[i] <span style="color:#ff79c6">+</span> ary[j] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">10</span>) ans <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>通常以並聯的迴圈以加法串聯，而巢狀迴圈則是以乘法連結。雖此估算法較為粗略，但大部分情況下是可行的</p>
+</blockquote>
+</li>
+<li><strong>O(log n)</strong>：對數型，通常以二為底。如：二分搜尋法
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> n <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">100</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">while</span> (i <span style="color:#ff79c6">&lt;=</span> n) i <span style="color:#ff79c6">=</span> i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span>;
+</span></span></code></pre></div></li>
+<li><strong>O(n log n)</strong>：對數型。如：比較排序法
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#8be9fd">int</span> n <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">100</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> m <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> (m <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>; m <span style="color:#ff79c6">&lt;</span> n; m<span style="color:#ff79c6">++</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span> (i <span style="color:#ff79c6">&lt;=</span> n) i <span style="color:#ff79c6">=</span> i <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">2</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+<hr>
+<h3 id="可行性分析">可行性分析</h3>
+<p>Feasibility Analysis</p>
+<hr>
+<p>以資料量 n 代入複雜度，來大略推估其計算量與所需空間。</p>
+<p>通常空間在 1000 萬內都算安全，到 1 億還可進行嘗試，超過即屬不合理範圍。<br>
+而計算量在 100 萬內都算安全，1000 萬內還屬合理，至 1 億以內則為危險，但仍有機會，超過即是不合理範圍。</p>
+<p>如，n = 2000，其解法可以為 O(n^2) 解法，甚至最差解法 O(n^2log(n))。<br>
+又或者說，當解法為 O(n^2) 時，苦推估其 n = 3000上下</p>
+<hr>
+<h3 id="均攤式分析">均攤式分析</h3>
+<p>Amortized Analysis</p>
+<hr>
+<p>計算出最差清況下的計算量，並將其平均分配至其他操作。<br>
+可藉此分析出最差情況下的平均時間，但不能確認實際平均情況的性能。</p>
+<p>常見均攤式分析法：</p>
+<ul>
+<li>聚集法：分析 n 次運行的總時間，並決定運行的上限值 T(n)，再計算出均攤成本 T(n)/n。</li>
+<li>記帳法：類似聚集法，對每個運行分配均攤成本，若前期均攤成本高於實際成本的運行，則用於累計 credit 供支付後期均攤成本低於實際成本運行。</li>
+<li>位能法：類似記帳法，藉由位能函數計算出儲存的 credit，而均攤成本可表示為位能的改變加上立即成本。</li>
+</ul>
+<hr>
+<h3 id="資料來源">資料來源</h3>
+<p><a href="https://hackmd.io/@sa072686/cp/%2FDI86xDw0T0uvqhXwLCHkAw#%E5%A6%82%E4%BD%95%E5%88%86%E6%9E%90%E7%A8%8B%E5%BC%8F%E6%95%88%E8%83%BD%EF%BC%9A%E8%A4%87%E9%9B%9C%E5%BA%A6-Complexity">SA競程筆記</a><br>
+<a href="https://s311354.github.io/Louis.github.io/2022/01/19/%E6%B7%BA%E8%AB%87%E5%9D%87%E6%94%A4%E5%88%86%E6%9E%90/">淺談均攤式分析</a><br>
+<a href="https://zh.wikipedia.org/zh-tw/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">維基百科-時間複雜度</a></p>
+
+
+                
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2023-05-16/" data-toggle="tooltip" data-placement="top" title="Selenium 隨筆紀錄">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/algorithm" title="algorithm">
+                            algorithm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/back-end" title="back-end">
+                            back-end
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/c&#43;&#43;-stl" title="c&#43;&#43;-stl">
+                            c&#43;&#43;-stl
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/c/c&#43;&#43;" title="c/c&#43;&#43;">
+                            c/c&#43;&#43;
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/database" title="database">
+                            database
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/firebase" title="firebase">
+                            firebase
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/front-end" title="front-end">
+                            front-end
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/javascript" title="javascript">
+                            javascript
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/math" title="math">
+                            math
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/selenium" title="selenium">
+                            selenium
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/vue" title="vue">
+                            vue
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<button class="zs show-zs btn btn-bred">
+	<img width="50" height="50" src="/element/coffee_cup_drink_icon.png"/>
+</button>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://zhaohuabing.com"><img src="/img/favicon.png" />MonsterYU Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+<button class="zs move-top btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_circle_up_icon.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; MonsterYU Blog 2023
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/moveTop.js"></script>
+<script>
+$(window).scroll(function(){
+     
+    const px = $(window).height();
+    var view = ($(window).height() + $(window).scrollTop()) / $(document).height() * 100 + 'vw'
+    $(".view-bar").width(view)
+    if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
+        $(".view-bar").addClass("action")
+        $(".view-bar").removeClass("default")
+    } else {
+        $(".view-bar").removeClass("action")
+        $(".view-bar").addClass("default")
+    }
+});
+</script>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<style type="text/css">
+    .view-bar{
+        width: 0;
+        height: 5px;
+        background-color: #5ce1e6;
+    }
+    .default{
+        position: relative;
+        margin-top: -20px;
+    }
+    .action{
+        position: fixed;
+        top:0;
+        z-index: 10;
+    }
+</style>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="MonsterYU Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/test3.jpeg">
+    <meta property="twitter:image" content="/img/test3.jpeg" />
+    
+
+    
+    <meta name="title" content="Commands List" />
+    <meta property="og:title" content="Commands List" />
+    <meta property="twitter:title" content="Commands List" />
+    
+
+    
+    <meta name="description" content="軟體工程師應學習Git因為它是一個強大的版本控制系統，可追蹤和管理程式碼的變更。Git有助於有效地保存和追蹤版本歷史，解決問題和恢復變更。它支持多人協同開發，並提供分支管理機制，讓開發人員能夠同時進行不同任務，確保穩定性和平行開發。學習Git能使軟體工程師的開發工作更有組織性、高效和可靠性。">
+    <meta property="og:description" content="軟體工程師應學習Git因為它是一個強大的版本控制系統，可追蹤和管理程式碼的變更。Git有助於有效地保存和追蹤版本歷史，解決問題和恢復變更。它支持多人協同開發，並提供分支管理機制，讓開發人員能夠同時進行不同任務，確保穩定性和平行開發。學習Git能使軟體工程師的開發工作更有組織性、高效和可靠性。" />
+    <meta property="twitter:description" content="軟體工程師應學習Git因為它是一個強大的版本控制系統，可追蹤和管理程式碼的變更。Git有助於有效地保存和追蹤版本歷史，解決問題和恢復變更。它支持多人協同開發，並提供分支管理機制，讓開發人員能夠同時進行不同任務，確保穩定性和平行開發。學習Git能使軟體工程師的開發工作更有組織性、高效和可靠性。" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/element/selfie.gif">
+
+    <title>Commands List | 林鈺凱的博客 | MonsterYU Blog</title>
+
+    <link rel="canonical" href="/post/2023-05-20/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/newCleab.css">
+
+    
+    <link rel="stylesheet" href="/css/zss.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">MonsterYU Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background: none;
+        overflow: hidden;
+    }
+    header.intro-header::before{
+        content: '';
+        position: absolute;
+        top: 0; left:0; right: 0; bottom: 0;
+        background-image: url('/img/test3.jpeg');
+        background-size: cover;
+        background-position: center;
+        transition: all .5s;
+        transition-timing-function: cubic-bezier(0.1, 0.3, 1.0, 0.2);
+    }
+    header.intro-header:hover::before{
+        transform: scale(1.2);
+        filter: blur(5px);
+    }
+    .post-heading{
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                    </div>
+                    <h1>Commands List</h1>
+                    <h2 class="subheading">Git是一個強大的版本控制系統，用於追蹤、管理和協同開發程式碼的變更。</h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                    MonsterYU
+                             
+                            on 
+                            Saturday, May 20, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar default"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                
+               
+                <p><a href="https://git-scm.com/docs/git">官網 git 文件</a></p>
+<hr>
+<h3 id="首次使用必要指令">首次使用必要指令</h3>
+<hr>
+<ol>
+<li>
+<p>設定使用者名稱</p>
+</li>
+<li>
+<p>設定使用者電子信箱</p>
+</li>
+<li>
+<p>列出使用者資訊</p>
+</li>
+</ol>
+<hr>
+<p><code>git config --global user.name &quot;your_username&quot;</code></p>
+<p><code>git config --global user.email &quot;your_email_address@example.com&quot;</code></p>
+<p><code>git config --global --list</code></p>
+<h3 id="常見上傳流水線指令">常見上傳流水線指令</h3>
+<hr>
+<ol>
+<li>
+<p>初始化本地儲存庫</p>
+</li>
+<li>
+<p>將檔案加入 git 暫存區</p>
+</li>
+<li>
+<p>將檔案提交至本地儲存庫</p>
+</li>
+<li>
+<p>將檔案連結遠端儲存庫</p>
+</li>
+<li>
+<p>將檔案上傳至遠端儲存庫</p>
+</li>
+</ol>
+<hr>
+<p><code>git init</code></p>
+<p><code>git add .</code></p>
+<p><code>git commit -m &quot;commit message&quot; </code></p>
+<p><code>git remote add origin [repo_url]</code></p>
+<p><code>git push -u origin main</code></p>
+<h3 id="分支指令傳輸指令">分支指令、傳輸指令</h3>
+<hr>
+<ol>
+<li>
+<p>查看分支列表（只有本地）</p>
+</li>
+<li>
+<p>查看分支列表（本地和遠端）</p>
+</li>
+<li>
+<p>創建新分支</p>
+</li>
+<li>
+<p>刪除本地分支</p>
+</li>
+<li>
+<p>刪除本地分支（強制執行）</p>
+</li>
+<li>
+<p>刪除遠端分支</p>
+</li>
+<li>
+<p>創建新分支並切換於此</p>
+</li>
+<li>
+<p>下載遠端分支並切換於此</p>
+</li>
+<li>
+<p>更名分支</p>
+</li>
+<li>
+<p>切換分支</p>
+</li>
+<li>
+<p>切換回上個分支</p>
+</li>
+<li>
+<p>捨棄該檔案的更動</p>
+</li>
+<li>
+<p>刪除該檔案</p>
+</li>
+<li>
+<p>合併分支（合併於當前分支）</p>
+</li>
+<li>
+<p>合併分支（來源分支合併於目標分支）</p>
+</li>
+<li>
+<p>預覽分支合併後的更動</p>
+</li>
+<li>
+<p>上傳至遠端分支</p>
+</li>
+<li>
+<p>上傳至遠端分支並且記憶該分支</p>
+</li>
+<li>
+<p>上傳至遠端分支並且記憶該分支</p>
+</li>
+<li>
+<p>拉取遠端儲存庫更動</p>
+</li>
+<li>
+<p>拉取遠端儲存庫更動</p>
+</li>
+<li>
+<p>增加遠端儲存庫</p>
+</li>
+<li>
+<p>設置儲存庫的起點為 SSH</p>
+</li>
+<li>
+<p>下載遠端儲存庫</p>
+</li>
+<li>
+<p>下載遠端私人儲存庫</p>
+</li>
+</ol>
+<hr>
+<p><code>git branch</code></p>
+<p><code>git branch -a</code></p>
+<p><code>git branch [branch name]</code></p>
+<p><code>git branch -d [branch name]</code></p>
+<p><code>git branch -D [branch name]</code></p>
+<p><code>git push origin --delete [branch name]</code></p>
+<p><code>git checkout -b [branch name]</code></p>
+<p><code>git checkout -b [branch name] origin/[branch name]</code></p>
+<p><code>git branch -m [old branch name] [new branch name]</code></p>
+<p><code>git checkout [branch name]</code></p>
+<p><code>git checkout -</code></p>
+<p><code>git checkout -- [file-name.txt]</code></p>
+<p><code>git rm -r [file-name.txt]</code></p>
+<p><code>git merge [branch name]</code></p>
+<p><code>git merge [source branch] [target branch]</code></p>
+<p><code>git diff [source branch] [target branch]</code></p>
+<p><code>git push origin [branch name]</code></p>
+<p><code>git push -u origin [branch name]</code></p>
+<p><code>git push</code></p>
+<p><code>git pull</code></p>
+<p><code>git pull origin [branch name]</code></p>
+<p><code>git remote add origin [repo_url]</code></p>
+<p><code>git remote set-url origin [repo_url]</code></p>
+<p><code>git clone repo_url</code></p>
+<p><code>git clone [repo_url]</code></p>
+<h3 id="其他指令">其他指令</h3>
+<hr>
+<ol>
+<li>
+<p>查看當前狀態</p>
+</li>
+<li>
+<p>將當前工作區加入暫存</p>
+</li>
+<li>
+<p>將暫存區清空</p>
+</li>
+<li>
+<p>列出歷史紀錄</p>
+</li>
+<li>
+<p>列出詳細歷史紀錄</p>
+</li>
+<li>
+<p>列出簡要的歷史紀錄</p>
+</li>
+<li>
+<p>還原提交更改</p>
+</li>
+</ol>
+<hr>
+<p><code>git status</code></p>
+<p><code>git stash</code></p>
+<p><code>git stash clear</code></p>
+<p><code>git log</code></p>
+<p><code>git log --summary</code></p>
+<p><code>git log --oneline</code></p>
+<p><code>git revert commitid</code></p>
+<h3 id="參考資料">參考資料</h3>
+<p><a href="https://www.loginradius.com/blog/engineering/git-commands/">35+ Git Commands List Every Programmer Should Know</a></p>
+
+
+                
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-05-21/" data-toggle="tooltip" data-placement="top" title="Google Map 商家資料爬取">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2023-05-10/" data-toggle="tooltip" data-placement="top" title="Firebase DBD illustrated book - Database">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        <a href="/tags/algorithm" title="algorithm">
+                            algorithm
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/back-end" title="back-end">
+                            back-end
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/c&#43;&#43;-stl" title="c&#43;&#43;-stl">
+                            c&#43;&#43;-stl
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/c/c&#43;&#43;" title="c/c&#43;&#43;">
+                            c/c&#43;&#43;
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/database" title="database">
+                            database
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/firebase" title="firebase">
+                            firebase
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/front-end" title="front-end">
+                            front-end
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/git" title="git">
+                            git
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/javascript" title="javascript">
+                            javascript
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/math" title="math">
+                            math
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/python" title="python">
+                            python
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/selenium" title="selenium">
+                            selenium
+                        </a>
+                        
+                        
+                        
+                        <a href="/tags/vue" title="vue">
+                            vue
+                        </a>
+                        
+                        
+                    </div>
+                </section>
+                
+
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<button class="zs show-zs btn btn-bred">
+	<img width="50" height="50" src="/element/coffee_cup_drink_icon.png"/>
+</button>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://zhaohuabing.com"><img src="/img/favicon.png" />MonsterYU Blog</a></span>
+        
+	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			<button class="btn btn-blink" data-num="2">2元</button>
+			<button class="btn btn-blink" data-num="5">5元</button>
+			<button class="btn btn-blink" data-num="10">10元</button>
+			<button class="btn btn-blink" data-num="50">50元</button>
+			<button class="btn btn-blink" data-num="100">100元</button>
+			<button class="btn btn-blink" data-num="1">任意金额</button>
+		</div>
+		<div class="zs-modal-pay">
+			<button class="btn btn-bred" id="pay-text">2元</button>
+			<p>使用<span id="pay-type">微信</span>扫描二维码完成支付</p>
+			<img src="/img/reward/wechat-2.png"  id="pay-image"/>
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		<label><input type="radio" name="zs-type" value="wechat" class="zs-type" checked="checked"><span ><span class="zs-wechat"><img src="/img/reward/wechat-btn.png"/></span></label>
+		<label><input type="radio" name="zs-type" value="alipay" class="zs-type" class="zs-alipay"><img src="/img/reward/alipay-btn.png"/></span></label>
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+<button class="zs move-top btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_circle_up_icon.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; MonsterYU Blog 2023
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+
+
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+
+
+<script type="text/javascript">
+    function generateCatalog(selector) {
+
+        
+        
+        
+        
+            _containerSelector = 'div.post-container'
+        
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+
+        
+        $(selector).html('')
+
+        
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+            l = $('<li class="' + n + '_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    
+
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
+<script type="text/javascript" src="/js/moveTop.js"></script>
+<script>
+$(window).scroll(function(){
+     
+    const px = $(window).height();
+    var view = ($(window).height() + $(window).scrollTop()) / $(document).height() * 100 + 'vw'
+    $(".view-bar").width(view)
+    if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
+        $(".view-bar").addClass("action")
+        $(".view-bar").removeClass("default")
+    } else {
+        $(".view-bar").removeClass("action")
+        $(".view-bar").addClass("default")
+    }
+});
+</script>

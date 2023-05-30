@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>firebase on MonsterYU Blog</title>
+    <link>https://zhaohuabing.com/tags/firebase/</link>
+    <description>Recent content in firebase on MonsterYU Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://zhaohuabing.com/tags/firebase/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Firebase DBD illustrated book - Database</title>
+      <link>https://zhaohuabing.com/post/2023-05-10/</link>
+      <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2023-05-10/</guid>
+      <description>此篇主要說明我是如何從 Firebase 的 storage 中上傳檔案與下載檔案 預先操作 引入 firebase 、 getFirestore 、 collection 等函示庫 設定 firebaseConfig ，用來提供 firebase 設定的資訊 初始化 firebase 功能 import firebase from &amp;#34;firebase/compat/app&amp;#34; import { collection } from &amp;#34;firebase/firestore&amp;#34; import</description>
+    </item>
+    
+    <item>
+      <title>An Example Post 2</title>
+      <link>https://zhaohuabing.com/post/2023-05-12/</link>
+      <pubDate>Fri, 12 May 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2023-05-12/</guid>
+      <description>此篇主要說明我是如何從 Firebase 的 database、realtime database 中獲取資料、修改資料、刪除資料、增加資料等操作 預先操作 引入 firebase 、 getFirestore 、 collection 等函示庫 設</description>
+    </item>
+    
+    <item>
+      <title>An Example Post</title>
+      <link>https://zhaohuabing.com/post/2023-05-13/</link>
+      <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://zhaohuabing.com/post/2023-05-13/</guid>
+      <description>Testing Test T</description>
+    </item>
+    
+  </channel>
+</rss>
