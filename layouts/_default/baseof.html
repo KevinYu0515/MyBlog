@@ -54,7 +54,7 @@
 $(window).scroll(function(){
     /*當瀏覽器捲軸往下捲100px*/
     const px = $(window).height();
-    var view = ($(window).height() + $(window).scrollTop()) / $(document).height() * 100 + 'vw'
+    var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
     $(".view-bar").width(view)
     if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
         $(".view-bar").addClass("action")
