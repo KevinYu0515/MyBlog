@@ -20,8 +20,8 @@ home = ["HTML", "RSS", "Algolia"]
   keyword = ""
   slogan = "機不可失，失不再來"
 
-  image_404 = "img/404-bg.jpg"
-  title_404 = "你來到了沒有知識的荒原 :("
+  image_404 = "img/404.jpg"
+  title_404 = "你走到了知識的盡頭 :( 但給你一隻貓貓安慰你 :)"
   omit_categories = false
 
   # leancloud storage for page view counter
