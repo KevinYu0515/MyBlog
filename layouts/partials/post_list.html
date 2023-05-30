@@ -1,0 +1,60 @@
+<!-- post list -->
+<div data-pagefind-ignore="all">
+{{ range $index, $element := $.Paginator.Pages }}
+<div class="post-preview">
+    <div class="row">
+        <div class="col-lg-4">
+            {{ if .Params.image }}
+                <img class="cover" src="{{ .Params.image }}"></img>
+            {{ end }}
+        </div>
+        <div class="col-lg-8">
+            <div class="preview">
+                <a href="{{ .Permalink }}">
+                    <h2 class="post-title">
+                        {{ .Title }}
+                    </h2>
+                {{with .Params.subtitle }}
+                    <h3 class="post-subtitle">
+                        {{ . }}
+                    </h3>
+                {{ end }}
+                    <div class="post-content-preview">
+                {{ with .Description }}
+                        {{ . }}
+                    {{ else }}
+                        {{ .Summary}}
+                {{ end }}
+                    </div>
+                </a>
+                <p class="post-meta">
+                {{ if .Params.metadata }}
+                    {{ range $index, $element := .Params.metadata }}
+                        {{ if .link }}
+                            <a href="{{ .link }}">{{ .text }}</a>
+                        {{ else }}
+                            {{ .text }}
+                        {{ end }}
+                    {{ end }}
+                    <br>
+                {{ else }}
+                    Posted by {{ with .Site.Params.author }}{{ . }}{{ else }}{{ .Site.Title }}{{ end }} on {{ .Date.Format "Monday, January 2, 2006" }}
+                    <!-- Don't show "Last Modified on" if update happened on the same day. -->
+                    {{ if (and (not .Lastmod.IsZero) (not (eq (dateFormat "2006-01-02" .Lastmod) (dateFormat "2006-01-02" .Date)))) }}
+                        <br>Last Modified on {{ dateFormat "Monday, January 2, 2006" .Params.LastMod }} 
+                    {{ end }}
+                    <br>
+                {{ end }}
+                </p>
+                <p class="tags">
+                    {{ range $name := .Params.tags }}
+                        <span class="tag">{{ $name }}</span>
+                    {{ end }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+{{ end }}
+</div>
