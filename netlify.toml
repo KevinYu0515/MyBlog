@@ -5,7 +5,6 @@ publish = "public"
 [context.production.environment]
 HUGO_ENABLEGITINFO = "true"
 HUGO_ENV           = "production"
-HUGO_THEME         = "hugo-theme-cleanwhite"
 HUGO_VERSION       = "0.77.0"
 
 [context.split1]
