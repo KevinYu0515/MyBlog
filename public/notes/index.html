@@ -26,8 +26,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="https://zhaohuabing.com//img/homee.jpg">
-    <meta property="twitter:image" content="https://zhaohuabing.com//img/homee.jpg" />
+    <meta property="og:image" content="https://yukai.netlify.app//img/homee.jpg">
+    <meta property="twitter:image" content="https://yukai.netlify.app//img/homee.jpg" />
     
 
     
@@ -201,7 +201,9 @@
             col-xs-12
             post-container">
             
-                
+                <h2 id="javascript-學習筆記httpsappgitbookcomo5aqspm2gire1odhfsesps0ymu3qmxcg0h9iscxfmmdi-ling-zhangshen-me-shi-javascript"><a href="https://app.gitbook.com/o/5AQsPM2Gire1OdHFseSp/s/0ymu3QMxcg0H9iscXFmM/di-ling-zhang/shen-me-shi-javascript">JavaScript 學習筆記</a></h2>
+<h2 id="c-學習筆記httpsappgitbookcomo5aqspm2gire1odhfsespshu6o4rp6ehnoz1epxgcgdi-yi-zhang-wu-jian-dao-xiangpage-2"><a href="https://app.gitbook.com/o/5AQsPM2Gire1OdHFseSp/s/hU6o4rp6EhnOz1EPXGCg/di-yi-zhang-wu-jian-dao-xiang/page-2">C++ 學習筆記</a></h2>
+
             
              
             
@@ -389,7 +391,7 @@
 <div class="zs-modal-box">
 	<div class="zs-modal-head">
 		<button type="button" class="close">×</button>
-		<span class="author"><a href="https://zhaohuabing.com"><img src="/img/favicon.png" />MonsterYU Blog</a></span>
+		<span class="author"><a href="https://yukai.netlify.app"><img src="/img/favicon.png" />MonsterYU Blog</a></span>
         
 	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
 		
@@ -589,7 +591,7 @@
 $(window).scroll(function(){
      
     const px = $(window).height();
-    var view = ($(window).height() + $(window).scrollTop()) / $(document).height() * 100 + 'vw'
+    var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
     $(".view-bar").width(view)
     if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
         $(".view-bar").addClass("action")

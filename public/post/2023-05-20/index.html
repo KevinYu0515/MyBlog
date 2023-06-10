@@ -588,7 +588,7 @@
 <div class="zs-modal-box">
 	<div class="zs-modal-head">
 		<button type="button" class="close">×</button>
-		<span class="author"><a href="https://zhaohuabing.com"><img src="/img/favicon.png" />MonsterYU Blog</a></span>
+		<span class="author"><a href="https://yukai.netlify.app"><img src="/img/favicon.png" />MonsterYU Blog</a></span>
         
 	        <p class="tip"><i></i><span>真诚赞赏，手留余香</span></p>
 		
@@ -788,7 +788,7 @@
 $(window).scroll(function(){
      
     const px = $(window).height();
-    var view = ($(window).height() + $(window).scrollTop()) / $(document).height() * 100 + 'vw'
+    var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
     $(".view-bar").width(view)
     if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
         $(".view-bar").addClass("action")

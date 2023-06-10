@@ -2,125 +2,125 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on MonsterYU Blog</title>
-    <link>https://zhaohuabing.com/tags/</link>
+    <link>https://yukai.netlify.app/tags/</link>
     <description>Recent content in Tags on MonsterYU Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://zhaohuabing.com/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>back-end</title>
-      <link>https://zhaohuabing.com/tags/back-end/</link>
+      <link>https://yukai.netlify.app/tags/back-end/</link>
       <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/back-end/</guid>
+      <guid>https://yukai.netlify.app/tags/back-end/</guid>
       <description></description>
     </item>
     
     <item>
       <title>database</title>
-      <link>https://zhaohuabing.com/tags/database/</link>
+      <link>https://yukai.netlify.app/tags/database/</link>
       <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/database/</guid>
+      <guid>https://yukai.netlify.app/tags/database/</guid>
       <description></description>
     </item>
     
     <item>
       <title>firebase</title>
-      <link>https://zhaohuabing.com/tags/firebase/</link>
+      <link>https://yukai.netlify.app/tags/firebase/</link>
       <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/firebase/</guid>
+      <guid>https://yukai.netlify.app/tags/firebase/</guid>
       <description></description>
     </item>
     
     <item>
       <title>javascript</title>
-      <link>https://zhaohuabing.com/tags/javascript/</link>
+      <link>https://yukai.netlify.app/tags/javascript/</link>
       <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/javascript/</guid>
+      <guid>https://yukai.netlify.app/tags/javascript/</guid>
       <description></description>
     </item>
     
     <item>
       <title>git</title>
-      <link>https://zhaohuabing.com/tags/git/</link>
+      <link>https://yukai.netlify.app/tags/git/</link>
       <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/git/</guid>
+      <guid>https://yukai.netlify.app/tags/git/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
-      <link>https://zhaohuabing.com/tags/python/</link>
+      <link>https://yukai.netlify.app/tags/python/</link>
       <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/python/</guid>
+      <guid>https://yukai.netlify.app/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <title>selenium</title>
-      <link>https://zhaohuabing.com/tags/selenium/</link>
+      <link>https://yukai.netlify.app/tags/selenium/</link>
       <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/selenium/</guid>
+      <guid>https://yukai.netlify.app/tags/selenium/</guid>
       <description></description>
     </item>
     
     <item>
       <title>front-end</title>
-      <link>https://zhaohuabing.com/tags/front-end/</link>
+      <link>https://yukai.netlify.app/tags/front-end/</link>
       <pubDate>Fri, 19 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/front-end/</guid>
+      <guid>https://yukai.netlify.app/tags/front-end/</guid>
       <description></description>
     </item>
     
     <item>
       <title>algorithm</title>
-      <link>https://zhaohuabing.com/tags/algorithm/</link>
+      <link>https://yukai.netlify.app/tags/algorithm/</link>
       <pubDate>Tue, 04 Apr 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/algorithm/</guid>
+      <guid>https://yukai.netlify.app/tags/algorithm/</guid>
       <description></description>
     </item>
     
     <item>
       <title>C&#43;&#43; STL</title>
-      <link>https://zhaohuabing.com/tags/c&#43;&#43;-stl/</link>
+      <link>https://yukai.netlify.app/tags/c&#43;&#43;-stl/</link>
       <pubDate>Tue, 04 Apr 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/c&#43;&#43;-stl/</guid>
+      <guid>https://yukai.netlify.app/tags/c&#43;&#43;-stl/</guid>
       <description></description>
     </item>
     
     <item>
       <title>math</title>
-      <link>https://zhaohuabing.com/tags/math/</link>
+      <link>https://yukai.netlify.app/tags/math/</link>
       <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/math/</guid>
+      <guid>https://yukai.netlify.app/tags/math/</guid>
       <description></description>
     </item>
     
     <item>
       <title>vue</title>
-      <link>https://zhaohuabing.com/tags/vue/</link>
+      <link>https://yukai.netlify.app/tags/vue/</link>
       <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/vue/</guid>
+      <guid>https://yukai.netlify.app/tags/vue/</guid>
       <description></description>
     </item>
     
     <item>
       <title>C/C&#43;&#43;</title>
-      <link>https://zhaohuabing.com/tags/c/c&#43;&#43;/</link>
+      <link>https://yukai.netlify.app/tags/c/c&#43;&#43;/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/tags/c/c&#43;&#43;/</guid>
+      <guid>https://yukai.netlify.app/tags/c/c&#43;&#43;/</guid>
       <description></description>
     </item>
     

@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>javascript on MonsterYU Blog</title>
-    <link>https://zhaohuabing.com/tags/javascript/</link>
+    <link>https://yukai.netlify.app/tags/javascript/</link>
     <description>Recent content in javascript on MonsterYU Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://zhaohuabing.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Firebase DBD illustrated book - Database</title>
-      <link>https://zhaohuabing.com/post/2023-05-10/</link>
+      <link>https://yukai.netlify.app/post/2023-05-10/</link>
       <pubDate>Sun, 21 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/post/2023-05-10/</guid>
+      <guid>https://yukai.netlify.app/post/2023-05-10/</guid>
       <description>此篇主要說明我是如何從 Firebase 的 storage 中上傳檔案與下載檔案 預先操作 引入 firebase 、 getFirestore 、 collection 等函示庫 設定 firebaseConfig ，用來提供 firebase 設定的資訊 初始化 firebase 功能 import firebase from &amp;#34;firebase/compat/app&amp;#34; import { collection } from &amp;#34;firebase/firestore&amp;#34; import</description>
     </item>
     
     <item>
       <title>JavaScript 的同步、非同步技巧</title>
-      <link>https://zhaohuabing.com/post/2023-05-19/</link>
+      <link>https://yukai.netlify.app/post/2023-05-19/</link>
       <pubDate>Fri, 19 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/post/2023-05-19/</guid>
+      <guid>https://yukai.netlify.app/post/2023-05-19/</guid>
       <description>本篇主要說明為什麼 JavaScript 可以做到同步處理、非同步處理，以及如何代碼實現。 前言 JavaScript 屬於單線程的瀏覽器行程。意思是同時間只做一段代碼，也就是只能一件一</description>
     </item>
     
     <item>
       <title>An Example Post</title>
-      <link>https://zhaohuabing.com/post/2023-05-13/</link>
+      <link>https://yukai.netlify.app/post/2023-05-13/</link>
       <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://zhaohuabing.com/post/2023-05-13/</guid>
+      <guid>https://yukai.netlify.app/post/2023-05-13/</guid>
       <description>Testing Test T</description>
     </item>
     
