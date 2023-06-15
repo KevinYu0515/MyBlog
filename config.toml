@@ -3,7 +3,7 @@ title = "MonsterYU Blog"
 # theme = "hugo-theme-cleanwhite"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
-disqusShortname = "LinYuKai"
+disqusShortname = "yukai"
 googleAnalytics = ""
 preserveTaxonomyNames = true
 paginate = 5 #frontpage pagination
