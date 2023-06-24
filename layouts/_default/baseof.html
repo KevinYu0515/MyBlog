@@ -40,8 +40,11 @@
 {{ block "main" . }}
 {{ end }}
 
+<button aria-label="買杯咖啡" class="show-zs btn btn-bred">
+	<img width="50" height="50" src="/element/coffee_cup_drink_icon.png"/>
+</button>
 {{ partial "reward.html" . }}
-<button class="zs move-top btn btn-moveTop">
+<button aria-label="回到頂部" class="btn btn-moveTop">
     <img width="50" height="50" src="/element/arrow_circle_up_icon.png"/>
 </button>
 
@@ -49,19 +52,43 @@
 </body>
 </html>
 
-<script type="text/javascript" src="{{ "js/moveTop.js" | relURL }}"></script>
 <script>
+let lastScrollTop = 0
+const isDev = true
 $(window).scroll(function(){
-    /*當瀏覽器捲軸往下捲100px*/
-    const px = $(window).height();
-    var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
-    $(".view-bar").width(view)
-    if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
-        $(".view-bar").addClass("action")
-        $(".view-bar").removeClass("default")
-    } else {
-        $(".view-bar").removeClass("action")
-        $(".view-bar").addClass("default")
+    // 瀏覽進度條
+    if(isDev){
+        const px = $(window).height();
+        var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
+        $(".view-bar").width(view)
+        if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
+            $(".view-bar").addClass("action")
+            $(".view-bar").removeClass("default")
+        } else {
+            $(".view-bar").removeClass("action")
+            $(".view-bar").addClass("default")
+        }
     }
-});
+
+    // 回到頂部
+    const px = 100;
+    var st = window.pageYOffset || document.documentElement.scrollTop
+    if (window.pageYOffset > px &&  st < lastScrollTop) {
+        $(`[aria-label="回到頂部"], [aria-label="買杯咖啡"]`).addClass("btn-moveTop-animate")
+    } else {
+        $(`[aria-label="回到頂部"], [aria-label="買杯咖啡"]`).removeClass("btn-moveTop-animate")
+    }
+    lastScrollTop = st <= 0 ? 0 : st
+})
+
+$(".btn-moveTop").click(function(e){
+    e.preventDefault();
+    $("html,body").animate(
+        {
+        scrollTop: 0,
+        },
+        600
+    )
+})
 </script>
+
