@@ -2,14 +2,8 @@
 <style type="text/css">
     .view-bar{
         width: 0;
-        height: 5px;
-        background-color: #5ce1e6;
-    }
-    .default{
-        position: relative;
-        margin-top: -20px;
-    }
-    .action{
+        height: 2px;
+        background-color: #77B6FF;
         position: fixed;
         top:0;
         z-index: 10;
@@ -35,7 +29,7 @@
 </header>
 {{ end }}
 
-<div class="view-bar default"></div>
+<div class="view-bar"></div>
 
 {{ block "main" . }}
 {{ end }}
@@ -61,13 +55,6 @@ $(window).scroll(function(){
         const px = $(window).height();
         var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
         $(".view-bar").width(view)
-        if (document.body.scrollTop > px || document.documentElement.scrollTop > px) {
-            $(".view-bar").addClass("action")
-            $(".view-bar").removeClass("default")
-        } else {
-            $(".view-bar").removeClass("action")
-            $(".view-bar").addClass("default")
-        }
     }
 
     // 回到頂部
@@ -90,5 +77,6 @@ $(".btn-moveTop").click(function(e){
         600
     )
 })
+
 </script>
 

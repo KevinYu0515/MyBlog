@@ -159,12 +159,7 @@
 <script type="text/javascript">
     function generateCatalog(selector) {
 
-        // interop with multilangual
-        //if ('page.multilingual' == 'true') {
-        //    _containerSelector = 'div.post-container.active'
-        //} else {
-            _containerSelector = 'div.post-container'
-        //}
+        _containerSelector = 'div.post-container'
 
         // init
         var P = $(_containerSelector), a, n, t, l, i, c;
@@ -174,24 +169,38 @@
         $(selector).html('')
 
         // appending
+        shortlinks = []
         a.each(function () {
             n = $(this).prop('tagName').toLowerCase();
             i = "#" + $(this).prop('id');
             t = $(this).text();
-            c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
-            l = $('<li class="' + n + '_nav"></li>').append(c);
+            c = $(`<a aria-label="${t}" href="${i}" rel="nofollow">${t}</a>`);
+            l = $(`<li class="${n}_nav"></li>`).append(c);
             $(selector).append(l);
+            shortlinks.push(t)
         });
         return true;
     }
 
     generateCatalog(".catalog-body");
 
+    let lastclick = null
+    shortlinks.forEach(item => {
+        const searchItem = `[aria-label="${item}"]`
+        $(searchItem).click(() => {
+            $(lastclick).attr("style", "color: #bfbfbf")
+            $(searchItem).attr("style", "color: #337ab7")
+            lastclick = searchItem
+        })
+    })
+
     // toggle side catalog
     $(".catalog-toggle").click((function (e) {
         e.preventDefault();
         $('.side-catalog').toggleClass("fold")
     }))
+
+    
 
     /*
      * Doc: https://github.com/davist11/jQuery-One-Page-Nav
