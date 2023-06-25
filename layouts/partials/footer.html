@@ -66,8 +66,6 @@
     </div>
 </footer>
 
-
-
 <!-- async load function -->
 <script>
     function loadAsync(u, c) {
@@ -79,25 +77,6 @@
       s.parentNode.insertBefore(o, s);
     }
 </script>
-
-<!--
-     Because of the native support for backtick-style fenced code blocks
-     right within the Markdown is landed in Github Pages,
-     From V1.6, There is no need for Highlight.js,
-     so Huxblog drops it officially.
-
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
--->
-<!--
-    <script>
-        loadAsync("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
-            hljs.initHighlightingOnLoad();
-        })
-    </script>
-    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
--->
-
 
 <!-- jquery.tagcloud.js -->
 <script>
@@ -154,6 +133,11 @@
 </script>
 {{ end }}
 
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
 <!-- Side Catalog -->
 {{ if not (eq (.Param "showtoc") false) }}
 <script type="text/javascript">
@@ -169,7 +153,7 @@
         $(selector).html('')
 
         // appending
-        shortlinks = []
+        sideNames = []
         a.each(function () {
             n = $(this).prop('tagName').toLowerCase();
             i = "#" + $(this).prop('id');
@@ -177,20 +161,59 @@
             c = $(`<a aria-label="${t}" href="${i}" rel="nofollow">${t}</a>`);
             l = $(`<li class="${n}_nav"></li>`).append(c);
             $(selector).append(l);
-            shortlinks.push(t)
+            sideNames.push(t)
         });
         return true;
     }
 
     generateCatalog(".catalog-body");
 
-    let lastclick = null
-    shortlinks.forEach(item => {
-        const searchItem = `[aria-label="${item}"]`
-        $(searchItem).click(() => {
-            $(lastclick).attr("style", "color: #bfbfbf")
-            $(searchItem).attr("style", "color: #337ab7")
-            lastclick = searchItem
+    const all_htags = []
+    for(let sideName of sideNames){
+        const name = sideName.replaceAll("，", "").replaceAll("、", "").replaceAll("：", "").replaceAll("。", "").replaceAll(" ", "-")
+        const query = `[id="${name}"]`
+        if(!$(query).offset()) break
+        const obj = {
+            name,
+            sideName: sideName,
+            top: $(query).offset().top, 
+            tagName: $(query).prop("tagName"),
+        }
+        if(obj.tagName !== "H2") $(`[aria-label="${sideName}"]`).hide()
+        all_htags.push(obj)
+    }
+    $(window).scroll(() => {
+        all_htags.forEach((item, index) => {
+            const searchItem = `[aria-label="${item.sideName}"]`
+            let curPos = window.pageYOffset
+            let isBottom = parseInt(curPos + document.documentElement.clientHeight) === document.documentElement.scrollHeight
+            if(index < all_htags.length - 1){
+                let first = null
+                const li = $(searchItem).parent()
+                const innerNodes = li.nextUntil(`li.${li[0].className}`)
+                const innerNodesArray = $.makeArray(innerNodes)
+                                         .filter(item => {
+                                            if(!first && item.className > li[0].className) first = item.className
+                                            return item.className === first
+                                         })
+                console.log(searchItem, innerNodesArray)
+                if(innerNodesArray.length > 0){
+                    if(curPos >= all_htags[index].top && curPos < all_htags[index + innerNodesArray.length + 1].top && !isBottom){
+                        $(searchItem).attr("style", "color: #337ab7")
+                        innerNodes.slideDown()
+                    }
+                    else{
+                        $(searchItem).removeAttr("style", "color")
+                        innerNodes.slideUp()
+                    }
+                }else{
+                    if(curPos > all_htags[index].top && curPos < all_htags[index + 1].top && !isBottom) $(searchItem).attr("style", "color: #337ab7")
+                    else $(searchItem).removeAttr("style", "color")
+                }
+            }else{
+                if(curPos > all_htags[index].top || isBottom) $(searchItem).attr("style", "color: #337ab7")
+                else $(searchItem).removeAttr("style", "color")
+            }
         })
     })
 
@@ -200,12 +223,6 @@
         $('.side-catalog').toggleClass("fold")
     }))
 
-    
-
-    /*
-     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
-     * Fork by Hux to support padding
-     */
 
 </script>
 {{ end }}

@@ -1,8 +1,8 @@
 <!-- post list -->
 <div data-pagefind-ignore="all">
 {{ range $index, $element := $.Paginator.Pages }}
-<div class="post-preview">
-    <div class="row">
+<div class="post-preview" style="width: 100%">
+    <div class="row" style="width: 100%">
         <div class="col-lg-4">
             {{ if .Params.image }}
                 <img class="cover" src="{{ .Params.image }}"></img>
