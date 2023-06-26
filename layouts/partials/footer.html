@@ -167,21 +167,39 @@
     }
 
     generateCatalog(".catalog-body");
+    console.log(sideNames)
 
     const all_htags = []
+    let firstTag = null
     for(let sideName of sideNames){
-        const name = sideName.replaceAll("，", "").replaceAll("、", "").replaceAll("：", "").replaceAll("。", "").replaceAll(" ", "-")
+        const name = sideName.replaceAll("，", "").replaceAll("、", "").replaceAll("：", "").replaceAll("。", "").replaceAll(".", "").replaceAll(" ", "-")
         const query = `[id="${name}"]`
         if(!$(query).offset()) break
         const obj = {
             name,
             sideName: sideName,
-            top: $(query).offset().top, 
+            top: $(query).offset().top,
             tagName: $(query).prop("tagName"),
+            innerTags: 0
         }
-        if(obj.tagName !== "H2") $(`[aria-label="${sideName}"]`).hide()
+        if(!firstTag) firstTag = obj.tagName
+        if(obj.tagName !== firstTag) $(`[aria-label="${sideName}"]`).hide()
         all_htags.push(obj)
     }
+    let count = [0, 0, 0, 0, 0]
+    for(let i = all_htags.length - 1; i >= 0; i--){
+        const index = parseInt(all_htags[i].tagName.slice(-1))
+        all_htags[i].innerTags = 1
+        count[index - 1] += 1
+        if(i !== all_htags.length - 1 && index !== 5){
+            for(let j = index; j < 5; j++){
+                all_htags[i].innerTags += count[j]
+                count[index - 1] += count[j]
+                count[j] = 0
+            }
+        }
+    }
+    console.log(all_htags)
     $(window).scroll(() => {
         all_htags.forEach((item, index) => {
             const searchItem = `[aria-label="${item.sideName}"]`
@@ -191,27 +209,25 @@
                 let first = null
                 const li = $(searchItem).parent()
                 const innerNodes = li.nextUntil(`li.${li[0].className}`)
-                const innerNodesArray = $.makeArray(innerNodes)
-                                         .filter(item => {
-                                            if(!first && item.className > li[0].className) first = item.className
-                                            return item.className === first
-                                         })
-                console.log(searchItem, innerNodesArray)
+                const innerNodesArray = $.grep(innerNodes, (node, index) => {
+                    if(!first && node.className > li[0].className) first = node.className
+                    return node.className === first
+                })
                 if(innerNodesArray.length > 0){
-                    if(curPos >= all_htags[index].top && curPos < all_htags[index + innerNodesArray.length + 1].top && !isBottom){
+                    if(curPos >= all_htags[index].top && curPos < all_htags[index + all_htags[index].innerTags].top && !isBottom){
                         $(searchItem).attr("style", "color: #337ab7")
-                        innerNodes.slideDown()
+                        innerNodes.filter((index, node) => node.className === first).slideDown()
                     }
                     else{
                         $(searchItem).removeAttr("style", "color")
-                        innerNodes.slideUp()
+                        innerNodes.filter((index, node) => node.className === first).slideUp()
                     }
                 }else{
-                    if(curPos > all_htags[index].top && curPos < all_htags[index + 1].top && !isBottom) $(searchItem).attr("style", "color: #337ab7")
+                    if(curPos >= all_htags[index].top && curPos < all_htags[index + 1].top && !isBottom) $(searchItem).attr("style", "color: #337ab7")
                     else $(searchItem).removeAttr("style", "color")
                 }
             }else{
-                if(curPos > all_htags[index].top || isBottom) $(searchItem).attr("style", "color: #337ab7")
+                if(curPos >= all_htags[index].top || isBottom) $(searchItem).attr("style", "color: #337ab7")
                 else $(searchItem).removeAttr("style", "color")
             }
         })
