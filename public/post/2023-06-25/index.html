@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<style type="text/css">
+    .view-bar{
+        width: 0;
+        height: 2px;
+        background-color: #77B6FF;
+        position: fixed;
+        top:0;
+        z-index: 10;
+    }
+</style>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai: Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/20230625.jpg">
+    <meta property="twitter:image" content="/img/20230625.jpg" />
+    
+
+    
+    <meta name="title" content="Blog 升級計畫：自動摺疊清單" />
+    <meta property="og:title" content="Blog 升級計畫：自動摺疊清單" />
+    <meta property="twitter:title" content="Blog 升級計畫：自動摺疊清單" />
+    
+
+    
+    <meta name="description" content="覺得快速連結的清單太冗長嗎？那你可能跟我一樣需要一個能動態顯示的快速連結清單，能隨著我閱讀的進度自動調整清單內容，才不會顯得到處都充滿文字，這篇是關於我的動態清單編程紀錄，我覺得整體程式是還有很多點可以優化啦，但至少效果還不錯。圖源：廣濟橋">
+    <meta property="og:description" content="覺得快速連結的清單太冗長嗎？那你可能跟我一樣需要一個能動態顯示的快速連結清單，能隨著我閱讀的進度自動調整清單內容，才不會顯得到處都充滿文字，這篇是關於我的動態清單編程紀錄，我覺得整體程式是還有很多點可以優化啦，但至少效果還不錯。圖源：廣濟橋" />
+    <meta property="twitter:description" content="覺得快速連結的清單太冗長嗎？那你可能跟我一樣需要一個能動態顯示的快速連結清單，能隨著我閱讀的進度自動調整清單內容，才不會顯得到處都充滿文字，這篇是關於我的動態清單編程紀錄，我覺得整體程式是還有很多點可以優化啦，但至少效果還不錯。圖源：廣濟橋" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/element/selfie.gif">
+
+    <title>Blog 升級計畫：自動摺疊清單 | YuKai&#39;s Blog:</title>
+
+    <link rel="canonical" href="/post/2023-06-25/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" href="/css/newClea.css">
+
+    
+    <link rel="stylesheet" href="/css/zsss.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai: Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background: none;
+        overflow: hidden;
+    }
+    header.intro-header::before{
+        content: '';
+        position: absolute;
+        top: 0; left:0; right: 0; bottom: 0;
+        background-image: url('/img/20230625.jpg');
+        background-size: cover;
+        background-position: center;
+        transition: all .5s;
+        transition-timing-function: cubic-bezier(0.1, 0.3, 1.0, 0.2);
+    }
+    header.intro-header:hover::before{
+        transform: scale(1.2);
+        filter: blur(5px);
+    }
+    .post-heading{
+        text-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
+    }
+</style>
+
+<header class="intro-header" >
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/front-end" title="front-end">
+                            front-end
+                        </a>
+                        
+                        <a class="tag" href="/tags/hugo" title="Hugo">
+                            Hugo
+                        </a>
+                        
+                        <a class="tag" href="/tags/javascript" title="JavaScript">
+                            JavaScript
+                        </a>
+                        
+                    </div>
+                    <h1>Blog 升級計畫：自動摺疊清單</h1>
+                    <h2 class="subheading">快速連結的動畫效果編程紀錄</h2>
+                    <span class="meta">
+                        
+                            Posted by 
+                            
+                                    YuKai:
+                             
+                            on 
+                            Sunday, June 25, 2023
+                            
+                            
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                
+                
+               
+                <p>前言：這篇文章是我記錄改編 Blog 的過程。我以 Hugo 上 <a href="https://themes.gohugo.io/themes/hugo-theme-cleanwhite/">Clean White Blog</a> 的風格作為樣板， 在此之上增加更多有趣的互動功能，同時增進自己在前端開發的能力。</p>
+<h3 id="生成快速連結">生成快速連結</h3>
+<ol>
+<li>首先需要定位我們要尋找的範圍
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">var</span> P <span style="color:#ff79c6">=</span> $(文本範圍的 selector)
+</span></span></code></pre></div></li>
+<li>接著在這個範圍找出我們要的 <code>tag</code> ，也就是 <code>h1~h6</code>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>a <span style="color:#ff79c6">=</span> P.find(<span style="color:#f1fa8c">&#39;h1,h2,h3,h4,h5,h6&#39;</span>);
+</span></span></code></pre></div></li>
+<li>將這些 <code>tag</code> 元素的資訊重組成快速連結並加入清單中
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>a.each(<span style="color:#8be9fd;font-style:italic">function</span> () {
+</span></span><span style="display:flex;"><span>    n <span style="color:#ff79c6">=</span> $(<span style="color:#ff79c6">this</span>).prop(<span style="color:#f1fa8c">&#39;tagName&#39;</span>).toLowerCase();
+</span></span><span style="display:flex;"><span>    i <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;#&#34;</span> <span style="color:#ff79c6">+</span> $(<span style="color:#ff79c6">this</span>).prop(<span style="color:#f1fa8c">&#39;id&#39;</span>);
+</span></span><span style="display:flex;"><span>    t <span style="color:#ff79c6">=</span> $(<span style="color:#ff79c6">this</span>).text();
+</span></span><span style="display:flex;"><span>    c <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`&lt;a aria-label=&#34;</span><span style="color:#f1fa8c">${</span>t<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34; href=&#34;</span><span style="color:#f1fa8c">${</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34; rel=&#34;nofollow&#34;&gt;</span><span style="color:#f1fa8c">${</span>t<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/a&gt;`</span>);
+</span></span><span style="display:flex;"><span>    l <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`&lt;li class=&#34;</span><span style="color:#f1fa8c">${</span>n<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">_nav&#34;&gt;&lt;/li&gt;`</span>).append(c);
+</span></span><span style="display:flex;"><span>    $(selector).append(l);
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div></li>
+</ol>
+<p>完整的生成函數</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">function</span> generateCatalog(selector) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _containerSelector <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;div.post-container&#39;</span> <span style="color:#6272a4">// 文本範圍
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// init
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">var</span> P <span style="color:#ff79c6">=</span> $(_containerSelector), a, n, t, l, i, c;
+</span></span><span style="display:flex;"><span>    a <span style="color:#ff79c6">=</span> P.find(<span style="color:#f1fa8c">&#39;h1,h2,h3,h4,h5,h6&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// clean
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    $(selector).html(<span style="color:#f1fa8c">&#39;&#39;</span>) <span style="color:#6272a4">// 預防裡面有其他元素
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// appending
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    a.each(<span style="color:#8be9fd;font-style:italic">function</span> () {
+</span></span><span style="display:flex;"><span>        n <span style="color:#ff79c6">=</span> $(<span style="color:#ff79c6">this</span>).prop(<span style="color:#f1fa8c">&#39;tagName&#39;</span>).toLowerCase();
+</span></span><span style="display:flex;"><span>        i <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;#&#34;</span> <span style="color:#ff79c6">+</span> $(<span style="color:#ff79c6">this</span>).prop(<span style="color:#f1fa8c">&#39;id&#39;</span>);
+</span></span><span style="display:flex;"><span>        t <span style="color:#ff79c6">=</span> $(<span style="color:#ff79c6">this</span>).text();
+</span></span><span style="display:flex;"><span>        c <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`&lt;a aria-label=&#34;</span><span style="color:#f1fa8c">${</span>t<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34; href=&#34;</span><span style="color:#f1fa8c">${</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34; rel=&#34;nofollow&#34;&gt;</span><span style="color:#f1fa8c">${</span>t<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/a&gt;`</span>);
+</span></span><span style="display:flex;"><span>        l <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`&lt;li class=&#34;</span><span style="color:#f1fa8c">${</span>n<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">_nav&#34;&gt;&lt;/li&gt;`</span>).append(c);
+</span></span><span style="display:flex;"><span>        $(selector).append(l);
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> a;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="整理所有連結的資訊">整理所有連結的資訊</h3>
+<h4 id="要整理的資訊">要整理的資訊</h4>
+<p>我們總共需要 <strong>六</strong> 種資訊：</p>
+<ul>
+<li>快速連結中的標題元素</li>
+<li>標題層級下的所有子標題元素</li>
+<li>第一個子標題元素</li>
+<li>子標題數量</li>
+<li>文章中標題位置</li>
+<li>文章中的 <code>tag</code> 樣式</li>
+</ul>
+<p>在這邊我是將上面的 a 抓來當作 sideElements，因為 a 裡面每個元素的 <code>id</code> 可以用來定位文本範圍內所要的標題元素，而 <code>innerText</code> 可以用來定位快速連結上的元素。<br>
+也就是說，我用 <code>id</code> 來定位文本內的標題位置，用 <code>innerText</code> 來定位快速連結的位置。</p>
+<p>在這邊子標題數量先預設為 0 ，等等會提到如何計算該層級下的子標題數量。<br>
+還有對於「標題層級下的所有子標題元素」的作法我是用範圍搜索，也就是查詢直到跟我同層級的標題出現，但這樣會有一個問題，就是差很多層級的子標題也會納入，而這個問題等一下也會說明</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>sideElements.each((index, element) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> name <span style="color:#ff79c6">=</span> element.id
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> innerTagsCount <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span> <span style="color:#6272a4">// 子標題數量預設為 0
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">const</span> sideElement <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`[aria-label=&#34;</span><span style="color:#f1fa8c">${</span>element.innerText<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>) <span style="color:#6272a4">// 快速連結中的標題元素
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">const</span> top <span style="color:#ff79c6">=</span>  $(<span style="color:#f1fa8c">`[id=&#34;</span><span style="color:#f1fa8c">${</span>name<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>).offset().top <span style="color:#6272a4">// 文章中標題位置
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">const</span> htag <span style="color:#ff79c6">=</span> sideElement.parent()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> innerTags <span style="color:#ff79c6">=</span> htag.nextUntil(<span style="color:#f1fa8c">`[class=&#34;</span><span style="color:#f1fa8c">${</span>htag[<span style="color:#bd93f9">0</span>].className<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>) <span style="color:#6272a4">// 標題層級下的所有子標題元素
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">//第一個子標題元素
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">let</span> innerFirstTag <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">null</span>, i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span>(<span style="color:#ff79c6">!</span>innerFirstTag <span style="color:#ff79c6">&amp;&amp;</span> i <span style="color:#ff79c6">&lt;</span> innerTags.length){
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span>(innerTags[i].className <span style="color:#ff79c6">&gt;</span> htag[<span style="color:#bd93f9">0</span>].className) innerFirstTag <span style="color:#ff79c6">=</span> innerTags[i].className
+</span></span><span style="display:flex;"><span>        i<span style="color:#ff79c6">++</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> tagName <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`[id=&#34;</span><span style="color:#f1fa8c">${</span>name<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>).prop(<span style="color:#f1fa8c">&#34;tagName&#34;</span>) <span style="color:#6272a4">// 文章中的 `tag` 樣式
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>
+</span></span><span style="display:flex;"><span>    all_htags.push({ sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName })
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h4 id="隱藏所有子標題">隱藏所有子標題</h4>
+<p>我先宣告 <code>firstTag</code> 記錄整篇文章第一個吃到的標題當作最上層級，而其他標題的層級如果與最上層級不同就隱藏。但這麼做的前提是最主要的標題前面沒有任何子標題，不然子標題會變成你的最上層級而導致結構矛盾(我是覺得這樣架構長的蠻奇怪的啦~</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>firstTag) firstTag <span style="color:#ff79c6">=</span> tagName
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span>(tagName <span style="color:#ff79c6">!==</span> firstTag) sideElement.hide()
+</span></span></code></pre></div><h3 id="紀錄每個層級的數量">紀錄每個層級的數量</h3>
+<p>接著宣告一個陣列用來儲存 <code>h1~h6</code> 的數量，但是這個紀錄實際上是記錄標題本身加上其子標題數量，而非真的每個層級的個別數量。<br>
+在這裡我打算從後面算回來，也比較好去計算子標題的數量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">let</span> count <span style="color:#ff79c6">=</span> [<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span>(<span style="color:#8be9fd;font-style:italic">let</span> i <span style="color:#ff79c6">=</span> all_htags.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>; i <span style="color:#ff79c6">&gt;=</span> <span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">--</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> index <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">parseInt</span>(all_htags[i].tagName.slice(<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>))
+</span></span><span style="display:flex;"><span>    all_htags[i].innerTagsCount <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span> <span style="color:#6272a4">// 先加上自己
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    count[index <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">+=</span> <span style="color:#bd93f9">1</span> <span style="color:#6272a4">// 將對應的層級加入
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#ff79c6">for</span>(<span style="color:#8be9fd;font-style:italic">let</span> j <span style="color:#ff79c6">=</span> index; j <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">5</span>; j<span style="color:#ff79c6">++</span>){ <span style="color:#6272a4">// 將其所有子層級總和
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        all_htags[i].innerTagsCount <span style="color:#ff79c6">+=</span> count[j]
+</span></span><span style="display:flex;"><span>        count[index <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">+=</span> count[j]
+</span></span><span style="display:flex;"><span>        count[j] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>以下面例子為例，右邊的數字為其所得出的子標題數量</p>
+<pre tabindex="0"><code>h1 6
+- h2 4
+-- h3 1
+-- h3 1
+-- h3 1
+- h2 1
+- h2 1
+</code></pre><h3 id="監聽滾動觸發效果">監聽滾動觸發效果</h3>
+<p>我們總共需要兩種效果</p>
+<ul>
+<li>換色：滾動到哪，哪個快速連結就顯示青色，反之就是灰色</li>
+<li>摺疊：滾動到哪，就自動打開那層級下的子標題，反之，將其闔上</li>
+</ul>
+<h4 id="換色">換色</h4>
+<p><code>sideElement</code> 代表的是快速連結的元素</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>) <span style="color:#6272a4">// 顯示青色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>) <span style="color:#6272a4">// 移除顏色
+</span></span></span></code></pre></div><h4 id="摺疊">摺疊</h4>
+<p><code>innerTags</code> 代表的是子標題群組，但由於我們是透過範圍抓取的，所以會將更為次等的子標題也抓進來，所以我們要篩選出差一個層級的子標題，而不是差兩個層級的子標題或差更多層級的子標題</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>innerTags.filter((index, tag) =&gt; tag.className <span style="color:#ff79c6">===</span> innerFirstTag).slideDown() <span style="color:#6272a4">// 向下展開
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>innerTags.filter((index, tag) =&gt; tag.className <span style="color:#ff79c6">===</span> innerFirstTag).slideDown() <span style="color:#6272a4">// 向上摺疊
+</span></span></span></code></pre></div><h4 id="掛上滾動監聽">掛上滾動監聽</h4>
+<p>我們還需要當前滾動的位置與是不是已經滾到底部，不然如果已經滾到底部了，但快速連結的狀態卻不是最後一個就會很奇怪，通常這會出現在最後內容太短的情況</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">let</span> curPos <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">window</span>.pageYOffset <span style="color:#6272a4">// 當前位置
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#8be9fd;font-style:italic">let</span> isBottom <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">parseInt</span>(curPos <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">document</span>.documentElement.clientHeight) <span style="color:#ff79c6">===</span> <span style="color:#8be9fd;font-style:italic">document</span>.documentElement.scrollHeight
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// 是否到達底部
+</span></span></span></code></pre></div><p>最後條件判斷一下，是不是有子標題，有就加上摺疊效果和著色效果，沒有就只上著色效果。並且特判最後一個標題，避免內容太短的狀況</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>$(<span style="color:#8be9fd;font-style:italic">window</span>).scroll(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">let</span> curPos <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">window</span>.pageYOffset
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">let</span> isBottom <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">parseInt</span>(curPos <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">document</span>.documentElement.clientHeight) <span style="color:#ff79c6">===</span> <span style="color:#8be9fd;font-style:italic">document</span>.documentElement.scrollHeight
+</span></span><span style="display:flex;"><span>    all_htags.forEach((item, index) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">const</span> {sideElement, innerTags, innerFirstTag, innerTagsCount, top} <span style="color:#ff79c6">=</span> item
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span>(index <span style="color:#ff79c6">&lt;</span> all_htags.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>){ <span style="color:#6272a4">// 是否為最後一個標題
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">if</span>(innerTagsCount <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span>){ <span style="color:#6272a4">// 是否有子標題
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                <span style="color:#ff79c6">if</span>(curPos <span style="color:#ff79c6">&gt;=</span> top <span style="color:#ff79c6">&amp;&amp;</span> curPos <span style="color:#ff79c6">&lt;</span> all_htags[index <span style="color:#ff79c6">+</span> innerTagsCount].top <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>isBottom){
+</span></span><span style="display:flex;"><span>                    sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>) <span style="color:#6272a4">// 上色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                    innerTags.filter((index, tag) =&gt; tag.className <span style="color:#ff79c6">===</span> innerFirstTag).slideDown() <span style="color:#6272a4">// 展開
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>                    sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>) <span style="color:#6272a4">// 除色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                    innerTags.filter((index, tag) =&gt; tag.className <span style="color:#ff79c6">===</span> innerFirstTag).slideUp() <span style="color:#6272a4">// 摺疊
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                }
+</span></span><span style="display:flex;"><span>            }<span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span>(curPos <span style="color:#ff79c6">&gt;=</span> top <span style="color:#ff79c6">&amp;&amp;</span> curPos <span style="color:#ff79c6">&lt;</span> all_htags[index <span style="color:#ff79c6">+</span> innerTagsCount].top <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>isBottom) sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>) <span style="color:#6272a4">// 上色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                <span style="color:#ff79c6">else</span> sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>) <span style="color:#6272a4">// 除色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            }
+</span></span><span style="display:flex;"><span>        }<span style="color:#ff79c6">else</span>{ <span style="color:#6272a4">// 最後一個標題
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">if</span>(curPos <span style="color:#ff79c6">&gt;=</span> top <span style="color:#ff79c6">||</span> isBottom) sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>) <span style="color:#6272a4">// 上色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>            <span style="color:#ff79c6">else</span> sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>) <span style="color:#6272a4">// 除色
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>        }
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div><h3 id="完整程式碼">完整程式碼</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">function</span> generateCatalog(selector) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    _containerSelector <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#39;div.post-container&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// init
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    <span style="color:#8be9fd;font-style:italic">var</span> P <span style="color:#ff79c6">=</span> $(_containerSelector), a, n, t, l, i, c;
+</span></span><span style="display:flex;"><span>    a <span style="color:#ff79c6">=</span> P.find(<span style="color:#f1fa8c">&#39;h1,h2,h3,h4,h5,h6&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// clean
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    $(selector).html(<span style="color:#f1fa8c">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// appending
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    a.each(<span style="color:#8be9fd;font-style:italic">function</span> () {
+</span></span><span style="display:flex;"><span>        n <span style="color:#ff79c6">=</span> $(<span style="color:#ff79c6">this</span>).prop(<span style="color:#f1fa8c">&#39;tagName&#39;</span>).toLowerCase();
+</span></span><span style="display:flex;"><span>        i <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;#&#34;</span> <span style="color:#ff79c6">+</span> $(<span style="color:#ff79c6">this</span>).prop(<span style="color:#f1fa8c">&#39;id&#39;</span>);
+</span></span><span style="display:flex;"><span>        t <span style="color:#ff79c6">=</span> $(<span style="color:#ff79c6">this</span>).text();
+</span></span><span style="display:flex;"><span>        c <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`&lt;a aria-label=&#34;</span><span style="color:#f1fa8c">${</span>t<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34; href=&#34;</span><span style="color:#f1fa8c">${</span>i<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34; rel=&#34;nofollow&#34;&gt;</span><span style="color:#f1fa8c">${</span>t<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&lt;/a&gt;`</span>);
+</span></span><span style="display:flex;"><span>        l <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`&lt;li class=&#34;</span><span style="color:#f1fa8c">${</span>n<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">_nav&#34;&gt;&lt;/li&gt;`</span>).append(c);
+</span></span><span style="display:flex;"><span>        $(selector).append(l);
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> a;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> sideElements <span style="color:#ff79c6">=</span> generateCatalog(<span style="color:#f1fa8c">&#34;.catalog-body&#34;</span>), all_htags <span style="color:#ff79c6">=</span> []
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">let</span> firstTag <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">null</span>
+</span></span><span style="display:flex;"><span>sideElements.each((index, element) =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> name <span style="color:#ff79c6">=</span> element.id
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> innerTagsCount <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> sideElement <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`[aria-label=&#34;</span><span style="color:#f1fa8c">${</span>element.innerText<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> top <span style="color:#ff79c6">=</span>  $(<span style="color:#f1fa8c">`[id=&#34;</span><span style="color:#f1fa8c">${</span>name<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>).offset().top
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> htag <span style="color:#ff79c6">=</span> sideElement.parent()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> innerTags <span style="color:#ff79c6">=</span> htag.nextUntil(<span style="color:#f1fa8c">`[class=&#34;</span><span style="color:#f1fa8c">${</span>htag[<span style="color:#bd93f9">0</span>].className<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">let</span> innerFirstTag <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">null</span>, i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">while</span>(<span style="color:#ff79c6">!</span>innerFirstTag <span style="color:#ff79c6">&amp;&amp;</span> i <span style="color:#ff79c6">&lt;</span> innerTags.length){
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span>(innerTags[i].className <span style="color:#ff79c6">&gt;</span> htag[<span style="color:#bd93f9">0</span>].className) innerFirstTag <span style="color:#ff79c6">=</span> innerTags[i].className
+</span></span><span style="display:flex;"><span>        i<span style="color:#ff79c6">++</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> tagName <span style="color:#ff79c6">=</span> $(<span style="color:#f1fa8c">`[id=&#34;</span><span style="color:#f1fa8c">${</span>name<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;]`</span>).prop(<span style="color:#f1fa8c">&#34;tagName&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(<span style="color:#ff79c6">!</span>firstTag) firstTag <span style="color:#ff79c6">=</span> tagName
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(tagName <span style="color:#ff79c6">!==</span> firstTag) sideElement.hide()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    all_htags.push({ sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName })
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">let</span> count <span style="color:#ff79c6">=</span> [<span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>, <span style="color:#bd93f9">0</span>]
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span>(<span style="color:#8be9fd;font-style:italic">let</span> i <span style="color:#ff79c6">=</span> all_htags.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>; i <span style="color:#ff79c6">&gt;=</span> <span style="color:#bd93f9">0</span>; i<span style="color:#ff79c6">--</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> index <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">parseInt</span>(all_htags[i].tagName.slice(<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>))
+</span></span><span style="display:flex;"><span>    all_htags[i].innerTagsCount <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>    count[index <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">+=</span> <span style="color:#bd93f9">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span>(i <span style="color:#ff79c6">!==</span> all_htags.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> index <span style="color:#ff79c6">!==</span> <span style="color:#bd93f9">5</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span>(<span style="color:#8be9fd;font-style:italic">let</span> j <span style="color:#ff79c6">=</span> index; j <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">5</span>; j<span style="color:#ff79c6">++</span>){
+</span></span><span style="display:flex;"><span>            all_htags[i].innerTagsCount <span style="color:#ff79c6">+=</span> count[j]
+</span></span><span style="display:flex;"><span>            count[index <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">+=</span> count[j]
+</span></span><span style="display:flex;"><span>            count[j] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$(<span style="color:#8be9fd;font-style:italic">window</span>).scroll(() =&gt; {
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">let</span> curPos <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">window</span>.pageYOffset
+</span></span><span style="display:flex;"><span>    <span style="color:#8be9fd;font-style:italic">let</span> isBottom <span style="color:#ff79c6">=</span> <span style="color:#8be9fd;font-style:italic">parseInt</span>(curPos <span style="color:#ff79c6">+</span> <span style="color:#8be9fd;font-style:italic">document</span>.documentElement.clientHeight) <span style="color:#ff79c6">===</span> <span style="color:#8be9fd;font-style:italic">document</span>.documentElement.scrollHeight
+</span></span><span style="display:flex;"><span>    all_htags.forEach((item, index) =&gt; {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">const</span> {sideElement, innerTags, innerFirstTag, innerTagsCount, top} <span style="color:#ff79c6">=</span> item
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">if</span>(index <span style="color:#ff79c6">&lt;</span> all_htags.length <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span>(innerTagsCount <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span>){
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span>(curPos <span style="color:#ff79c6">&gt;=</span> top <span style="color:#ff79c6">&amp;&amp;</span> curPos <span style="color:#ff79c6">&lt;</span> all_htags[index <span style="color:#ff79c6">+</span> innerTagsCount].top <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>isBottom){
+</span></span><span style="display:flex;"><span>                    sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>)
+</span></span><span style="display:flex;"><span>                    innerTags.filter((index, tag) =&gt; tag.className <span style="color:#ff79c6">===</span> innerFirstTag).slideDown()
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>                    sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>)
+</span></span><span style="display:flex;"><span>                    innerTags.filter((index, tag) =&gt; tag.className <span style="color:#ff79c6">===</span> innerFirstTag).slideUp()
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }<span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span>(curPos <span style="color:#ff79c6">&gt;=</span> top <span style="color:#ff79c6">&amp;&amp;</span> curPos <span style="color:#ff79c6">&lt;</span> all_htags[index <span style="color:#ff79c6">+</span> innerTagsCount].top <span style="color:#ff79c6">&amp;&amp;</span> <span style="color:#ff79c6">!</span>isBottom) sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>)
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">else</span> sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>)
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }<span style="color:#ff79c6">else</span>{
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span>(curPos <span style="color:#ff79c6">&gt;=</span> top <span style="color:#ff79c6">||</span> isBottom) sideElement.attr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color: #337ab7&#34;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">else</span> sideElement.removeAttr(<span style="color:#f1fa8c">&#34;style&#34;</span>, <span style="color:#f1fa8c">&#34;color&#34;</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div>
+
+                
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-05-20/" data-toggle="tooltip" data-placement="top" title="Commands List">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="買杯咖啡" class="show-zs btn btn-bred">
+	<img width="50" height="50" src="/element/coffee_cup_drink_icon.png"/>
+</button>
+<div class="zs-modal-bg"></div>
+<div class="zs-modal-box">
+	<div class="zs-modal-head">
+		<button type="button" class="close">×</button>
+		<span class="author"><a href="https://yukai.netlify.app"><img src="/img/cabbageWorm.jpeg" />YuKai: Blog</a></span>
+        
+	        <p class="tip"><i></i><span>有錢使鬼推磨</span></p>
+		
+ 
+	</div>
+	<div class="zs-modal-body">
+		<div class="zs-modal-btns">
+			
+		</div>
+		<div class="zs-modal-pay">
+			
+			
+		</div>
+	</div>
+	<div class="zs-modal-footer">
+		
+	</div>
+</div>
+<script type="text/javascript" src="/js/reward.js"></script>
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_circle_up_icon.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai: Blog 2023
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+<script type="text/javascript">
+if(window.location.href.includes("post")){ 
+    function generateCatalog(selector) {
+        _containerSelector = 'div.post-container'
+
+        
+        var P = $(_containerSelector), a, n, t, l, i, c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        
+        $(selector).html('')
+
+        
+        a.each(function (index, item) {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#" + $(this).prop('id');
+            t = $(this).text();
+            c = $(`<a aria-label="${t}" href="${i}" rel="nofollow">${t}</a>`);
+            l = $(`<li class="${n}_nav"></li>`).append(c);
+            $(selector).append(l);
+        });
+        return a;
+    }
+    const sideElements = generateCatalog(".catalog-body");
+
+    const all_htags = []
+    let firstTag = null
+    sideElements.each((index, element) => {
+        const name = element.id
+        const innerTagsCount = 0
+        const sideElement = $(`[aria-label="${element.innerText}"]`)
+        const top =  $(`[id="${name}"]`).offset().top
+        const htag = sideElement.parent()
+        const innerTags = htag.nextUntil(`[class="${htag[0].className}"]`)
+
+        let innerFirstTag = null, i = 0
+        while(!innerFirstTag && i < innerTags.length){
+            if(innerTags[i].className > htag[0].className) innerFirstTag = innerTags[i].className
+            i++
+        }
+
+        const tagName = $(`[id="${name}"]`).prop("tagName")
+        if(!firstTag) firstTag = tagName
+        if(tagName !== firstTag) sideElement.hide()
+        all_htags.push({ sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName })
+    })
+
+    let count = [0, 0, 0, 0, 0]
+    for(let i = all_htags.length - 1; i >= 0; i--){
+        const index = parseInt(all_htags[i].tagName.slice(-1))
+        all_htags[i].innerTagsCount = 1
+        count[index - 1] += 1
+        for(let j = index; j < 5; j++){
+            all_htags[i].innerTagsCount += count[j]
+            count[index - 1] += count[j]
+            count[j] = 0
+        }
+    }
+
+    $(window).scroll(() => {
+        let curPos = window.pageYOffset
+        let isBottom = parseInt(curPos + document.documentElement.clientHeight) === document.documentElement.scrollHeight
+        all_htags.forEach((item, index) => {
+            const {sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName} = item
+            if(index < all_htags.length - 1){
+                if(innerTagsCount > 1){
+                    if(curPos >= top && curPos < all_htags[index + innerTagsCount].top && !isBottom){
+                        sideElement.attr("style", "color: #337ab7")
+                        innerTags.filter((index, tag) => tag.className === innerFirstTag).slideDown()
+                    }
+                    else{
+                        sideElement.removeAttr("style", "color")
+                        innerTags.filter((index, tag) => tag.className === innerFirstTag).slideUp()
+                    }
+                }else{
+                    if(curPos >= top && curPos < all_htags[index + innerTagsCount].top && !isBottom) sideElement.attr("style", "color: #337ab7")
+                    else sideElement.removeAttr("style", "color")
+                }
+            }else{
+                if(curPos >= top || isBottom) sideElement.attr("style", "color: #337ab7")
+                else sideElement.removeAttr("style", "color")
+            }
+        })
+    })
+
+    
+    $(".catalog-toggle").click((function (e) {
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+}
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
+
+<script>
+let lastScrollTop = 0
+const isDev = true
+$(window).scroll(function(){
+    
+    if(isDev){
+        const px = $(window).height();
+        var view = ($(window).scrollTop()) / ($(document).height() - $(window).height()) * 100 + 'vw'
+        $(".view-bar").width(view)
+    }
+
+    
+    const px = 100;
+    var st = window.pageYOffset || document.documentElement.scrollTop
+    if (window.pageYOffset > px &&  st < lastScrollTop) {
+        $(`[aria-label="回到頂部"], [aria-label="買杯咖啡"]`).addClass("btn-moveTop-animate")
+    } else {
+        $(`[aria-label="回到頂部"], [aria-label="買杯咖啡"]`).removeClass("btn-moveTop-animate")
+    }
+    lastScrollTop = st <= 0 ? 0 : st
+})
+
+$(".btn-moveTop").click(function(e){
+    e.preventDefault();
+    $("html,body").animate(
+        {
+        scrollTop: 0,
+        },
+        600
+    )
+})
+
+</script>
+

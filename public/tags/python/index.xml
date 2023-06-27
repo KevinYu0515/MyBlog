@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>python on MonsterYU Blog</title>
+    <title>python on YuKai: Blog</title>
     <link>https://yukai.netlify.app/tags/python/</link>
-    <description>Recent content in python on MonsterYU Blog</description>
+    <description>Recent content in python on YuKai: Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 20 May 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/python/index.xml" rel="self" type="application/rss+xml" />
@@ -14,33 +14,6 @@
       
       <guid>https://yukai.netlify.app/post/2023-05-21/</guid>
       <description>技能大綱 如何用 Selenium 點擊、滑動、鎖定元素 如何用 Python 製作 json 相關 Library：selenium、pandas、json、bs4、time 主要過程與介</description>
-    </item>
-    
-    <item>
-      <title>Selenium 基礎語法</title>
-      <link>https://yukai.netlify.app/post/2023-05-18/</link>
-      <pubDate>Thu, 18 May 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://yukai.netlify.app/post/2023-05-18/</guid>
-      <description>介紹 Selenium 介紹： Selenium 是一個自動化工具，主要透過程式自動控制瀏覽器進行任何操作，如搜尋、點擊、滾動等。其腳本是由 Python、Java、C# 等語言撰</description>
-    </item>
-    
-    <item>
-      <title>An Example Post</title>
-      <link>https://yukai.netlify.app/post/2023-05-13/</link>
-      <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://yukai.netlify.app/post/2023-05-13/</guid>
-      <description>Testing Test T</description>
-    </item>
-    
-    <item>
-      <title>Selenium 隨筆紀錄</title>
-      <link>https://yukai.netlify.app/post/2023-05-16/</link>
-      <pubDate>Mon, 04 Jun 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://yukai.netlify.app/post/2023-05-16/</guid>
-      <description>設置超時限制器 browser.set_page_load_timeout(20) browser.set_script_timeout(20) 隱藏瀏覽器日誌 edge_options = webdriver.EdgeOptions() edge_options.add_argument(&amp;#39;-disable-gpu&amp;#39;) edge_options.add_argument(&amp;#39;log-level=3&amp;#39;) browser = webdriver.Edge(&amp;#34;python/msedgedriver.exe&amp;#34;, options=edge_options) 瀏覽器頁面加載偵測 from selenium.webdriver.common.by import By from selenium.webdriver.support.wait import WebDriverWait from selenium.webdriver.support import expected_conditions as EC WebDriverWait(browser, 30).until(EC.presence_of_element_located((By.CLASS_NAME, &amp;#39;image&amp;#39;))) 破解反爬蟲網頁 我們可以先用正常手段進入</description>
     </item>
     
   </channel>
