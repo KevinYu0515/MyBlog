@@ -141,94 +141,85 @@
 <!-- Side Catalog -->
 {{ if not (eq (.Param "showtoc") false) }}
 <script type="text/javascript">
+if(window.location.href.includes("post")){ 
     function generateCatalog(selector) {
-
         _containerSelector = 'div.post-container'
 
         // init
         var P = $(_containerSelector), a, n, t, l, i, c;
         a = P.find('h1,h2,h3,h4,h5,h6');
-
         // clean
         $(selector).html('')
 
         // appending
-        sideNames = []
-        a.each(function () {
+        a.each(function (index, item) {
             n = $(this).prop('tagName').toLowerCase();
             i = "#" + $(this).prop('id');
             t = $(this).text();
             c = $(`<a aria-label="${t}" href="${i}" rel="nofollow">${t}</a>`);
             l = $(`<li class="${n}_nav"></li>`).append(c);
             $(selector).append(l);
-            sideNames.push(t)
         });
-        return true;
+        return a;
     }
-
-    generateCatalog(".catalog-body");
-    console.log(sideNames)
+    const sideElements = generateCatalog(".catalog-body");
 
     const all_htags = []
     let firstTag = null
-    for(let sideName of sideNames){
-        const name = sideName.replaceAll("，", "").replaceAll("、", "").replaceAll("：", "").replaceAll("。", "").replaceAll(".", "").replaceAll(" ", "-")
-        const query = `[id="${name}"]`
-        if(!$(query).offset()) break
-        const obj = {
-            name,
-            sideName: sideName,
-            top: $(query).offset().top,
-            tagName: $(query).prop("tagName"),
-            innerTags: 0
+    sideElements.each((index, element) => {
+        const name = element.id
+        const innerTagsCount = 0
+        const sideElement = $(`[aria-label="${element.innerText}"]`)
+        const top =  $(`[id="${name}"]`).offset().top
+        const htag = sideElement.parent()
+        const innerTags = htag.nextUntil(`[class="${htag[0].className}"]`)
+
+        let innerFirstTag = null, i = 0
+        while(!innerFirstTag && i < innerTags.length){
+            if(innerTags[i].className > htag[0].className) innerFirstTag = innerTags[i].className
+            i++
         }
-        if(!firstTag) firstTag = obj.tagName
-        if(obj.tagName !== firstTag) $(`[aria-label="${sideName}"]`).hide()
-        all_htags.push(obj)
-    }
+
+        const tagName = $(`[id="${name}"]`).prop("tagName")
+        if(!firstTag) firstTag = tagName
+        if(tagName !== firstTag) sideElement.hide()
+        all_htags.push({ sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName })
+    })
+
     let count = [0, 0, 0, 0, 0]
     for(let i = all_htags.length - 1; i >= 0; i--){
         const index = parseInt(all_htags[i].tagName.slice(-1))
-        all_htags[i].innerTags = 1
+        all_htags[i].innerTagsCount = 1
         count[index - 1] += 1
-        if(i !== all_htags.length - 1 && index !== 5){
-            for(let j = index; j < 5; j++){
-                all_htags[i].innerTags += count[j]
-                count[index - 1] += count[j]
-                count[j] = 0
-            }
+        for(let j = index; j < 5; j++){
+            all_htags[i].innerTagsCount += count[j]
+            count[index - 1] += count[j]
+            count[j] = 0
         }
     }
-    console.log(all_htags)
+
     $(window).scroll(() => {
+        let curPos = window.pageYOffset
+        let isBottom = parseInt(curPos + document.documentElement.clientHeight) === document.documentElement.scrollHeight
         all_htags.forEach((item, index) => {
-            const searchItem = `[aria-label="${item.sideName}"]`
-            let curPos = window.pageYOffset
-            let isBottom = parseInt(curPos + document.documentElement.clientHeight) === document.documentElement.scrollHeight
+            const {sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName} = item
             if(index < all_htags.length - 1){
-                let first = null
-                const li = $(searchItem).parent()
-                const innerNodes = li.nextUntil(`li.${li[0].className}`)
-                const innerNodesArray = $.grep(innerNodes, (node, index) => {
-                    if(!first && node.className > li[0].className) first = node.className
-                    return node.className === first
-                })
-                if(innerNodesArray.length > 0){
-                    if(curPos >= all_htags[index].top && curPos < all_htags[index + all_htags[index].innerTags].top && !isBottom){
-                        $(searchItem).attr("style", "color: #337ab7")
-                        innerNodes.filter((index, node) => node.className === first).slideDown()
+                if(innerTagsCount > 1){
+                    if(curPos >= top && curPos < all_htags[index + innerTagsCount].top && !isBottom){
+                        sideElement.attr("style", "color: #337ab7")
+                        innerTags.filter((index, tag) => tag.className === innerFirstTag).slideDown()
                     }
                     else{
-                        $(searchItem).removeAttr("style", "color")
-                        innerNodes.filter((index, node) => node.className === first).slideUp()
+                        sideElement.removeAttr("style", "color")
+                        innerTags.filter((index, tag) => tag.className === innerFirstTag).slideUp()
                     }
                 }else{
-                    if(curPos >= all_htags[index].top && curPos < all_htags[index + 1].top && !isBottom) $(searchItem).attr("style", "color: #337ab7")
-                    else $(searchItem).removeAttr("style", "color")
+                    if(curPos >= top && curPos < all_htags[index + innerTagsCount].top && !isBottom) sideElement.attr("style", "color: #337ab7")
+                    else sideElement.removeAttr("style", "color")
                 }
             }else{
-                if(curPos >= all_htags[index].top || isBottom) $(searchItem).attr("style", "color: #337ab7")
-                else $(searchItem).removeAttr("style", "color")
+                if(curPos >= top || isBottom) sideElement.attr("style", "color: #337ab7")
+                else sideElement.removeAttr("style", "color")
             }
         })
     })
@@ -238,7 +229,7 @@
         e.preventDefault();
         $('.side-catalog').toggleClass("fold")
     }))
-
+}
 
 </script>
 {{ end }}
