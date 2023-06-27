@@ -41,7 +41,7 @@
     
     
 
-    <meta name="keyword"  content="">
+    <meta name="keyword"  content="YuKai:, 軟體工程，程式紀錄">
     <link rel="shortcut icon" href="/element/selfie.gif">
 
     <title>Posts Archive | YuKai&#39;s Blog:</title>
@@ -54,10 +54,10 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" href="/css/newClea.css">
+    <link rel="stylesheet" href="/css/newClean.css">
 
     
-    <link rel="stylesheet" href="/css/zsss.css">
+    <link rel="stylesheet" href="/css/zss.css">
 
     
     <link rel="stylesheet" href="/css/font-awesome.all.min.css">
@@ -78,6 +78,8 @@
     <script src="/js/lazysizes.min.js"></script>
 
     
+    
+    <script src="https://yukai.netlify.app/js/sideLinks.js"></script>
     
 
 </head>
@@ -412,101 +414,6 @@
 </style>
 
 
-<script type="text/javascript">
-if(window.location.href.includes("post")){ 
-    function generateCatalog(selector) {
-        _containerSelector = 'div.post-container'
-
-        
-        var P = $(_containerSelector), a, n, t, l, i, c;
-        a = P.find('h1,h2,h3,h4,h5,h6');
-        
-        $(selector).html('')
-
-        
-        a.each(function (index, item) {
-            n = $(this).prop('tagName').toLowerCase();
-            i = "#" + $(this).prop('id');
-            t = $(this).text();
-            c = $(`<a aria-label="${t}" href="${i}" rel="nofollow">${t}</a>`);
-            l = $(`<li class="${n}_nav"></li>`).append(c);
-            $(selector).append(l);
-        });
-        return a;
-    }
-    const sideElements = generateCatalog(".catalog-body");
-
-    const all_htags = []
-    let firstTag = null
-    sideElements.each((index, element) => {
-        const name = element.id
-        const innerTagsCount = 0
-        const sideElement = $(`[aria-label="${element.innerText}"]`)
-        const top =  $(`[id="${name}"]`).offset().top
-        const htag = sideElement.parent()
-        const innerTags = htag.nextUntil(`[class="${htag[0].className}"]`)
-
-        let innerFirstTag = null, i = 0
-        while(!innerFirstTag && i < innerTags.length){
-            if(innerTags[i].className > htag[0].className) innerFirstTag = innerTags[i].className
-            i++
-        }
-
-        const tagName = $(`[id="${name}"]`).prop("tagName")
-        if(!firstTag) firstTag = tagName
-        if(tagName !== firstTag) sideElement.hide()
-        all_htags.push({ sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName })
-    })
-
-    let count = [0, 0, 0, 0, 0]
-    for(let i = all_htags.length - 1; i >= 0; i--){
-        const index = parseInt(all_htags[i].tagName.slice(-1))
-        all_htags[i].innerTagsCount = 1
-        count[index - 1] += 1
-        for(let j = index; j < 5; j++){
-            all_htags[i].innerTagsCount += count[j]
-            count[index - 1] += count[j]
-            count[j] = 0
-        }
-    }
-
-    $(window).scroll(() => {
-        let curPos = window.pageYOffset
-        let isBottom = parseInt(curPos + document.documentElement.clientHeight) === document.documentElement.scrollHeight
-        all_htags.forEach((item, index) => {
-            const {sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName} = item
-            if(index < all_htags.length - 1){
-                if(innerTagsCount > 1){
-                    if(curPos >= top && curPos < all_htags[index + innerTagsCount].top && !isBottom){
-                        sideElement.attr("style", "color: #337ab7")
-                        innerTags.filter((index, tag) => tag.className === innerFirstTag).slideDown()
-                    }
-                    else{
-                        sideElement.removeAttr("style", "color")
-                        innerTags.filter((index, tag) => tag.className === innerFirstTag).slideUp()
-                    }
-                }else{
-                    if(curPos >= top && curPos < all_htags[index + innerTagsCount].top && !isBottom) sideElement.attr("style", "color: #337ab7")
-                    else sideElement.removeAttr("style", "color")
-                }
-            }else{
-                if(curPos >= top || isBottom) sideElement.attr("style", "color: #337ab7")
-                else sideElement.removeAttr("style", "color")
-            }
-        })
-    })
-
-    
-    $(".catalog-toggle").click((function (e) {
-        e.preventDefault();
-        $('.side-catalog').toggleClass("fold")
-    }))
-}
-
-</script>
-
-
-
 
 
 
@@ -543,6 +450,37 @@ $(".btn-moveTop").click(function(e){
         },
         600
     )
+})
+
+const tags = {
+    color: {
+        python: null,
+        javascript: "#2D3047",
+        git: null,
+        selenium: null,
+        "front-end": null,
+        "back-end": null,
+    },
+    background: {
+        python: "#BEDCFE",
+        javascript: "#FFFD82",
+        git: "#FF9B71",
+        selenium: "#3E885B",
+        "front-end": "#EA9AB2",
+        "back-end": "#815355",
+        hugo:"#EE4B6A"
+    }
+}
+
+$(`[class="tag"]`).each((index, item) => {
+    item.addEventListener("mouseover", () => {
+        const text = item.innerText.toLowerCase()
+        const color = tags.color[text] || "white", background = tags.background[text]
+        item.style.cssText = `color: ${color}; background: ${background}; border: none; cursor: grab; font-weight: bold;`
+    })
+    item.addEventListener("mouseout", () => {
+        item.removeAttribute("style", "color", "background")
+    })
 })
 
 </script>

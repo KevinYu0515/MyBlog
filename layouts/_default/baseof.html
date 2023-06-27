@@ -78,5 +78,36 @@ $(".btn-moveTop").click(function(e){
     )
 })
 
+const tags = {
+    color: {
+        python: null,
+        javascript: "#2D3047",
+        git: null,
+        selenium: null,
+        "front-end": null,
+        "back-end": null,
+    },
+    background: {
+        python: "#BEDCFE",
+        javascript: "#FFFD82",
+        git: "#FF9B71",
+        selenium: "#3E885B",
+        "front-end": "#EA9AB2",
+        "back-end": "#815355",
+        hugo:"#EE4B6A"
+    }
+}
+
+$(`[class="tag"]`).each((index, item) => {
+    item.addEventListener("mouseover", () => {
+        const text = item.innerText.toLowerCase()
+        const color = tags.color[text] || "white", background = tags.background[text]
+        item.style.cssText = `color: ${color}; background: ${background}; border: none; cursor: grab; font-weight: bold;`
+    })
+    item.addEventListener("mouseout", () => {
+        item.removeAttribute("style", "color", "background")
+    })
+})
+
 </script>
 
