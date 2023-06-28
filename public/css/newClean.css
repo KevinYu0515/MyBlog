@@ -697,27 +697,23 @@ body{
 .post-preview .preview>.tags>.tag{
     display:inline-block;
     border:1px solid #bfbfbf;
-    border-radius:999em;
-    padding:0 10px;
+    border-radius: 2em;
+    padding: 0 7px;
     color:#bfbfbf;
 }
 
 .post-preview .preview>.tags>.tag:hover{
-    border:1px solid #0085a1;
-    border-radius:999em;
-    padding:0 10px;
-    color:#0085a1;
-    cursor: default;
+    cursor: pointer;
 }
 
 .tags a,.tags .tag{
     display:inline-block;
     border:1px solid rgba(255,255,255,.8);
-    border-radius:999em;
-    padding:0 10px;
+    border-radius:2em;
+    padding:0 7px;
     color:#fff;
-    line-height:24px;
-    font-size:14px;
+    line-height:18px;
+    font-size:12px;
     text-decoration:none;
     margin:0 1px;
     margin-bottom:6px
