@@ -1,5 +1,4 @@
-# baseurl = "https://yukai.netlify.app"
-baseurl = "http://localhost:1313"
+baseurl = "https://yukai.netlify.app"
 title = "YuKai: Blog"
 languageCode = "en-us"
 disqusShortname = "yukai"
