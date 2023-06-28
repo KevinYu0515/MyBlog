@@ -38,7 +38,7 @@ home = ["HTML", "RSS", "Algolia"]
   sidebar_avatar = "img/cabbageWorm.jpeg"      # use absolute URL, seeing it's used in both `/` and `/about/`
 
   featured_tags = true 
-  featured_condition_size = 2 
+  featured_condition_size = 0 
 
   # Baidu Analytics
   ba_track_id = ""
@@ -54,8 +54,8 @@ home = ["HTML", "RSS", "Algolia"]
   about_me = true
 
   # Include any custom CSS and/or JS files, url or relative to /static folder
-  # custom_css = ["css/tags.css"]
-  custom_js = ["js/sideLinks.js"]
+  custom_css = ["css/addones.css"]
+  custom_js = ["js/sideLinks.js", "js/addones.min.js"]
 
   [params.social]
   email          = "marvelo.k0515@gmail.com"

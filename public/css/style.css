@@ -152,12 +152,12 @@ h4 {
 h5 {
   font-size: 1.125em;
   /* 18px / 16px */
-  line-height: 1.34;
+  line-height: 0.833;
 }
 
 h6 {
   font-size: 1em;
-  line-height: 1.5;
+  line-height: 0.433;
 }
 
 ul,

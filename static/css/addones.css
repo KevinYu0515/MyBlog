@@ -1,0 +1,33 @@
+:root{
+    --background: url("/img/homee.jpg");
+}
+header.intro-header{
+    position: relative;
+    background: none;
+    overflow: hidden;
+}
+header.intro-header::before{
+    content: '';
+    position: absolute;
+    top: 0; left:0; right: 0; bottom: 0;
+    background-image: var(--background);
+    background-size: cover;
+    background-position: center;
+    transition: all .5s;
+    transition-timing-function: cubic-bezier(0.1, 0.3, 1.0, 0.2);
+}
+header.intro-header:hover::before{
+    transform: scale(1.2);
+    filter: blur(5px);
+}
+.post-heading{
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 1);
+}
+.view-bar{
+    width: 0;
+    height: 2px;
+    background-color: #77B6FF;
+    position: fixed;
+    top:0;
+    z-index: 10;
+}
