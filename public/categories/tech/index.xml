@@ -2,44 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tech on YuKai: Blog</title>
-    <link>https://yukai.netlify.app/categories/tech/</link>
+    <link>http://localhost:1313/categories/tech/</link>
     <description>Recent content in Tech on YuKai: Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Blog 升級計畫：自動摺疊清單</title>
-      <link>https://yukai.netlify.app/post/2023-06-25/</link>
+      <link>http://localhost:1313/post/2023-06-25/</link>
       <pubDate>Sun, 25 Jun 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukai.netlify.app/post/2023-06-25/</guid>
+      <guid>http://localhost:1313/post/2023-06-25/</guid>
       <description>前言：這篇文章是我記錄改編 Blog 的過程。我以 Hugo 上 Clean White Blog 的風格作為樣板， 在此之上增加更多有趣的互動功能，同時增進自己在前端開發的能力。 生成快速連結</description>
     </item>
     
     <item>
       <title>Commands List</title>
-      <link>https://yukai.netlify.app/post/2023-05-20/</link>
+      <link>http://localhost:1313/post/2023-05-20/</link>
       <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukai.netlify.app/post/2023-05-20/</guid>
+      <guid>http://localhost:1313/post/2023-05-20/</guid>
       <description>官網 git 文件 首次使用必要指令 設定使用者名稱 git config --global user.name &amp;#34;your_username&amp;#34; 設定使用者電子信箱 git config --global user.email &amp;#34;your_email_address@example.com&amp;#34; 列出使用者資訊 git config --global --list 常見上傳流水線指令 初始化本地儲存庫 git init 將</description>
     </item>
     
     <item>
       <title>Google Map 商家資料爬取</title>
-      <link>https://yukai.netlify.app/post/2023-05-21/</link>
+      <link>http://localhost:1313/post/2023-05-21/</link>
       <pubDate>Sat, 20 May 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukai.netlify.app/post/2023-05-21/</guid>
+      <guid>http://localhost:1313/post/2023-05-21/</guid>
       <description>技能大綱 如何用 Selenium 點擊、滑動、鎖定元素 如何用 Python 製作 json 相關 Library：selenium、pandas、json、bs4、time 主要過程與介</description>
     </item>
     
     <item>
       <title>[ GIT 錯誤報告 ]</title>
-      <link>https://yukai.netlify.app/post/2023-05-11/</link>
+      <link>http://localhost:1313/post/2023-05-11/</link>
       <pubDate>Wed, 04 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://yukai.netlify.app/post/2023-05-11/</guid>
+      <guid>http://localhost:1313/post/2023-05-11/</guid>
       <description>錯誤紀錄 遠端儲存庫沒有對應的分支 error: src refspec main does not match any error: failed to push some refs to [repo_url] 解決方法 將本地儲存庫待上傳的分支更名 git branch -m [old branch] [new branch] 部分內容未被合併，該版本不</description>
     </item>
     
