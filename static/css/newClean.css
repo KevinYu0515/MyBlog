@@ -795,15 +795,6 @@ body{
     justify-content: space-between;
 }
 
-
-.cover{
-    margin: 20px !important;
-    width: 250px !important;
-    height: 250px !important;
-    object-fit: cover;
-    object-position: center;
-}
-
 .one-tag-list .post-preview .preview>a .post-title{
     font-size:17px;
     font-weight:500;

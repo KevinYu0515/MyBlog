@@ -5,7 +5,9 @@
     <div class="row" style="width: 100%">
         <div class="col-lg-4">
             {{ if .Params.image }}
-                <img class="cover" src="{{ .Params.image }}"></img>
+            <div class="blurred-img" style="background-image: url('{{.Params.image_min}}')">
+                <img class="cover" src="{{ .Params.image }}" loading="lazy"></img>
+            </div>
             {{ end }}
         </div>
         <div class="col-lg-8">
@@ -58,3 +60,18 @@
 <hr>
 {{ end }}
 </div>
+<script>
+const blurredImageDiv = document.querySelectorAll(".blurred-img")
+blurredImageDiv.forEach(div => {
+    const img = div.querySelector("img")
+    function loaded() {
+        div.classList.add("loaded")
+    }
+
+    if (img.complete) {
+        loaded()
+    } else {
+        img.addEventListener("load", loaded)
+    }
+})
+</script>

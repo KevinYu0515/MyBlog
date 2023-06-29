@@ -196,7 +196,9 @@
     <div class="row" style="width: 100%">
         <div class="col-lg-4">
             
-                <img class="cover" src="/img/git_modern.jpeg"></img>
+            <div class="blurred-img" style="background-image: url('/img/git_modern-min.jpg')">
+                <img class="cover" src="/img/git_modern.jpg" loading="lazy"></img>
+            </div>
             
         </div>
         <div class="col-lg-8">
@@ -239,7 +241,9 @@
     <div class="row" style="width: 100%">
         <div class="col-lg-4">
             
-                <img class="cover" src="/img/test11.jpg"></img>
+            <div class="blurred-img" style="background-image: url('/img/git-error-min.jpg')">
+                <img class="cover" src="/img/git-error.jpg" loading="lazy"></img>
+            </div>
             
         </div>
         <div class="col-lg-8">
@@ -275,6 +279,21 @@
 <hr>
 
 </div>
+<script>
+const blurredImageDiv = document.querySelectorAll(".blurred-img")
+blurredImageDiv.forEach(div => {
+    const img = div.querySelector("img")
+    function loaded() {
+        div.classList.add("loaded")
+    }
+
+    if (img.complete) {
+        loaded()
+    } else {
+        img.addEventListener("load", loaded)
+    }
+})
+</script>
 
             
 

@@ -31,3 +31,47 @@ header.intro-header:hover::before{
     top:0;
     z-index: 10;
 }
+
+.cover {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    display: block;
+    object-position: center;
+    object-fit: cover;
+}
+.blurred-img {
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.blurred-img::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: pulse 2.5s infinite;
+    background-color: white;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+.blurred-img img{
+    opacity: 0;
+    transition: opacity 250ms ease-in-out;
+}
+.blurred-img.loaded::before {
+    animation: none;
+    content: none;
+}
+.blurred-img.loaded img {
+    opacity: 1;
+}
