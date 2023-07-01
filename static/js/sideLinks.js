@@ -57,7 +57,7 @@ $(document).ready(() => {
     }
 
     $(window).scroll(() => {
-        let curPos = window.pageYOffset
+        let curPos = window.pageYOffset + 5
         let isBottom = Math.abs(curPos + document.documentElement.clientHeight - document.documentElement.scrollHeight) < 5
         all_htags.forEach((item, index) => {
             const {sideElement, innerTags, innerFirstTag, innerTagsCount, top, tagName} = item

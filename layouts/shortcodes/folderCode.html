@@ -1,0 +1,52 @@
+<div class="code" aria-label="{{.Get "title"}}">
+    <div class="title">
+        <span>{{.Get "title"}}</span>
+    </div>
+    <div class="content" style="display: none;">
+        {{.Inner | markdownify}}
+    </div>
+</div>
+
+<style>
+    .code{
+        width: 100%;
+        height: auto;
+    }
+    .code .title{
+        position: relative;
+        left: 0px;
+        width: 100%;
+        height: auto;
+        font-weight: bold;
+        border-left: 4px solid #24ff0b;
+        color: #E3D3E4;
+        cursor: pointer;
+        background-color: #2C302E;
+        margin: 4px 0;
+        transition: .5s ease-in-out;
+    }
+    .code .title:hover{
+        left: 15px;
+    }
+    .code .title::before{
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: #24ff0b;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: .7s ease-in-out;
+    }
+    .click{
+        color:#2C302E !important;
+    }
+    .click::before{
+        transform: scaleX(1) !important;
+    }
+    .code .title span{
+        position: relative;
+        margin: 0 10px;
+        z-index: 1;
+    }
+</style>

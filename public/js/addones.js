@@ -54,4 +54,14 @@ $(document).ready(() => {
             item.style.border = "1px solid transparent"
             item.style["font-family"] = `-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans"`
     })
+
+    // 下拉式程式區塊 shortcode 語法
+    $(".code").each((index, element) => {
+        $(`[aria-label=${element.ariaLabel}] .title`).click(() => {
+            $(`[aria-label=${element.ariaLabel}] .title`).toggleClass("click")
+            $(`[aria-label='${element.ariaLabel}'] .content`).slideToggle()
+        })
+    })
+
 })
+
