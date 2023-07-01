@@ -75,3 +75,43 @@ header.intro-header:hover::before{
 .blurred-img.loaded img {
     opacity: 1;
 }
+
+.archive-year{
+    border-bottom: 2px solid #404040;
+}
+
+.base-time-post{
+    display: flex;
+    margin-right: 100px;
+}
+
+.base-time-post .time{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.5em;
+    line-height: 3rem;
+    margin-right: 10px;
+    font-weight: bold;
+    color: #18206F;
+}
+
+.base-time-post .time .month{
+    margin: 0;
+}
+
+.base-time-post .time .day{
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.base-time-post .text .archive-title{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.base-time-post .text p{
+    margin-top: 0;
+    font-size: .8em;
+    color: #bfbfbf;
+}

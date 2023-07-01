@@ -78,9 +78,6 @@ h1,h2,h3,h4,h5,h6{
 h4{
     font-size:21px
 }
-a{
-    color:#404040
-}
 a:hover,a:focus{
     color:#0085a1
 }
@@ -138,9 +135,9 @@ pre code{
     white-space:pre;
     word-wrap:normal
 }
-.post-container a{
+/* .post-container a{
     color:#404040
-}
+} */
 .post-container a:hover,.post-container a:focus{
     color:#0085a1
 }

@@ -17,29 +17,40 @@
                     {{ range .Pages  }}
                         {{ if (eq ($.Scratch.Get "count") 1) }}
                             {{ $.Scratch.Set "count" 0 }}
-                            <h1 class="title is-4 has-text-weight-normal">{{ .Date.Format "Mon, Jan 2, 2006" }}</h1>
+                            <h1 class="title is-4 has-text-weight-normal archive-year" style="position: relative; left: -50px;">{{ .Date.Year }}</h1>
                         {{ end }}
                     {{ end }}
-
-                    <ul>
                     {{ range .Pages }}
-                        <li>
-                            <span>{{ .Date.Format "01/02" }}</span> — 
-                            <a href="{{ .RelPermalink }}">
-                                {{ .Title }}
-                            </a>
-                        </li>
+                        <div class="base-time-post">
+                            <div class="time">
+                                <div class="month">{{ slicestr .Date.Month 0 3 | upper }}</div>
+                                {{ if lt .Date.Day 10}}
+                                    <span class="day">0{{ .Date.Day }}</span>
+                                {{ else }}
+                                    <span class="day">{{ .Date.Day }}</span>
+                                {{ end }} 
+                            </div>
+                            <div class="text">
+                                <a class="archive-title" href="{{ .RelPermalink }}">
+                                    {{ .Title }}
+                                </a>
+                                {{ if eq (len .Description) 0}}
+                                    <p>Here will be somthing soon~</p>
+                                {{ else if gt (len .Description) 80}}
+                                    <p>{{ slicestr .Description 0 80}}...閱讀更多</p>
+                                {{ else }}
+                                    <p>{{ .Description }}</p>
+                                {{ end }}
+                            </div>
+                        </div>
                     {{ end }}
-                    </ul>
 
                 {{ end }}
                 {{ end }}
             </div>
        	</div>
-        <!-- {{ partial "sidebar.html" . }} -->
+        {{ partial "sidebar.html" . }}
 	</div>
 </div>
-
-
 <hr />
 {{ end }}
