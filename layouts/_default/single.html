@@ -30,7 +30,7 @@
                         {{ else }}
                             <!-- Don't show "Last Modified on" if update happened on the same day. -->
                             {{ if (and (not .Lastmod.IsZero) (not (eq (dateFormat "2006-01-02" .Lastmod) (dateFormat "2006-01-02" .Date)))) }}
-                            <br>Last Modified by {{ .Site.Params.author }} on {{ dateFormat "Monday, January 2, 2006" .Params.LastMod }}
+                                Last Modified by {{ .Site.Params.author }} on {{ dateFormat "Monday, January 2, 2006" .Params.LastMod }}
                             {{ else }}
                                 Posted by 
                                 {{ if .Params.author }}

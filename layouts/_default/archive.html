@@ -33,6 +33,11 @@
                             <div class="text">
                                 <a class="archive-title" href="{{ .RelPermalink }}">
                                     {{ .Title }}
+                                    <span style="font-size: .3em">
+                                        {{ if (and (not .Lastmod.IsZero) (not (eq (dateFormat "2006-01-02" .Lastmod) (dateFormat "2006-01-02" .Date))))}}
+                                            [updated]
+                                        {{ end }}
+                                    </span>
                                 </a>
                                 {{ if eq (len .Description) 0}}
                                     <p>Here will be somthing soon~</p>
@@ -44,7 +49,6 @@
                             </div>
                         </div>
                     {{ end }}
-
                 {{ end }}
                 {{ end }}
             </div>
