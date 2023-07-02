@@ -9,13 +9,6 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 <div class="post-heading">
-                    <!-- <div class="tags">
-                        {{ range .Params.tags }}
-                        <a class="tag" href="{{ "/tags/" | relLangURL }}{{ . | urlize }}" title="{{ . }}">
-                            {{ . }}
-                        </a>
-                        {{ end }}
-                    </div> -->
                     <h1>{{ .Title }}</h1>
                     <h2 class="subheading">{{ .Params.subtitle }}</h2>
                     <span class="meta">
@@ -30,7 +23,7 @@
                         {{ else }}
                             <!-- Don't show "Last Modified on" if update happened on the same day. -->
                             {{ if (and (not .Lastmod.IsZero) (not (eq (dateFormat "2006-01-02" .Lastmod) (dateFormat "2006-01-02" .Date)))) }}
-                                Last Modified by {{ .Site.Params.author }} on {{ dateFormat "Monday, January 2, 2006" .Params.LastMod }}
+                            Last Modified by {{ .Site.Params.author }} on {{ dateFormat "Monday, January 2, 2006" .Params.LastMod }}
                             {{ else }}
                                 Posted by 
                                 {{ if .Params.author }}
