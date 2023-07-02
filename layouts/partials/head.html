@@ -46,7 +46,7 @@
     <!-- end ogp -->
 
     <meta name="keyword"  content="{{ .Site.Params.keyword }}">
-    <link rel="shortcut icon" href="{{ "element/selfie.gif" | relURL }}">
+    <link rel="shortcut icon" href="{{ .Site.Params.sidebar_avatar| relURL }}">
 
     <title>{{ if .Title }}{{ .Title }} | {{ .Site.Params.SEOTitle }}{{ else }}{{ .Site.Params.SEOTitle }}{{ end }}</title>
 
