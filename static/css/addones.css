@@ -43,6 +43,7 @@ header.intro-header:hover::before{
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;
+    margin-left: auto;
 }
 .blurred-img::before {
     content: "";
@@ -77,8 +78,11 @@ header.intro-header:hover::before{
 }
 
 .archive-year{
+    position: relative;
+    left: -50px;
     border-bottom: 2px solid #404040;
 }
+
 
 .base-time-post{
     display: flex;
@@ -116,7 +120,99 @@ header.intro-header:hover::before{
     color: #bfbfbf;
 }
 
+@media screen and (max-width: 990px) {
+    .archive-year{
+        left: 0;
+        text-align: center;
+    }
+    .base-time-post{
+        margin-right: 0;
+    }
+
+}
+
 .site-heading ul{
     list-style: none;
     display: none;
+}
+
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.42857143;
+    text-align: center;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: 1000px) {
+    .btn{
+        visibility: hidden;
+    }
+}
+
+img{vertical-align: middle;}
+.close {
+    float: right;
+    font-size: 21px;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .2
+}
+
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0
+}
+.entry-shang {
+    padding: 30px 0 20px;
+    text-align: center;
+}
+
+.entry-shang p {
+    font-size: 12px;
+}
+
+.btn-bred {
+    position: fixed;
+    bottom: 30px;
+    left: 50px;
+    background-color: rgb(255, 204, 0);
+    border-radius: 50%;
+    padding: 12px 12px;
+    transform: scale(0);
+    transition: .5s ease-in-out;
+}
+
+.btn-moveTop {
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    border-radius: 50%;
+    padding: 12px 12px;
+    transform: scale(0);
+    transition: .5s ease-in-out;
+}
+
+.btn-moveTop-animate{
+    display: block !important;
+    transform: scale(.8);
+}
+
+@media screen and (max-width: 600px) {
+    .fa-stack{
+        transform: scale(.85);
+    }
 }

@@ -1,5 +1,9 @@
 {{ define "main" }}
 {{ $pages := (where (where .Site.Pages "Type" "post") "IsPage" true) }}
+<style>
+    @media screen and (max-width: 990px) {
+    }
+</style>
 
 <div data-pagefind-ignore="all" class="container">
     <div class="row">
@@ -17,7 +21,7 @@
                     {{ range .Pages  }}
                         {{ if (eq ($.Scratch.Get "count") 1) }}
                             {{ $.Scratch.Set "count" 0 }}
-                            <h1 class="title is-4 has-text-weight-normal archive-year" style="position: relative; left: -50px;">{{ .Date.Year }}</h1>
+                            <h1 class="title is-4 has-text-weight-normal archive-year">{{ .Date.Year }}</h1>
                         {{ end }}
                     {{ end }}
                     {{ range .Pages }}

@@ -27,9 +27,9 @@ $(document).ready(() => {
         // 向上滾動時按鈕顯示
         var st = window.pageYOffset || document.documentElement.scrollTop
         if (window.pageYOffset > px &&  st < lastScrollTop) {
-            $(`[aria-label="回到頂部"], [aria-label="買杯咖啡"]`).addClass("btn-moveTop-animate")
+            $(`[aria-label="回到頂部"]`).addClass("btn-moveTop-animate")
         } else {
-            $(`[aria-label="回到頂部"], [aria-label="買杯咖啡"]`).removeClass("btn-moveTop-animate")
+            $(`[aria-label="回到頂部"]`).removeClass("btn-moveTop-animate")
         }
         lastScrollTop = st <= 0 ? 0 : st
     })

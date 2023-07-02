@@ -1,16 +1,22 @@
 <!-- post list -->
 <div data-pagefind-ignore="all">
 {{ range $index, $element := $.Paginator.Pages }}
-<div class="post-preview" style="width: 100%">
-    <div class="row" style="width: 100%">
-        <div class="col-lg-4">
+<div class="post-preview">
+    <div class="row">
+        <div class="col-lg-3
+                    col-md-3
+                    col-sm-4
+                    col-xs-4">
             {{ if .Params.image }}
             <div class="blurred-img" style="background-image: url('{{.Params.image_min}}')">
                 <img class="cover" src="{{ .Params.image }}" loading="lazy"></img>
             </div>
             {{ end }}
         </div>
-        <div class="col-lg-8">
+        <div class="col-lg-9
+                    col-md-9
+                    col-sm-8
+                    col-xs-8">
             <div class="preview">
                 <a href="{{ .Permalink }}">
                     <h2 class="post-title">

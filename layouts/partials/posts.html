@@ -3,8 +3,8 @@
         <!-- USE SIDEBAR -->
         <!-- Post Container -->
    	    <div class="
-            col-lg-10 col-lg-offset-1
-            col-md-8 col-md-offset-1
+            col-lg-10
+            col-md-12
             col-sm-12
             col-xs-12
             post-container
@@ -12,6 +12,11 @@
             {{ partial "post_list.html" . }}
             {{ partial "pagination.html" . }}
        	</div>
-        <!-- {{ partial "sidebar.html" . }} -->
 	</div>
 </div>
+<style>
+    .row{
+        display: flex;
+        justify-content: center;
+    }
+</style>
