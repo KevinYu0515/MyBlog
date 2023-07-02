@@ -782,11 +782,11 @@ body{
 .one-tag-list .post-preview{
     position: relative;
 }
-
+/* 
 .post-preview{
     display: flex;
     justify-content: space-between;
-}
+} */
 
 @media screen and (max-width: 1200px){
     .post-preview{
@@ -807,11 +807,14 @@ body{
 }
 
 @media screen and (max-width: 650px) {
+    .post-preview .preview .post-title{
+        font-size: 30px;
+    }
     .post-preview .preview .post-content-preview{
         display: none;
     }
     .post-preview .preview .post-meta{
-        font-size: 8px;
+        display: none;
     }
 }
 

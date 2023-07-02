@@ -43,7 +43,14 @@ header.intro-header:hover::before{
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;
-    margin-left: auto;
+    min-width: 200px;
+    min-height: 200px;
+}
+@media screen and (max-width: 800px) {
+    .blurred-img{
+        max-width: 240px;
+        margin: 0 auto;
+    }
 }
 .blurred-img::before {
     content: "";
