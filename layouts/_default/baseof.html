@@ -11,7 +11,12 @@
                 <div class="site-heading">
                     <h1>{{ .Site.Title}} </h1>
                     <!--<hr class="small">-->
-		            <span class="subheading">{{ .Site.Params.slogan }}</span>
+                    <span class="subheading"></span>
+                    <ul>
+                        {{ range .Site.Params.slogan}}
+                        <li>{{ . }}</li>
+                        {{ end }}
+                    </ul>
                 </div>
             </div>
         </div>
@@ -35,3 +40,14 @@
 {{ partial "footer.html" . }}
 </body>
 </html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

@@ -32,7 +32,7 @@
     
 
     <meta name="keyword"  content="YuKai:, 軟體工程，程式紀錄">
-    <link rel="shortcut icon" href="/img/cabbageWorm.jpeg">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
 
     <title>Front-end | YuKai&#39;s Blog:</title>
 
@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" type='text/css' href="/css/newClean.css">
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
 
     
     <link rel="stylesheet" href="/css/zss.css">
@@ -166,7 +166,18 @@
                 <div class="site-heading">
                     <h1>YuKai: Blog </h1>
                     
-		            <span class="subheading">機不可失，失不再來</span>
+                    <span class="subheading"></span>
+                    <ul>
+                        
+                        <li>機不可失，失不再來</li>
+                        
+                        <li>藤枝必亡，但朽木終將重生</li>
+                        
+                        <li>怕走崎嶇路，莫想登高峰</li>
+                        
+                        <li>我只是一隻乘載訊息的毛蟲，向未知匍匐前進</li>
+                        
+                    </ul>
                 </div>
             </div>
         </div>
@@ -196,8 +207,8 @@
     <div class="row" style="width: 100%">
         <div class="col-lg-4">
             
-            <div class="blurred-img" style="background-image: url('/img/20230625-min.jpg')">
-                <img class="cover" src="/img/20230625.jpg" loading="lazy"></img>
+            <div class="blurred-img" style="background-image: url('/img-min/2023-06-25-min.jpg')">
+                <img class="cover" src="/img/2023-06-25.jpg" loading="lazy"></img>
             </div>
             
         </div>
@@ -417,3 +428,14 @@ blurredImageDiv.forEach(div => {
 
 </body>
 </html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

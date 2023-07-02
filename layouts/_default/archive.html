@@ -33,16 +33,16 @@
                             <div class="text">
                                 <a class="archive-title" href="{{ .RelPermalink }}">
                                     {{ .Title }}
-                                    <span style="font-size: .3em">
+                                    <!-- <span style="font-size: .3em">
                                         {{ if (and (not .Lastmod.IsZero) (not (eq (dateFormat "2006-01-02" .Lastmod) (dateFormat "2006-01-02" .Date))))}}
                                             [updated]
                                         {{ end }}
-                                    </span>
+                                    </span> -->
                                 </a>
                                 {{ if eq (len .Description) 0}}
                                     <p>Here will be somthing soon~</p>
-                                {{ else if gt (len .Description) 80}}
-                                    <p>{{ slicestr .Description 0 80}}...閱讀更多</p>
+                                {{ else if gt (div (len .Description) 3) 90}}
+                                    <p>{{ slicestr .Description 0 90}}...閱讀更多</p>
                                 {{ else }}
                                     <p>{{ .Description }}</p>
                                 {{ end }}

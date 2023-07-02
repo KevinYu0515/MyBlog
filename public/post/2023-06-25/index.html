@@ -10,8 +10,8 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="/img/20230625.jpg">
-    <meta property="twitter:image" content="/img/20230625.jpg" />
+    <meta property="og:image" content="/img/2023-06-25.jpg">
+    <meta property="twitter:image" content="/img/2023-06-25.jpg" />
     
 
     
@@ -32,7 +32,7 @@
     
 
     <meta name="keyword"  content="YuKai:, 軟體工程，程式紀錄">
-    <link rel="shortcut icon" href="/img/cabbageWorm.jpeg">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
 
     <title>Blog 升級計畫：自動摺疊清單 | YuKai&#39;s Blog:</title>
 
@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" type='text/css' href="/css/newClean.css">
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
 
     
     <link rel="stylesheet" href="/css/zss.css">
@@ -161,7 +161,7 @@
 
 
 
-<header class="intro-header" style="--background:url(/img/20230625.jpg)">
+<header class="intro-header" style="--background:url(/img/2023-06-25.jpg)">
 
     <div class="container">
         <div class="row">
@@ -548,7 +548,7 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/post/2023-05-11/" data-toggle="tooltip" data-placement="top" title="[ GIT 錯誤報告 ]">&larr;
+                        <a href="/post/2022-09-28/" data-toggle="tooltip" data-placement="top" title="[ GIT 錯誤報告 ]">&larr;
                             Previous Post</a>
                     </li>
                     
@@ -781,3 +781,14 @@
 
 </body>
 </html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

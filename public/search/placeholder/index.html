@@ -32,7 +32,7 @@
     
 
     <meta name="keyword"  content="YuKai:, 軟體工程，程式紀錄">
-    <link rel="shortcut icon" href="/img/cabbageWorm.jpeg">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
 
     <title>YuKai&#39;s Blog:</title>
 
@@ -44,7 +44,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     
-    <link rel="stylesheet" type='text/css' href="/css/newClean.css">
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
 
     
     <link rel="stylesheet" href="/css/zss.css">
@@ -425,3 +425,14 @@
 
 </body>
 </html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

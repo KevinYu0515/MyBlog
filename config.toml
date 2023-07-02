@@ -16,7 +16,10 @@ home = ["HTML", "RSS", "Algolia"]
   SEOTitle = "YuKai's Blog:"
   description = "YuKai:，資訊系學生，生活探險家 | 我只是一隻乘載訊息的毛蟲，向未知匍匐前進"
   keyword = "YuKai:, 軟體工程，程式紀錄" 
-  slogan = "機不可失，失不再來"
+  slogan = ["機不可失，失不再來",
+            "藤枝必亡，但朽木終將重生", 
+            "怕走崎嶇路，莫想登高峰", 
+            "我只是一隻乘載訊息的毛蟲，向未知匍匐前進"]
 
   image_404 = "/img/404.jpg"
   title_404 = "你走到了知識的盡頭 :( 但給你一隻貓貓安慰你 :)"
@@ -35,7 +38,7 @@ home = ["HTML", "RSS", "Algolia"]
 
   # Sidebar settings
   sidebar_about_description = "IT Student, Open Source and Life Adventurer"
-  sidebar_avatar = "img/cabbageWorm.jpeg"
+  sidebar_avatar = "element/cabbageWorm.jpeg"
 
   featured_tags = true 
   featured_condition_size = 0 

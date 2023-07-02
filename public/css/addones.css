@@ -115,3 +115,8 @@ header.intro-header:hover::before{
     font-size: .8em;
     color: #bfbfbf;
 }
+
+.site-heading ul{
+    list-style: none;
+    display: none;
+}
