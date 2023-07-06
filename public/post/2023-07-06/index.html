@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai: Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/2023-07-06.jpg">
+    <meta property="twitter:image" content="/img/2023-07-06.jpg" />
+    
+
+    
+    <meta name="title" content="[Discord Bot] Commands Compare: Normal、Slash、Hybrid" />
+    <meta property="og:title" content="[Discord Bot] Commands Compare: Normal、Slash、Hybrid" />
+    <meta property="twitter:title" content="[Discord Bot] Commands Compare: Normal、Slash、Hybrid" />
+    
+
+    
+    <meta name="description" content="紀錄 Discord Bot 開發過程中會涉略到的指令類型，並了解各自的效用與定位來搭配出人性化指令設計">
+    <meta property="og:description" content="紀錄 Discord Bot 開發過程中會涉略到的指令類型，並了解各自的效用與定位來搭配出人性化指令設計" />
+    <meta property="twitter:description" content="紀錄 Discord Bot 開發過程中會涉略到的指令類型，並了解各自的效用與定位來搭配出人性化指令設計" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai:, 軟體工程，程式紀錄">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
+
+    <title>[Discord Bot] Commands Compare: Normal、Slash、Hybrid | YuKai&#39;s Blog:</title>
+
+    <link rel="canonical" href="/post/2023-07-06/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukai.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukai.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukai.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai: Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/2023-07-06.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>[Discord Bot] Commands Compare: Normal、Slash、Hybrid</h1>
+                    <h2 class="subheading">基於 Python 開發的 Discord Bot 各種指令類型使用與比較</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai:
+                                 
+                                on 
+                                Thursday, July 6, 2023
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="前言">前言</h2>
+<p><div class="alert alert-warning">
+    <strong>本文適合對 OOP 有略知，且已邀請機器人至伺服器的讀者。</strong>
+</div>
+
+<div class="alert alert-info">
+    <strong>若還未完成，這是我推薦的設置教程：<a href="https://www.freecodecamp.org/news/create-a-discord-bot-with-python/"><strong>Discord Bot</strong></a></strong>
+</div>
+</p>
+<p>如果都沒問題就可以開始了~
+以下為本次測試的 Discord Bot 初始化設定</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> discord
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> discord.ext <span style="color:#ff79c6">import</span> commands
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> discord <span style="color:#ff79c6">import</span> app_commands
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> dotenv <span style="color:#ff79c6">import</span> load_dotenv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># 建立一個機器人物件</span>
+</span></span><span style="display:flex;"><span>    client <span style="color:#ff79c6">=</span> commands<span style="color:#ff79c6">.</span>Bot(
+</span></span><span style="display:flex;"><span>        command_prefix <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;$&#34;</span>,
+</span></span><span style="display:flex;"><span>        intents <span style="color:#ff79c6">=</span> discord<span style="color:#ff79c6">.</span>Intents<span style="color:#ff79c6">.</span>all()
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># 機器人事件</span>
+</span></span><span style="display:flex;"><span>    @client<span style="color:#ff79c6">.</span>event
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">on_ready</span>():
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>change_presence(activity<span style="color:#ff79c6">=</span>discord<span style="color:#ff79c6">.</span>Game(name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;coding For Fun&#34;</span>))
+</span></span><span style="display:flex;"><span>        logging_channel <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>fetch_channel(os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#34;LOGGING_CHANNEL&#34;</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> logging_channel<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Bot ready&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># 執行機器人</span>
+</span></span><span style="display:flex;"><span>    client<span style="color:#ff79c6">.</span>run(os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#39;BOT_TOKEN&#39;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    load_dotenv()
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div><ol>
+<li>首先用 <code>discord.py</code> 的 <code>commands.Bot</code> 建立一個機器人實體，並定義指令前綴<code>（command prefix）</code>和機器人權限</li>
+<li>接著設定機器人事件，如果機器人準備好了，就在機器人所處的頻道打印 Bot ready</li>
+<li>最後是執行機器人，我們會需要這台機器人的 <code>Token</code>，我是將 <code>Token</code> 放在 <code>.env</code>，透過 <code>python_dotenv</code> 這個套件提取至 <code>os</code> 的環境變數內</li>
+</ol>
+<p>當設定好後，就可以玩各種指令啦，基本上 <code>discord.py</code> 的套件提供三種指令類型：<code>Normal Command</code>、<code>Slash Command</code>、<code>Hybrid Command</code>，接下來將會逐個介紹</p>
+<h2 id="normal-command">Normal Command</h2>
+<p>這種指令藉由指令前綴（command prefix）來呼叫，也就是要先打指令前綴讓機器人知道你在呼叫他</p>
+<h3 id="build-a-normal-command">Build A Normal Command</h3>
+<p>我們只需要使用 <code>@client.command()</code> 就能生成這種指令，而在此之下的函式就是這個指令要做的事情。ctx 代表 Context 物件，可以理解成是機器人的對話框。以這個指令為例，當使用者打出 <code>$hello</code>，機器人就會傳送 <code>hello!!</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hello&#34;</span>, description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Say Hello&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hello</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;hello!!&#34;</span>)
+</span></span></code></pre></div><p>而我們可以在 <code>@client.command()</code> 給予一些參數設定，例如：<code>name</code>，指令名稱（如果沒有提供，就會以該函數名稱代替）。以下為一些常見的參數設定：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>command(
+</span></span><span style="display:flex;"><span>    aliases<span style="color:#ff79c6">=</span>[<span style="color:#f1fa8c">&#34;hello&#34;</span>],
+</span></span><span style="display:flex;"><span>    name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;greeting&#34;</span>,
+</span></span><span style="display:flex;"><span>    description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Hello Everyone&#34;</span>,
+</span></span><span style="display:flex;"><span>    brief<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;This is greeting command&#34;</span>,
+</span></span><span style="display:flex;"><span>    enabled<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>,
+</span></span><span style="display:flex;"><span>    hidden<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">greeting</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;hello!!&#34;</span>)
+</span></span></code></pre></div><ul>
+<li><code>aliases</code>（別名）：提供該指令其他呼叫名稱</li>
+<li><code>description</code>（說明）：描述該指令作用</li>
+<li><code>help</code>：在 <code>help</code> 資訊欄，詳述該指令作用</li>
+<li><code>brief</code>（簡述）：在 <code>help</code> 資訊欄，簡述該指令作用</li>
+<li><code>enabled</code>：當 True 時，該指令能被呼叫，反之不行</li>
+<li><code>hidden</code>：當 True 時，該指令不會顯示在 <code>help</code> 資訊欄</li>
+</ul>
+<h3 id="commands-group">Commands Group</h3>
+<p>如果我們有多個功能類似的 Normal Command，我們可以將其歸納成群組。</p>
+<p>藉由 <code>@client.group</code> 我們可以決定這個群組名稱，同時這個群組可以單獨被視為一個指令，因此也會有呼叫這個指令時應該執行的函式。接者我們可以根據群組名去衍生更多的子指令，用法與 Normal Command 一樣。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>group(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;greeting&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">greeting</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;This is greeting Command&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@greeting<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hello&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hello</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HELLO!!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@greeting<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hi&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hi</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HI!!&#34;</span>)
+</span></span></code></pre></div><div class="alert alert-info">
+    <strong>這種 Commands Group 可以層層相套，也就是群組裡面的子指令也可以是一個群組，用來為指令分類很好用的</strong>
+</div>
+
+<h2 id="slash-command">Slash Command</h2>
+<p>這種指令可以直接用 <code>/</code> 呼叫，並且會在使用者介面上提供指令提示。但不能用自定義的指令前綴呼叫</p>
+<h3 id="build-a-slash-command">Build A Slash Command</h3>
+<p>discord.py 在 版本 2.0 時於機器人底下新增一個 <code>tree</code> 屬性，解釋如下：</p>
+<blockquote>
+<p>The command tree responsible for handling the application commands in this bot.</p>
+</blockquote>
+<p>在 discord.py API 提到 <code>tree</code> 是一種 <code>CommandTree</code> 類型的物件，裡面主要存放 application commands，而 Slash Command 就是數屬於這種，因此我們要做的是想辦法將自定義的 Slash Command 加入這個 <code>CommandTree</code> 物件</p>
+<p>建立方法與 Normal Command 類似，用 <code>@client.tree.command()</code>來定義，與 Normal Command 不同的是，下面定義的函式第一個參數會是 <code>interaction</code>（互動物件），我們可以透過這樣的寫法來讓機器人發送訊息</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>command(name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;hello&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">first_command</span>(interaction):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">&#34;Hello!&#34;</span>)
+</span></span></code></pre></div><h3 id="slash-commands-group">Slash Commands Group</h3>
+<p>如果有多個功能類似的 Slash Commands，我們也可以將其歸類成群組，這時會需要用到 <code>app_commands.Group</code> 這個類別。</p>
+<p>我們可以定義一個 <code>app_commands.Group</code>，並將相關的 <code>Slash 子指令</code> 放入，要注意將原本是機器人的部分要改成 <code>app_commands</code>，讓這個指令單純只是 Slash Command。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Math_</span>(app_commands<span style="color:#ff79c6">.</span>Group):
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">add</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> + </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">+</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">subtract</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> - </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">-</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">multiple</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> x </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">*</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">division</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> / </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">/</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span></code></pre></div><p>最後實體化這個 <code>app_commands.Group</code> 物件，並將其加入機器人的指令庫中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>math_ <span style="color:#ff79c6">=</span> Math_(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;math_&#34;</span>)
+</span></span><span style="display:flex;"><span>client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>add_command(math_)
+</span></span></code></pre></div><div class="code" aria-label="完整程式碼">
+    <div class="title">
+        <span>完整程式碼</span>
+    </div>
+    <div class="content" style="display: none;">
+        <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> discord
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> discord.ext <span style="color:#ff79c6">import</span> commands
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">from</span> discord <span style="color:#ff79c6">import</span> app_commands
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">Math_</span>(app_commands<span style="color:#ff79c6">.</span>Group):
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">add</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> + </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">+</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">subtract</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> - </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">-</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">multiple</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> x </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">*</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">division</span>(self, interaction, one: <span style="color:#8be9fd;font-style:italic">int</span>, two: <span style="color:#8be9fd;font-style:italic">int</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">{</span>one<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> / </span><span style="color:#f1fa8c">{</span>two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> = </span><span style="color:#f1fa8c">{</span>one <span style="color:#ff79c6">/</span> two<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c">&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
+</span></span><span style="display:flex;"><span>    intents <span style="color:#ff79c6">=</span> discord<span style="color:#ff79c6">.</span>Intents<span style="color:#ff79c6">.</span>all()
+</span></span><span style="display:flex;"><span>    client <span style="color:#ff79c6">=</span> commands<span style="color:#ff79c6">.</span>Bot(
+</span></span><span style="display:flex;"><span>        command_prefix<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;$&#34;</span>,
+</span></span><span style="display:flex;"><span>        intents<span style="color:#ff79c6">=</span>intents
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @client<span style="color:#ff79c6">.</span>event
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">on_ready</span>():
+</span></span><span style="display:flex;"><span>        client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>copy_global_to(guild<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>GUILD_ID)
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>sync(guild<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>GUILD_ID)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        math_ <span style="color:#ff79c6">=</span> Math_(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;math_&#34;</span>)
+</span></span><span style="display:flex;"><span>        client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>add_command(math_)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>change_presence(activity<span style="color:#ff79c6">=</span>discord<span style="color:#ff79c6">.</span>Game(name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;coding For Fun&#34;</span>))
+</span></span><span style="display:flex;"><span>        logging_channel <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>fetch_channel(os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#34;LOGGING_CHANNEL&#34;</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> logging_channel<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#34;Bot ready&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    client<span style="color:#ff79c6">.</span>run(settings<span style="color:#ff79c6">.</span>BOT_TOKEN, root_logger<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">if</span> __name__ <span style="color:#ff79c6">==</span> <span style="color:#f1fa8c">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    main()
+</span></span></code></pre></div>
+    </div>
+</div>
+
+<style>
+    .code{
+        width: 100%;
+        height: auto;
+    }
+    .code .title{
+        position: relative;
+        left: 0px;
+        width: 100%;
+        height: auto;
+        font-weight: bold;
+        border-left: 4px solid #24ff0b;
+        color: #E3D3E4;
+        cursor: pointer;
+        background-color: #2C302E;
+        margin: 4px 0;
+        transition: .5s ease-in-out;
+    }
+    .code .title:hover{
+        left: 15px;
+    }
+    .code .title::before{
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: #24ff0b;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: .7s ease-in-out;
+    }
+    .click{
+        color:#2C302E !important;
+    }
+    .click::before{
+        transform: scaleX(1) !important;
+    }
+    .code .title span{
+        position: relative;
+        margin: 0 10px;
+        z-index: 1;
+    }
+</style>
+<h3 id="commandtree-sync">CommandTree Sync</h3>
+<p>當我們建立完成 Slash Command 並加入 <code>CommandTree</code> 後，會發現 Discord 上這個指令沒有作用，這是因為 discord 沒有接收 API 的請求將我們的 slash command 複製過去。</p>
+<p>所以這時會需要用到 <code>CommandTree.sync()</code> 的這個方法，才會將當前的 Slash Command 同步複製一份給 discord。但是這個方法有個瑕疵，就是新增 Slash Command 時有速度限制，導致開發者有時候會誤入這個 Slash Command 沒有即時更新的陷阱。</p>
+<p>於是 discord.py 提供了 <code>CommandTree.copy_global_to()</code> 先將當前的 CommandTree 複製一份給 discord，藉此優化後續的同步速度</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>event
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">on_ready</span>():
+</span></span><span style="display:flex;"><span>    client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>copy_global_to(guild<span style="color:#ff79c6">=</span>settings<span style="color:#ff79c6">.</span>GUILD_ID)
+</span></span><span style="display:flex;"><span>    slashTree <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>tree<span style="color:#ff79c6">.</span>sync(guild <span style="color:#ff79c6">=</span> discord<span style="color:#ff79c6">.</span>Object(<span style="color:#8be9fd;font-style:italic">id</span> <span style="color:#ff79c6">=</span> os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#39;GUILD_ID&#39;</span>)))
+</span></span></code></pre></div><div class="alert alert-info">
+    <strong>關於這個問題有一篇完整的 github gist 說明：<a href="https://gist.github.com/AbstractUmbra/a9c188797ae194e592efe05fa129c57f">discord.py 2.0+ slash command info and examples.</a></strong>
+</div>
+
+<h2 id="hybrid-command">Hybrid Command</h2>
+<p>這種指令可以同時被指令前綴和 <code>/</code> 呼叫，所以如同字面上意思，即兼具 Slash Command 和 Normal Command 的呼叫特性。注意該命令也需要 <code>CommandTree.sync()</code> 同步。</p>
+<h3 id="build-a-hybrid-command">Build A Hybrid Command</h3>
+<p>定義 <code>@client.hybrid_command()</code> 就能使用這種指令，函式內的第一個參數是 <code>ctx</code>（Context 物件）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>hybrid_command(
+</span></span><span style="display:flex;"><span>        name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;hello&#34;</span>,
+</span></span><span style="display:flex;"><span>        description <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;My first application Command&#34;</span>,
+</span></span><span style="display:flex;"><span>        guild <span style="color:#ff79c6">=</span> discord<span style="color:#ff79c6">.</span>Object(<span style="color:#8be9fd;font-style:italic">id</span> <span style="color:#ff79c6">=</span> os<span style="color:#ff79c6">.</span>getenv(<span style="color:#f1fa8c">&#39;GUILD_ID&#39;</span>))
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">first_command</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;Hello!&#34;</span>)
+</span></span></code></pre></div><h3 id="hybrid-commands-group">Hybrid Commands Group</h3>
+<p>與 Normal Commands Group 寫法差不多，如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>@client<span style="color:#ff79c6">.</span>hybrid_group()
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">test</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;Test!!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>@test<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hi&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hi</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HI!!&#34;</span>)
+</span></span><span style="display:flex;"><span>@test<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hey&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hey</span>(ctx):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HEY!!&#34;</span>)
+</span></span></code></pre></div><h2 id="延伸在-cog-中使用這些指令">延伸：在 Cog 中使用這些指令</h2>
+<p>在 <code>discord.py</code> 中，對 <code>Cog</code> 的定義是這樣：</p>
+<blockquote>
+<p>A cog is a collection of commands, listeners, and optional state to help group commands together</p>
+</blockquote>
+<p>與 Commands Group 相比之下這個集合具有監聽、事件處理的額外功能，也就是說 <code>Cog</code> 可以當成是一個更強大的指令集合，此外藉由這個方式定義的指令在 <code>help</code> 資訊欄中會標記其集合名稱，讓其可讀性更好。</p>
+<p>與在主程式的寫法很像，只是要把原本機器人的部分（client）改掉就可以，記住參數裡的第一個參數是 <code>self</code>（這與類別有關，但非這次討論重點）。最後要補上 <code>setup</code> 函式，讓這個 <code>cog</code> 類別能被初始化</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">class</span> <span style="color:#50fa7b">cmds</span>(commands<span style="color:#ff79c6">.</span>Cog):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">def</span> __init__(self, client):
+</span></span><span style="display:flex;"><span>        self<span style="color:#ff79c6">.</span>client <span style="color:#ff79c6">=</span> client
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    @commands<span style="color:#ff79c6">.</span>Cog<span style="color:#ff79c6">.</span>listener()
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">on_ready</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#8be9fd;font-style:italic">print</span>(<span style="color:#f1fa8c">f</span><span style="color:#f1fa8c">&#39;</span><span style="color:#f1fa8c">{</span>__name__<span style="color:#f1fa8c">}</span><span style="color:#f1fa8c"> loaded successfully!&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># normal command</span>
+</span></span><span style="display:flex;"><span>    @commands<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hello&#34;</span>, description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Say Hello&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">command</span>(self, ctx):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HELLO!!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># slash command</span>
+</span></span><span style="display:flex;"><span>    @app_commands<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;happy&#34;</span>, description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Say Happy Happy&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">command</span>(self, interaction: discord<span style="color:#ff79c6">.</span>Interaction):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> interaction<span style="color:#ff79c6">.</span>response<span style="color:#ff79c6">.</span>send_message(<span style="color:#f1fa8c">&#34;Happy! Happy! Happy~&#34;</span>)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4"># hybrid command</span>
+</span></span><span style="display:flex;"><span>    @commands<span style="color:#ff79c6">.</span>hybrid_command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hi&#34;</span>, description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;Say Hi&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">command</span>(self, ctx):
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HI!!&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">setup</span>(client):
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>add_cog(cmds(client))
+</span></span></code></pre></div><p>至於要怎麼在主程式呼叫這個類別，只要在 <code>on_ready</code> 的函式下加入這條就可以了，注意檔案名稱的後綴（<code>.py</code>）要拿掉</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>load_extension(<span style="color:#f1fa8c">&#34;你的 Cog 檔案名稱&#34;</span>)
+</span></span></code></pre></div><h2 id="小結">小結</h2>
+<ol>
+<li><strong>Normal Command</strong> 是最基礎的指令，藉由指令前綴的方式呼叫，可以將多個 Normal Command 集合成 Commands Group，分類出子指令來使用</li>
+<li><strong>Slash Command</strong> 於 discord.py 版本 2 中加入，可以透過 <code>/</code> 方式呼叫，讓使用者不需要呼叫 <code>help</code> 資訊欄，就能知道哪些指令可以使用，是一種較為新型的寫法，可以透過 <code>app_command.Group</code> 類別將 Slash Commands 集合成群組</li>
+<li><strong>Hybrid Command</strong> 兼具 Slash 和 Normal 的呼叫方式</li>
+<li>與 <code>Command Group</code> 相比，我會更偏向使用 <code>Cog</code> 作為分類依據，接著再使用 Commands Group 做更精細的分類</li>
+</ol>
+<h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://discordpy.readthedocs.io/en/stable/index.html">discord.py API Reference</a></li>
+<li><a href="https://www.youtube.com/playlist?list=PLESMQx4LeD3N0-KKPPDaToZhBsom2E_Ju">How to create a DISCORD BOT (2023 with discordpy 2 in python)</a></li>
+</ul>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-06-25/" data-toggle="tooltip" data-placement="top" title="Blog 升級計畫：自動摺疊清單">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/python" title="Python">
+                            Python
+                        </a>
+                        
+                        <a class="tag" href="/tags/chatbot" title="chatBot">
+                            chatBot
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai: Blog 2023
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

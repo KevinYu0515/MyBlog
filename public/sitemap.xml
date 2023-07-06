@@ -2,28 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://yukai.netlify.app/post/2023-06-25/</loc>
-    <lastmod>2023-06-25T00:00:00+00:00</lastmod>
+    <loc>https://yukai.netlify.app/post/2023-07-06/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai.netlify.app/categories/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/tags/chatbot/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/post/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/tags/python/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/tags/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/categories/tech/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/</loc>
+    <lastmod>2023-07-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai.netlify.app/post/2023-06-25/</loc>
     <lastmod>2023-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai.netlify.app/tags/front-end/</loc>
     <lastmod>2023-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai.netlify.app/tags/javascript/</loc>
-    <lastmod>2023-06-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai.netlify.app/post/</loc>
-    <lastmod>2023-06-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai.netlify.app/tags/</loc>
-    <lastmod>2023-06-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai.netlify.app/categories/tech/</loc>
-    <lastmod>2023-06-25T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai.netlify.app/</loc>
     <lastmod>2023-06-25T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai.netlify.app/post/2022-09-28/</loc>
@@ -39,9 +48,6 @@
     <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai.netlify.app/post/2022-08-20/</loc>
-    <lastmod>2022-08-20T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai.netlify.app/tags/python/</loc>
     <lastmod>2022-08-20T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai.netlify.app/tags/selenium/</loc>

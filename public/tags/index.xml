@@ -6,7 +6,25 @@
     <description>Recent content in Tags on YuKai: Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 25 Jun 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 06 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>chatBot</title>
+      <link>https://yukai.netlify.app/tags/chatbot/</link>
+      <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukai.netlify.app/tags/chatbot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://yukai.netlify.app/tags/python/</link>
+      <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukai.netlify.app/tags/python/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Front-end</title>
       <link>https://yukai.netlify.app/tags/front-end/</link>
@@ -40,15 +58,6 @@
       <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
       
       <guid>https://yukai.netlify.app/tags/back-end/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Python</title>
-      <link>https://yukai.netlify.app/tags/python/</link>
-      <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://yukai.netlify.app/tags/python/</guid>
       <description></description>
     </item>
     
