@@ -202,14 +202,15 @@
                 post-container">
                
                 <h2 id="前言">前言</h2>
-<p><div class="alert alert-warning">
+<hr class="divided-line"/>
+<div class="alert alert-warning">
     <strong>本文適合對 OOP 有略知，且已邀請機器人至伺服器的讀者。</strong>
 </div>
 
 <div class="alert alert-info">
     <strong>若還未完成，這是我推薦的設置教程：<a href="https://www.freecodecamp.org/news/create-a-discord-bot-with-python/"><strong>Discord Bot</strong></a></strong>
 </div>
-</p>
+
 <p>如果都沒問題就可以開始了~
 以下為本次測試的 Discord Bot 初始化設定</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> os
@@ -244,7 +245,9 @@
 <li>最後是執行機器人，我們會需要這台機器人的 <code>Token</code>，我是將 <code>Token</code> 放在 <code>.env</code>，透過 <code>python_dotenv</code> 這個套件提取至 <code>os</code> 的環境變數內</li>
 </ol>
 <p>當設定好後，就可以玩各種指令啦，基本上 <code>discord.py</code> 的套件提供三種指令類型：<code>Normal Command</code>、<code>Slash Command</code>、<code>Hybrid Command</code>，接下來將會逐個介紹</p>
+<div style="margin-top: 10rem;"></div>
 <h2 id="normal-command">Normal Command</h2>
+<hr class="divided-line"/>
 <p>這種指令藉由指令前綴（command prefix）來呼叫，也就是要先打指令前綴讓機器人知道你在呼叫他</p>
 <h3 id="build-a-normal-command">Build A Normal Command</h3>
 <p>我們只需要使用 <code>@client.command()</code> 就能生成這種指令，而在此之下的函式就是這個指令要做的事情。ctx 代表 Context 物件，可以理解成是機器人的對話框。以這個指令為例，當使用者打出 <code>$hello</code>，機器人就會傳送 <code>hello!!</code>。</p>
@@ -288,7 +291,9 @@
     <strong>這種 Commands Group 可以層層相套，也就是群組裡面的子指令也可以是一個群組，用來為指令分類很好用的</strong>
 </div>
 
+<div style="margin-top: 10rem;"></div>
 <h2 id="slash-command">Slash Command</h2>
+<hr class="divided-line"/>
 <p>這種指令可以直接用 <code>/</code> 呼叫，並且會在使用者介面上提供指令提示。但不能用自定義的指令前綴呼叫</p>
 <h3 id="build-a-slash-command">Build A Slash Command</h3>
 <p>discord.py 在 版本 2.0 時於機器人底下新增一個 <code>tree</code> 屬性，解釋如下：</p>
@@ -426,7 +431,9 @@
     <strong>關於這個問題有一篇完整的 github gist 說明：<a href="https://gist.github.com/AbstractUmbra/a9c188797ae194e592efe05fa129c57f">discord.py 2.0+ slash command info and examples.</a></strong>
 </div>
 
+<div style="margin-top: 10rem;"></div>
 <h2 id="hybrid-command">Hybrid Command</h2>
+<hr class="divided-line"/>
 <p>這種指令可以同時被指令前綴和 <code>/</code> 呼叫，所以如同字面上意思，即兼具 Slash Command 和 Normal Command 的呼叫特性。注意該命令也需要 <code>CommandTree.sync()</code> 同步。</p>
 <h3 id="build-a-hybrid-command">Build A Hybrid Command</h3>
 <p>定義 <code>@client.hybrid_command()</code> 就能使用這種指令，函式內的第一個參數是 <code>ctx</code>（Context 物件）</p>
@@ -449,7 +456,9 @@
 </span></span><span style="display:flex;"><span>@test<span style="color:#ff79c6">.</span>command(name<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;hey&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#ff79c6">async</span> <span style="color:#ff79c6">def</span> <span style="color:#50fa7b">hey</span>(ctx):
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> ctx<span style="color:#ff79c6">.</span>send(<span style="color:#f1fa8c">&#34;HEY!!&#34;</span>)
-</span></span></code></pre></div><h2 id="延伸在-cog-中使用這些指令">延伸：在 Cog 中使用這些指令</h2>
+</span></span></code></pre></div><div style="margin-top: 10rem;"></div>
+<h2 id="延伸在-cog-中使用這些指令">延伸：在 Cog 中使用這些指令</h2>
+<hr class="divided-line"/>
 <p>在 <code>discord.py</code> 中，對 <code>Cog</code> 的定義是這樣：</p>
 <blockquote>
 <p>A cog is a collection of commands, listeners, and optional state to help group commands together</p>
@@ -483,14 +492,18 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>add_cog(cmds(client))
 </span></span></code></pre></div><p>至於要怎麼在主程式呼叫這個類別，只要在 <code>on_ready</code> 的函式下加入這條就可以了，注意檔案名稱的後綴（<code>.py</code>）要拿掉</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">await</span> client<span style="color:#ff79c6">.</span>load_extension(<span style="color:#f1fa8c">&#34;你的 Cog 檔案名稱&#34;</span>)
-</span></span></code></pre></div><h2 id="小結">小結</h2>
+</span></span></code></pre></div><div style="margin-top: 10rem;"></div>
+<h2 id="小結">小結</h2>
+<hr class="divided-line"/>
 <ol>
 <li><strong>Normal Command</strong> 是最基礎的指令，藉由指令前綴的方式呼叫，可以將多個 Normal Command 集合成 Commands Group，分類出子指令來使用</li>
 <li><strong>Slash Command</strong> 於 discord.py 版本 2 中加入，可以透過 <code>/</code> 方式呼叫，讓使用者不需要呼叫 <code>help</code> 資訊欄，就能知道哪些指令可以使用，是一種較為新型的寫法，可以透過 <code>app_command.Group</code> 類別將 Slash Commands 集合成群組</li>
 <li><strong>Hybrid Command</strong> 兼具 Slash 和 Normal 的呼叫方式</li>
 <li>與 <code>Command Group</code> 相比，我會更偏向使用 <code>Cog</code> 作為分類依據，接著再使用 Commands Group 做更精細的分類</li>
 </ol>
+<div style="margin-top: 10rem;"></div>
 <h2 id="參考資料">參考資料</h2>
+<hr class="divided-line"/>
 <ul>
 <li><a href="https://discordpy.readthedocs.io/en/stable/index.html">discord.py API Reference</a></li>
 <li><a href="https://www.youtube.com/playlist?list=PLESMQx4LeD3N0-KKPPDaToZhBsom2E_Ju">How to create a DISCORD BOT (2023 with discordpy 2 in python)</a></li>

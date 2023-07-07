@@ -223,3 +223,38 @@ button.close {
         transform: scale(.85);
     }
 }
+
+/* -- Animated hr -- */
+
+.divided-line {
+    background: rgba(28.24, 38.82, 61.18, 0.1);
+    height: 3px;
+    overflow: hidden;
+    position: relative;
+    clear: both;
+    display: block;
+    margin-top: 0;
+    width: 100%;
+}
+
+.divided-line::before {
+    animation-duration: 10s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    animation-name: progress;
+    background: #397367;
+    content: "";
+    display: block;
+    height: 3px;
+    position: absolute;
+    width: 500px;
+}
+
+@keyframes progress {
+0% {
+    transform: translateX(-500px);
+}
+100% {
+    transform: translateX(calc(750px + 20px));
+}
+}
