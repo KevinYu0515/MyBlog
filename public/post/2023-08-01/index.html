@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai: Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/2023-08-01.jpg">
+    <meta property="twitter:image" content="/img/2023-08-01.jpg" />
+    
+
+    
+    <meta name="title" content="Node.js Event Loop VS. Browser Event Loop" />
+    <meta property="og:title" content="Node.js Event Loop VS. Browser Event Loop" />
+    <meta property="twitter:title" content="Node.js Event Loop VS. Browser Event Loop" />
+    
+
+    
+    <meta name="description" content="採用動畫方式並帶入範例程式碼說明 Browser Event Loop 和 Node.js Event Loop 是如何處理非同步事件，以釐清 JavaScript 的非同步事件原理">
+    <meta property="og:description" content="採用動畫方式並帶入範例程式碼說明 Browser Event Loop 和 Node.js Event Loop 是如何處理非同步事件，以釐清 JavaScript 的非同步事件原理" />
+    <meta property="twitter:description" content="採用動畫方式並帶入範例程式碼說明 Browser Event Loop 和 Node.js Event Loop 是如何處理非同步事件，以釐清 JavaScript 的非同步事件原理" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai:, 軟體工程，程式紀錄">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
+
+    <title>Node.js Event Loop VS. Browser Event Loop | YuKai&#39;s Blog:</title>
+
+    <link rel="canonical" href="/post/2023-08-01/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukai.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukai.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukai.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai: Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/2023-08-01.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Node.js Event Loop VS. Browser Event Loop</h1>
+                    <h2 class="subheading">討論 JavaScipt 在不同環境下的事件迴圈如何處理非同步事件</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai:
+                                 
+                                on 
+                                Tuesday, August 1, 2023
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="同步與非同步">同步與非同步</h2>
+<p>同步的意思是一次只處理一次事件，而非同步的意思是同時多個事件一起處理。如下</p>
+<h3 id="同步執行">同步執行</h3>
+<p>同步執行就是將程式碼一行一行執行下來</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Hello World&#34;</span>)
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Ending&#34;</span>)
+</span></span></code></pre></div><p>執行結果：<br>
+Beginning<br>
+Hello World<br>
+Ending</p>
+<h3 id="非同步執行">非同步執行</h3>
+<p>非同步執行就是同時執行多個程式碼，而 setTimeout 就是個非同步執行的程式碼，我們稱之為非同步事件，你可以發現輸出結果，竟然是先打印出 <code>End</code>，再打印出 <code>Hello World</code>。直觀的想不是應該要等待 0 秒後就直接打印出來嗎？這個問題於之後會解答</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span>setTimeout(() =&gt; {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#f1fa8c">&#34;Hello World&#34;</span>)
+</span></span><span style="display:flex;"><span>}, <span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Ending&#34;</span>)
+</span></span></code></pre></div><p>執行結果：<br>
+Beginning<br>
+Ending<br>
+Hello World</p>
+<p>了解甚麼是同步與非同步之後，其實有一個 Bug 就是 JavaScript 是單執行續的程式，她沒有其他的執行緒能使用啊，到底是如何做到非同步的效果。這就與 JavaScript 的環境和 JavaScipt 的事件佇列有關，而這樣對事件處理的過程就稱為 Event Loop。接下來將會對 JavaScript 在瀏覽器環境下的 Event Loop 和 Node.js 環境下的 Event Loop 去做講解。</p>
+<h2 id="javascipt-在-browser-上使用">JavaScipt 在 Browser 上使用</h2>
+<p>在 Browser 環境下，遇到非同步事件的處理過程如下：
+
+  <img src="https://i.postimg.cc/g2zY4scb/Event-Loop13.png" alt="Event Loop on Browser">
+
+</p>
+<h3 id="browser-event-loop-名詞介紹">Browser Event Loop 名詞介紹</h3>
+<h4 id="call-stack">Call Stack</h4>
+<p>Call Stack 的角色就是執行緒，將要被執行的程式放入 Call Stack，接著在由上往下執行</p>
+<ul>
+<li>同步事件立刻執行</li>
+<li>非同步事件放到 Callback Queue 等待下一次執行</li>
+</ul>
+<h4 id="web-apis">Web Apis</h4>
+<p>Web Apis 的角色就是補充包，若在 Call Stack 中出現 Web Apis 可支援的方法，如：setTimeout，則從 Web Apis 取出放入 Callback Queue 等待下一次執行</p>
+<h4 id="callback-queue">Callback Queue</h4>
+<p>Callback Queue 的角色就是事件佇列，所有非同步事件會先被放入這裡，等待 Call Stack 清空後，再將裡面的所有程式放入 Call Stack</p>
+<h3 id="browser-event-loop-流程說明">Browser Event Loop 流程說明</h3>
+<h4 id="demo-1呼叫-web-apis">Demo 1：呼叫 web apis</h4>
+<div class="row">
+    
+       <div class="col col-sm-12 col-lg-8">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> A <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> B <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Ending&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> C <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Function C&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> D <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Function D&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span>setTimeout(() =&gt; D(), <span style="color:#bd93f9">300</span>)
+</span></span><span style="display:flex;"><span>setTimeout(() =&gt; C(), <span style="color:#bd93f9">100</span>)
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Ending&#34;</span>)
+</span></span></code></pre></div>
+        </div>
+    
+       <div class="col col-sm-12 col-lg-4">
+            <strong>執行結果：</strong><br>
+Beginning<br>
+Ending<br>
+Function C<br>
+Function D
+        </div>
+    
+</div>
+
+<p><strong>圖解說明：</strong>
+
+  <img src="https://i.postimg.cc/cJMRzjHh/DEMO-1.gif" alt="Demo 1">
+
+</p>
+<ol>
+<li>Function A 是同步事件，所以直接執行</li>
+<li>setTimeout 是非同步事件，呼叫 web Apis</li>
+<li>Function B 是同步事件，所以直接執行</li>
+<li>setTimout 先完成的先放入 Callback queue，所以是 Function C 和 Function D</li>
+<li>Call Stack 清空後，將 Function C、Function D 放入</li>
+<li>Function C 和 Function D 都是同步事件，所以依序執行</li>
+<li>Callback Queue 清空，程式結束</li>
+</ol>
+<h4 id="demo-2promsie-與-web-apis">Demo 2：Promsie 與 web apis</h4>
+<p><div class="row">
+    
+       <div class="col col-sm-12 col-lg-8">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> A <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> B <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Ending&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> C <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Function C&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> D <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Function D&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> E <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Function E&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span>setTimeout(() =&gt; C(), <span style="color:#bd93f9">0</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">new</span> <span style="color:#8be9fd;font-style:italic">Promise</span>(<span style="color:#8be9fd;font-style:italic">function</span>(resolve, reject) {
+</span></span><span style="display:flex;"><span>    D()
+</span></span><span style="display:flex;"><span>    resolve(<span style="color:#f1fa8c">&#39;resolve&#39;</span>)
+</span></span><span style="display:flex;"><span>}).then(result =&gt; {
+</span></span><span style="display:flex;"><span>    E()
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Ending&#34;</span>)
+</span></span></code></pre></div>
+        </div>
+    
+       <div class="col col-sm-12 col-lg-4">
+            <strong>執行結果：</strong><br>
+Beginning<br>
+Function D<br>
+Ending<br>
+Function E<br>
+Function C
+        </div>
+    
+</div>
+
+
+  <img src="https://i.postimg.cc/vTbxLGfM/DEMO-2.gif" alt="Demo 2">
+
+</p>
+<ol>
+<li>Function A 是同步事件，所以直接執行</li>
+<li>setTimeout 是非同步事件，呼叫 web Apis</li>
+<li>Promise 是同步事件，所以直接執行</li>
+<li>但是 Promise 的 resolve 和 recject 結果則是非同步事件，所以放入 Callback queue</li>
+<li>setTimout 放入 Callback queue</li>
+<li>Call Stack 清空後，將 Function E、Function C 放入</li>
+<li>Function E 和 Function C 都是同步事件，所以依序執行</li>
+<li>Callback Queue 清空，程式結束</li>
+</ol>
+<h2 id="javascript-在-nodejs-上使用">JavaScript 在 Node.js 上使用</h2>
+<p>JavaScript 在 Node.js 環境下，和 Browser 環境不同的是，沒有 web apis 可以呼叫，但可以呼叫 node.js 的內建方法，此外還加入了 I/O 操作和 process object 的概念，所以使得非同步事件的處理更為複雜。不過基本上 Event Loop 沒有太大變化，只是多了非同步事件的優先順序要判斷而已，接下來要介紹非同步事件種類的處理順序</p>
+<p>
+  <img src="https://i.postimg.cc/wTBSxPbb/Event-Loop-111.png" alt="Node.js Event Loop 流程說明">
+
+</p>
+<h3 id="nodejs-event-loop-名詞介紹">Node.js Event Loop 名詞介紹</h3>
+<h4 id="nexttick-queue">nextTick Queue</h4>
+<p>此 queue 的優先級別最高
+<code>process.nextTick()</code> 的 <code>callback function</code> 都會來這裡</p>
+<h4 id="microtask-queue">microTask Queue</h4>
+<p>此 queue 的優先級別第二高
+<code>resolve</code> 或 <code>reject</code> 所執行的 <code>callback function</code> 會被排在這裡</p>
+<h4 id="macrotask-queue">macroTask Queue</h4>
+<p>當上面兩種 queue 都清空時，才會開始跑這些事件</p>
+<ul>
+<li>timers：處理計時器相關的事件，例如 <code>setTimeout</code> 和 <code>setInterval</code> 設定的事件</li>
+<li>pending callbacks：處理一些系統級別的回調</li>
+<li>idle、prepare：node.js 內部使用</li>
+<li>poll：查詢 I/O 操作的事件，例如讀取文件，網路請求等</li>
+<li>check：處理 <code>setImmediate()</code> 設定的事件</li>
+<li>close callbacks：處理一些關閉事件的回調</li>
+</ul>
+<h3 id="nodejs-event-loop-流程說明">Node.js Event Loop 流程說明</h3>
+<h4 id="demo-1多種非同步事件執行順序">Demo 1：多種非同步事件執行順序</h4>
+<p><div class="row">
+    
+       <div class="col col-sm-12 col-lg-8">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>process.nextTick(<span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;nextTick1&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>setTimeout(<span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;setTimeout&#39;</span>);
+</span></span><span style="display:flex;"><span>}, <span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">new</span> <span style="color:#8be9fd;font-style:italic">Promise</span>(<span style="color:#8be9fd;font-style:italic">function</span>(resolve, reject) {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;promise&#39;</span>);
+</span></span><span style="display:flex;"><span>  resolve(<span style="color:#f1fa8c">&#39;resolve&#39;</span>);
+</span></span><span style="display:flex;"><span>}).then(<span style="color:#8be9fd;font-style:italic">function</span>(result) {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;promise then&#39;</span>);
+</span></span><span style="display:flex;"><span>})
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(<span style="color:#ff79c6">async</span> <span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;async&#39;</span>);
+</span></span><span style="display:flex;"><span>})();
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>setImmediate(<span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;setImmediate&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>process.nextTick(<span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>  console.log(<span style="color:#f1fa8c">&#39;nextTick2&#39;</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#39;Ending&#39;</span>);
+</span></span></code></pre></div>
+        </div>
+    
+       <div class="col col-sm-12 col-lg-4">
+            <strong>執行結果：</strong><br>
+Beginning<br>
+promise<br>
+async<br>
+Ending<br>
+nextTick1<br>
+nextTick2<br>
+promise then<br>
+setTimeout<br>
+setImmediate
+        </div>
+    
+</div>
+
+
+  <img src="https://i.postimg.cc/Bv5HXJhT/DEMO-3.gif" alt="Demo 1">
+
+</p>
+<ol>
+<li>Beginning 是同步事件，直接執行</li>
+<li>nextTick1 代表下一次的執行序，所以放到 nextTick Queue</li>
+<li>setTimeout 是非同步事件，放到 macroTask Queue</li>
+<li>Promise 是同步事件，所以直接執行</li>
+<li>但是 Promise 的 resolve 結果要放到 microTask Queue</li>
+<li>async 是同步事件，直接執行</li>
+<li>setImmediate 是非同步事件，放到 macroTask Queue</li>
+<li>nextTick2 代表下一次的執行序，所以放到 nextTick Queue</li>
+<li>Ending 是同步事件，直接執行</li>
+<li>從 nextTick Queue 開始取出放入 call Stack，接著反覆執行直到 nextTick Queue 是空的</li>
+<li>從 microTask Queue 開始取出放入 call Stack，接著反覆執行直到 microTask Queue 是空的</li>
+<li>若 nextTick Queue 和 micro Task Queue 都清空後，才從 macroTask Queue 開始取出放入 call Stack</li>
+<li>反覆執行直到所有 Queue 和 Stack 清空為止</li>
+</ol>
+<h4 id="demo-2層層包裝的非同步事件">Demo 2：層層包裝的非同步事件</h4>
+<p><div class="row">
+    
+       <div class="col col-sm-12 col-lg-8">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>process.nextTick(<span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#f1fa8c">&#34;nextTick1&#34;</span>)
+</span></span><span style="display:flex;"><span>    process.nextTick(() =&gt; {
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#f1fa8c">&#34;nextTick2&#34;</span>)
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>setTimeout(<span style="color:#8be9fd;font-style:italic">function</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">new</span> <span style="color:#8be9fd;font-style:italic">Promise</span>(<span style="color:#8be9fd;font-style:italic">function</span>(resolve, reject) {
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#f1fa8c">&#39;promise&#39;</span>);
+</span></span><span style="display:flex;"><span>        resolve(<span style="color:#f1fa8c">&#39;resolve&#39;</span>);
+</span></span><span style="display:flex;"><span>      }).then(result =&gt; {
+</span></span><span style="display:flex;"><span>        process.nextTick(() =&gt; {
+</span></span><span style="display:flex;"><span>            console.log(<span style="color:#f1fa8c">&#34;nextTick3&#34;</span>)
+</span></span><span style="display:flex;"><span>        })
+</span></span><span style="display:flex;"><span>      }).then(result =&gt; {
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#f1fa8c">&#39;promise then&#39;</span>);
+</span></span><span style="display:flex;"><span>      })
+</span></span><span style="display:flex;"><span>    console.log(<span style="color:#f1fa8c">&#39;setTimeout&#39;</span>);
+</span></span><span style="display:flex;"><span>}, <span style="color:#bd93f9">0</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#39;Ending&#39;</span>);
+</span></span></code></pre></div>
+        </div>
+    
+       <div class="col col-sm-12 col-lg-4">
+            <strong>執行結果：</strong><br>
+Beginning<br>
+Ending   <br>
+nextTick1<br>
+nextTick2<br>
+promise<br>
+setTimeout<br>
+promise then<br>
+nextTick3
+        </div>
+    
+</div>
+
+
+  <img src="https://i.postimg.cc/HxPRCNxG/DEMO-4.gif" alt="Demo 2 層層包裝的非同步事件">
+
+</p>
+<ol>
+<li>Beginning 是同步事件，直接執行</li>
+<li>nextTick1 代表下一次的執行序，所以放到 nextTick Queue</li>
+<li>setTimeout 是非同步事件，放到 macroTask Queue</li>
+<li>Ending 是同步事件，直接執行</li>
+<li>從 nextTick Queue 取出，nextTick1 執行，遇到 nextTick2 放入 nextTick Queue</li>
+<li>從 nextTick Queue 取出，nextTick2 執行</li>
+<li>由於 nextTick Queue 和 microTask Queue 都是空的，所以從 macroTask Queue 取出</li>
+<li>setTimeout 執行，遇到 Promise 先執行，因為 Promise 創建時是同步事件，接著將 resolve 放入 microTask Queue</li>
+<li>setTimout 繼續執行打印出 setTimout</li>
+<li>從 microTask Queue 取出，先遇到 nextTick3 放入 nextTick Queue，繼續執行打印出 promise then</li>
+<li>從 nextTick Queue 取出 nextTick3 執行</li>
+<li>所有的 stack 和 queue 都清空，程式結束</li>
+</ol>
+<h2 id="總結">總結</h2>
+<p>JavaScript 是藉由 call Stack (單執行緒) 和 callback Queue (事件佇列) 實現多執行緒的效果。在 Browser 中，非同步事件主要與 web 有關，所以會需要經常從 web Apis 呼叫所需要的方法。而 Node.js 中，非同步事件的種類更為複雜，所以設計了 nextTick Queue、microTask Queue 和 macroTask Queue 等 callback Queue 的設計來分類處裡，所以只要弄清楚現在的非同步事件是甚麼類型，就可以搞懂那些奇怪的輸出結果。</p>
+<p>但仔細想想非同步事件只是重新安排程式的處理順序而已，並沒有比較快。沒錯，只是被重新安排的程式不會是非同步事件本身，而是非同步事件內的其他程式，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javaScript" data-lang="javaScript"><span style="display:flex;"><span>setTimeout(() =&gt; console.log(<span style="color:#f1fa8c">&#34;Hello&#34;</span>), <span style="color:#bd93f9">2000</span>)
+</span></span></code></pre></div><p>當我們遇到了 <code>setTimeout</code> 這個非同步事件，我們會讓他開始計時兩秒，接著跳過繼續執行下一個程式。當計時結束時，才會把 console 放入事件佇列，所以被重新安排的其實是 console 這個程式，而不是把 setTimeout 整個放到最後執行</p>
+<p>簡單來說就是讓這個非同步程式先開始執行，如連結資料庫，抓取 api，計時等，當程式執行完的結果就放到事件佇列等待。因此在處理較耗時的程式時，就不容易造成程式堵塞，建議在較大型、複雜的應用上，能採用非同步事件的設計來加速程式運作的過程。</p>
+<h2 id="資料來源">資料來源</h2>
+<hr>
+<ul>
+<li><a href="https://notes.andywu.tw/2020/%e5%ae%8c%e6%95%b4%e5%9c%96%e8%a7%a3node-js%e7%9a%84event-loop%e4%ba%8b%e4%bb%b6%e8%bf%b4%e5%9c%88/">完全圖解 Node.js Event Loop</a></li>
+<li><a href="https://ithelp.ithome.com.tw/articles/10230871">JavaScript Event Loop</a></li>
+</ul>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-07-06/" data-toggle="tooltip" data-placement="top" title="[Discord Bot] Commands Compare: Normal、Slash、Hybrid">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/javascript" title="JavaScript">
+                            JavaScript
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai: Blog 2023
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

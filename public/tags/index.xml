@@ -6,7 +6,16 @@
     <description>Recent content in Tags on YuKai: Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>JavaScript</title>
+      <link>https://yukai.netlify.app/tags/javascript/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukai.netlify.app/tags/javascript/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>chatBot</title>
       <link>https://yukai.netlify.app/tags/chatbot/</link>
@@ -31,15 +40,6 @@
       <pubDate>Sun, 25 Jun 2023 00:00:00 +0000</pubDate>
       
       <guid>https://yukai.netlify.app/tags/front-end/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>JavaScript</title>
-      <link>https://yukai.netlify.app/tags/javascript/</link>
-      <pubDate>Sun, 25 Jun 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://yukai.netlify.app/tags/javascript/</guid>
       <description></description>
     </item>
     

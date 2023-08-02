@@ -6,7 +6,16 @@
     <description>Recent content on YuKai: Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Jul 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Node.js Event Loop VS. Browser Event Loop</title>
+      <link>https://yukai.netlify.app/post/2023-08-01/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukai.netlify.app/post/2023-08-01/</guid>
+      <description>同步與非同步 同步的意思是一次只處理一次事件，而非同步的意思是同時多個事件一起處理。如下 同步執行 同步執行就是將程式碼一行一行執行下來 console.log(&amp;#34;Beginning&amp;#34;) console.log(&amp;#34;Hello World&amp;#34;) console.log(&amp;#34;Ending&amp;#34;) 執</description>
+    </item>
+    
     <item>
       <title>[Discord Bot] Commands Compare: Normal、Slash、Hybrid</title>
       <link>https://yukai.netlify.app/post/2023-07-06/</link>
