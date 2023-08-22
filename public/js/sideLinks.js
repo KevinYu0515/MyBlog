@@ -87,4 +87,5 @@ $(document).ready(() => {
         e.preventDefault();
         $('.side-catalog').toggleClass("fold")
     }))
+    console.log("Hi")
 })

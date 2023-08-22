@@ -1,5 +1,5 @@
-baseurl = "https://yukai.netlify.app"
-title = "YuKai: Blog"
+baseurl = "https://yukaibackpacking.netlify.app"
+title = "YuKai Blog"
 languageCode = "en-us"
 disqusShortname = "yukai"
 googleAnalytics = ""
@@ -11,21 +11,20 @@ hasCJKLanguage = true
 home = ["HTML", "RSS", "Algolia"]
 
 [params]
-  author = "YuKai:"
+  author = "YuKai"
   header_image = "/img/homee.jpg"
-  SEOTitle = "YuKai's Blog:"
-  description = "YuKai:，資訊系學生，生活探險家 | 我只是一隻乘載訊息的毛蟲，向未知匍匐前進"
-  keyword = "YuKai:, 軟體工程，程式紀錄" 
+  SEOTitle = "Yukaibackpacking Blog"
+  description = "YuKai，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術"
+  keyword = "YuKai, yukaibackpacking, software engineering, 軟體工程, 背包旅行" 
   slogan = ["機不可失，失不再來",
             "藤枝必亡，但朽木終將重生", 
             "怕走崎嶇路，莫想登高峰", 
-            "我只是一隻乘載訊息的毛蟲，向未知匍匐前進",
+            "新技術永遠不嫌多",
             "無火不起煙，無風不起浪，事出必有因"]
 
   image_404 = "/img/404.jpg"
-  title_404 = "你走到了知識的盡頭 :( 但給你一隻貓貓安慰你 :)"
+  title_404 = "你的技術大背炸了 :( 但給你一隻貓貓安慰你 :)"
   omit_categories = false
-
   # leancloud storage for page view counter
   page_view_conter = false 
   leancloud_app_id = ""
