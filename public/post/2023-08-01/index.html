@@ -230,7 +230,7 @@ Hello World</p>
   <img src="https://i.postimg.cc/g2zY4scb/Event-Loop13.png" alt="Event Loop on Browser">
 
 </p>
-<h3 id="browser-event-loop-名詞介紹">Browser Event Loop 名詞介紹</h3>
+<h3 id="名詞介紹">名詞介紹</h3>
 <h4 id="call-stack">Call Stack</h4>
 <p>Call Stack 的角色就是執行緒，將要被執行的程式放入 Call Stack，接著在由上往下執行</p>
 <ul>
@@ -241,8 +241,9 @@ Hello World</p>
 <p>Web Apis 的角色就是補充包，若在 Call Stack 中出現 Web Apis 可支援的方法，如：setTimeout，則從 Web Apis 取出放入 Callback Queue 等待下一次執行</p>
 <h4 id="callback-queue">Callback Queue</h4>
 <p>Callback Queue 的角色就是事件佇列，所有非同步事件會先被放入這裡，等待 Call Stack 清空後，再將裡面的所有程式放入 Call Stack</p>
-<h3 id="browser-event-loop-流程說明">Browser Event Loop 流程說明</h3>
-<h4 id="demo-1呼叫-web-apis">Demo 1：呼叫 web apis</h4>
+<h3 id="流程說明">流程說明</h3>
+<h4 id="demo-1">Demo 1</h4>
+<p>說明：非同步呼叫 web apis 的流程
 <div class="row">
     
        <div class="col col-sm-12 col-lg-8">
@@ -267,7 +268,7 @@ Function D
         </div>
     
 </div>
-
+</p>
 <p><strong>圖解說明：</strong>
 
   <img src="https://i.postimg.cc/cJMRzjHh/DEMO-1.gif" alt="Demo 1">
@@ -282,8 +283,9 @@ Function D
 <li>Function C 和 Function D 都是同步事件，所以依序執行</li>
 <li>Callback Queue 清空，程式結束</li>
 </ol>
-<h4 id="demo-2promsie-與-web-apis">Demo 2：Promsie 與 web apis</h4>
-<p><div class="row">
+<h4 id="demo-2">Demo 2</h4>
+<p>說明：同時使用 Promsie 與 web apis 的執行順序
+<div class="row">
     
        <div class="col col-sm-12 col-lg-8">
             <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> A <span style="color:#ff79c6">=</span> () =&gt; console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
@@ -335,7 +337,7 @@ Function C
   <img src="https://i.postimg.cc/wTBSxPbb/Event-Loop-111.png" alt="Node.js Event Loop 流程說明">
 
 </p>
-<h3 id="nodejs-event-loop-名詞介紹">Node.js Event Loop 名詞介紹</h3>
+<h3 id="名詞介紹-1">名詞介紹</h3>
 <h4 id="nexttick-queue">nextTick Queue</h4>
 <p>此 queue 的優先級別最高
 <code>process.nextTick()</code> 的 <code>callback function</code> 都會來這裡</p>
@@ -352,9 +354,10 @@ Function C
 <li>check：處理 <code>setImmediate()</code> 設定的事件</li>
 <li>close callbacks：處理一些關閉事件的回調</li>
 </ul>
-<h3 id="nodejs-event-loop-流程說明">Node.js Event Loop 流程說明</h3>
-<h4 id="demo-1多種非同步事件執行順序">Demo 1：多種非同步事件執行順序</h4>
-<p><div class="row">
+<h3 id="流程說明-1">流程說明</h3>
+<h4 id="demo-1-1">Demo 1</h4>
+<p>說明：多種非同步事件執行順序
+<div class="row">
     
        <div class="col col-sm-12 col-lg-8">
             <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)
@@ -424,8 +427,9 @@ setImmediate
 <li>若 nextTick Queue 和 micro Task Queue 都清空後，才從 macroTask Queue 開始取出放入 call Stack</li>
 <li>反覆執行直到所有 Queue 和 Stack 清空為止</li>
 </ol>
-<h4 id="demo-2層層包裝的非同步事件">Demo 2：層層包裝的非同步事件</h4>
-<p><div class="row">
+<h4 id="demo-2-1">Demo 2</h4>
+<p>說明：當非同步事件中又有其他非同步事件時的執行順序
+<div class="row">
     
        <div class="col col-sm-12 col-lg-8">
             <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>console.log(<span style="color:#f1fa8c">&#34;Beginning&#34;</span>)

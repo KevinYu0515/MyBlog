@@ -12,7 +12,7 @@ function generateCatalog(selector) {
         n = $(this).prop('tagName').toLowerCase();
         i = "#" + $(this).prop('id');
         t = $(this).text();
-        c = $(`<a aria-label="${t}" href="${i}" rel="nofollow">${t}</a>`);
+        c = $(`<a aria-label="${t}-${index + 1}" href="${i}" rel="nofollow">${t}</a>`);
         l = $(`<li class="${n}_nav"></li>`).append(c);
         $(selector).append(l);
     });
@@ -27,7 +27,7 @@ $(document).ready(() => {
     sideElements.each((index, element) => {
         const name = element.id
         const innerTagsCount = 0
-        const sideElement = $(`[aria-label="${element.innerText}"]`)
+        const sideElement = $(`[aria-label="${element.innerText}-${index + 1}"]`)
         const top =  $(`[id="${name}"]`).offset().top
         const htag = sideElement.parent()
         const innerTags = htag.nextUntil(`[class="${htag[0].className}"]`)
@@ -87,5 +87,5 @@ $(document).ready(() => {
         e.preventDefault();
         $('.side-catalog').toggleClass("fold")
     }))
-    console.log("Hi")
+
 })
