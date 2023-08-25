@@ -2,53 +2,53 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on YuKai Blog</title>
-    <link>https://yukaibackpacking.netlify.app/post/</link>
+    <link>https://yukaibackpacker.netlify.app/post/</link>
     <description>Recent content in Posts on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacking.netlify.app/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Node.js Event Loop VS. Browser Event Loop</title>
-      <link>https://yukaibackpacking.netlify.app/post/2023-08-01/</link>
+      <link>https://yukaibackpacker.netlify.app/post/2023-08-01/</link>
       <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacking.netlify.app/post/2023-08-01/</guid>
+      <guid>https://yukaibackpacker.netlify.app/post/2023-08-01/</guid>
       <description>同步與非同步 同步的意思是一次只處理一次事件，而非同步的意思是同時多個事件一起處理。如下 同步執行 同步執行就是將程式碼一行一行執行下來 console.log(&amp;#34;Beginning&amp;#34;) console.log(&amp;#34;Hello World&amp;#34;) console.log(&amp;#34;Ending&amp;#34;) 執</description>
     </item>
     
     <item>
       <title>[Discord Bot] Commands Compare: Normal、Slash、Hybrid</title>
-      <link>https://yukaibackpacking.netlify.app/post/2023-07-06/</link>
+      <link>https://yukaibackpacker.netlify.app/post/2023-07-06/</link>
       <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacking.netlify.app/post/2023-07-06/</guid>
+      <guid>https://yukaibackpacker.netlify.app/post/2023-07-06/</guid>
       <description>前言 本文適合對 OOP 有略知，且已邀請機器人至伺服器的讀者。 若還未完成，這是我推薦的設置教程：Discord Bot 如果都沒問題就可以開始了~ 以下為本次</description>
     </item>
     
     <item>
       <title>[ GIT 錯誤報告 ]</title>
-      <link>https://yukaibackpacking.netlify.app/post/2022-09-28/</link>
+      <link>https://yukaibackpacker.netlify.app/post/2022-09-28/</link>
       <pubDate>Wed, 28 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacking.netlify.app/post/2022-09-28/</guid>
+      <guid>https://yukaibackpacker.netlify.app/post/2022-09-28/</guid>
       <description>錯誤紀錄 遠端儲存庫沒有對應的分支 error: src refspec main does not match any error: failed to push some refs to [repo_url] 解決方法 將本地儲存庫待上傳的分支更名 git branch -m [old branch] [new branch] 部分內容未被合併，該版本不</description>
     </item>
     
     <item>
       <title>Commands List</title>
-      <link>https://yukaibackpacking.netlify.app/post/2022-09-26/</link>
+      <link>https://yukaibackpacker.netlify.app/post/2022-09-26/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacking.netlify.app/post/2022-09-26/</guid>
+      <guid>https://yukaibackpacker.netlify.app/post/2022-09-26/</guid>
       <description>官網 git 文件 首次使用必要指令 設定使用者名稱 git config --global user.name &amp;#34;your_username&amp;#34; 設定使用者電子信箱 git config --global user.email &amp;#34;your_email_address@example.com&amp;#34; 列出使用者資訊 git config --global --list 常見上傳流水線指令 初始化本地儲存庫 git init 將</description>
     </item>
     
     <item>
       <title>Google Map 商家資料爬取</title>
-      <link>https://yukaibackpacking.netlify.app/post/2022-08-20/</link>
+      <link>https://yukaibackpacker.netlify.app/post/2022-08-20/</link>
       <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacking.netlify.app/post/2022-08-20/</guid>
+      <guid>https://yukaibackpacker.netlify.app/post/2022-08-20/</guid>
       <description>技能大綱 如何用 Selenium 點擊、滑動、鎖定元素 如何用 Python 製作 json 相關 Library：selenium、pandas、json、bs4、time 主要過程與介</description>
     </item>
     
