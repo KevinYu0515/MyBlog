@@ -13,7 +13,7 @@ home = ["HTML", "RSS", "Algolia"]
 [params]
   author = "YuKai"
   header_image = "/img/homee.jpg"
-  SEOTitle = "Yukaibackpacking Blog"
+  SEOTitle = "Yukaibackpacker Blog"
   description = "YuKai，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術"
   keyword = "YuKai, yukaibackpacking, software engineering, 軟體工程, 背包旅行" 
   slogan = ["機不可失，失不再來",

@@ -6,7 +6,16 @@
     <description>Recent content in Tech on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Discord Bot] Better Interactions with UI</title>
+      <link>https://yukaibackpacker.netlify.app/post/2023-08-28/</link>
+      <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/post/2023-08-28/</guid>
+      <description>Discord UI 使用 Discord.ext 提供許多 UI 元件來優化使用者體驗，而不需要以純文字、接收數個參數等繁雜處理方式來獲得我們所需要的資訊。以下將說明如何使用 Discord UI 元件。 首</description>
+    </item>
+    
     <item>
       <title>Node.js Event Loop VS. Browser Event Loop</title>
       <link>https://yukaibackpacker.netlify.app/post/2023-08-01/</link>

@@ -6,20 +6,11 @@
     <description>Recent content in Tags on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 01 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>JavaScript</title>
-      <link>https://yukaibackpacker.netlify.app/tags/javascript/</link>
-      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
-      
-      <guid>https://yukaibackpacker.netlify.app/tags/javascript/</guid>
-      <description></description>
-    </item>
-    
+    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>chatBot</title>
       <link>https://yukaibackpacker.netlify.app/tags/chatbot/</link>
-      <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
       
       <guid>https://yukaibackpacker.netlify.app/tags/chatbot/</guid>
       <description></description>
@@ -28,9 +19,18 @@
     <item>
       <title>Python</title>
       <link>https://yukaibackpacker.netlify.app/tags/python/</link>
-      <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
       
       <guid>https://yukaibackpacker.netlify.app/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>JavaScript</title>
+      <link>https://yukaibackpacker.netlify.app/tags/javascript/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/tags/javascript/</guid>
       <description></description>
     </item>
     
