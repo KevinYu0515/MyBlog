@@ -2,28 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://yukaibackpacker.netlify.app/post/2023-08-28/</loc>
-    <lastmod>2023-08-28T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://yukaibackpacker.netlify.app/categories/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/post/2024-01-12/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/tags/life-record/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/post/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/tags/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/categories/tech/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/</loc>
+    <lastmod>2024-01-12T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukaibackpacker.netlify.app/post/2023-08-28/</loc>
     <lastmod>2023-08-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukaibackpacker.netlify.app/tags/chatbot/</loc>
     <lastmod>2023-08-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://yukaibackpacker.netlify.app/post/</loc>
-    <lastmod>2023-08-28T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://yukaibackpacker.netlify.app/tags/python/</loc>
-    <lastmod>2023-08-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukaibackpacker.netlify.app/tags/</loc>
-    <lastmod>2023-08-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukaibackpacker.netlify.app/categories/tech/</loc>
-    <lastmod>2023-08-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukaibackpacker.netlify.app/</loc>
     <lastmod>2023-08-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukaibackpacker.netlify.app/tags/javascript/</loc>

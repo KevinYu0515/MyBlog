@@ -6,7 +6,16 @@
     <description>Recent content in Tags on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Life Record</title>
+      <link>https://yukaibackpacker.netlify.app/tags/life-record/</link>
+      <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/tags/life-record/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>chatBot</title>
       <link>https://yukaibackpacker.netlify.app/tags/chatbot/</link>

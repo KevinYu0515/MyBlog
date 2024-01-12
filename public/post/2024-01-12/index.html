@@ -10,20 +10,20 @@
     <meta property="og:type" content="article">
 
     
-    <meta property="og:image" content="https://yukaibackpacker.netlify.app//img/homee.jpg">
-    <meta property="twitter:image" content="https://yukaibackpacker.netlify.app//img/homee.jpg" />
+    <meta property="og:image" content="/img/2024-01-12.png">
+    <meta property="twitter:image" content="/img/2024-01-12.png" />
     
 
     
-    <meta name="title" content="" />
-    <meta property="og:title" content="" />
-    <meta property="twitter:title" content="" />
+    <meta name="title" content="HCCCON &amp; 2023 FCU 資安週感想" />
+    <meta property="og:title" content="HCCCON &amp; 2023 FCU 資安週感想" />
+    <meta property="twitter:title" content="HCCCON &amp; 2023 FCU 資安週感想" />
     
 
     
-    <meta name="description" content="YuKai，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術">
-    <meta property="og:description" content="YuKai，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術" />
-    <meta property="twitter:description" content="YuKai，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術" />
+    <meta name="description" content="關於我在逢甲大學身為黑客社幹部，於 2023 的資安週擺攤，一路以來的開發心得，以及黑客社十周年紀念研討會擔任工作人員的心得">
+    <meta property="og:description" content="關於我在逢甲大學身為黑客社幹部，於 2023 的資安週擺攤，一路以來的開發心得，以及黑客社十周年紀念研討會擔任工作人員的心得" />
+    <meta property="twitter:description" content="關於我在逢甲大學身為黑客社幹部，於 2023 的資安週擺攤，一路以來的開發心得，以及黑客社十周年紀念研討會擔任工作人員的心得" />
     
 
     
@@ -34,9 +34,9 @@
     <meta name="keyword"  content="YuKai, yukaibackpacking, software engineering, 軟體工程, 背包旅行">
     <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
 
-    <title>Yukaibackpacker Blog</title>
+    <title>HCCCON &amp; 2023 FCU 資安週感想 | Yukaibackpacker Blog</title>
 
-    <link rel="canonical" href="/about/">
+    <link rel="canonical" href="/post/2024-01-12/">
 
     
     
@@ -156,27 +156,30 @@
 
 
 
-<header class="intro-header" style="background-image: url('/img/homee.jpg')">
+
+
+<header class="intro-header" style="--background:url(/img/2024-01-12.png)">
+
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
-                <div class="site-heading">
-                    <h1>YuKai Blog </h1>
-                    
-                    <span class="subheading"></span>
-                    <ul>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>HCCCON &amp; 2023 FCU 資安週感想</h1>
+                    <h2 class="subheading">2023 黑客社活動回顧</h2>
+                    <span class="meta">
                         
-                        <li>機不可失，失不再來</li>
-                        
-                        <li>藤枝必亡，但朽木終將重生</li>
-                        
-                        <li>怕走崎嶇路，莫想登高峰</li>
-                        
-                        <li>新技術永遠不嫌多</li>
-                        
-                        <li>無火不起煙，無風不起浪，事出必有因</li>
-                        
-                    </ul>
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Friday, January 12, 2024
+                                
+                            
+                            
+                    </span>
                 </div>
             </div>
         </div>
@@ -191,18 +194,57 @@
 <article>
     <div class="container">
         <div class="row">
+
             
             <div class="
-            col-lg-8 col-lg-offset-1
-            col-md-8 col-md-offset-1
-            col-sm-12
-            col-xs-12
-            post-container">
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="本文概要">本文概要</h2>
+<p>今天不談技術，主要寫個人感受，因此這篇文章是紀錄我這一年在黑客社參加資安週、研討會活動的心路歷程，但其實我在資安週的工作量遠大於研討會活動的雜事? 也就如此，會以準備資安週的過程，遇到的困難為主，而於最後簡單提一下擔任研討會工作人員的感受。</p>
+<h2 id="資安週">資安週</h2>
+<p>這一年的資安週 Lab，我負責 OAuth Lab 和 Dos Lab，向大眾展示授權方面的資安風險以及 Dos 的攻擊手法。</p>
+<h3 id="oauth-lab">OAuth Lab</h3>
+<p>這個 Lab 主要宣導如果隨意授權應用程式，將有可能提高個資外洩的風險，所以我們採用聊天機器人這個常見的授權應用程式作為開端，並選擇了 discord 和 line 作為研究對象。</p>
+<h4 id="discord">discord</h4>
+<p>不過於 discord 的部分一開始其實並沒有打算真的架一台 discord bot，而是希望能透過以 OAuth2 形式的 discord application 要求 scopes 的 messages.read 權限經由 RPC 抓取訊息，但結果是呼叫不到 RPC 的 API，因此抓取不到訊息</p>
+<p>接著我創建了 discord bot 並透過 gateway API，來抓取機器人所待的伺服器所有訊息，而這個部分效果不錯，問題點在於社交工程，因為要將機器人加進伺服器的過程並非一步即可，容易起疑，導致這個 Lab 的展示宣傳效果有限</p>
+<h4 id="line">line</h4>
+<p>於 line 的部分，一開始打算使用 line bot 做到訊息監聽的效果，但是這個前提是需要將 line bot 加入的群組中，而這點較不常出現在日常生活的使用，所以後來轉向 LIFF 的釣魚連結設計，向使用者要求發送訊息的權限來做點惡作劇，剛好 LIFF 的完整應用有學長寫好的，因此我的工作變成如何有效地展示 LIFF 的授權。最後我將其與 Line bot 結合，當加入 Line bot 為好友時，會自動發出 LIFF 的連結，並且也把 LIFF 的製作工具連結一同送出，這樣除了成功宣導授權的資安風險，也與使用者能有更多的互動性。</p>
+<h4 id="oauth-小結">OAuth 小結</h4>
+<p>雖然在 discord 的開發上四處碰壁，讓我常常懷疑是否沒有漏洞可以利用的可能性，但經過這一次的開發，讓我對 discord application 有更多的了解，希望當我能力更好的時候再來看看 RPC API 時，能找出卡住的原因</p>
+<p>而 Line 的開發上較為順利，感謝學長給的 LIFF 大禮包，讓我只需要簡單的寫寫 TS 和部屬到 netlify 上就可以了，另外也讓這個 lab 重新活了起來，有空的時候可以再把剩下的 LIFF documentation 看完，了解一下學長怎麼做的，但好像要先學會 React，這坑有點大啊&hellip;</p>
+<h3 id="dos-lab">Dos Lab</h3>
+<p>Dos Lab 的部分負責將網路流量轉化成動態折線圖，對我而言，較新奇的點是要在虛擬機上寫程式，當然也是最痛苦的部分，而這個部分可以分成兩個階段來講。</p>
+<p>第一個階段是接手 Dos 之前，我打算先把製圖程式寫好，所以選了當時我比較擅長的 js，採用 d3.js 套件，先用 pyshark 抓取流量後同步傳送給 js 繪製。但結果沒想到同時兩台虛擬機互打很吃硬體性能，導致我的電腦常常還沒執行其中一台虛擬機上的 dos 程式，另一臺就死掉了，因此我們希望能減少檢查點，也就是架設 dos 的步驟越簡單越好，因此這樣還要跨語言的過程就必須簡化，所以只好捨棄花了我一週研究的 d3.js，換成同樣是 python 的 matplotlib 套件來繪製</p>
+<p>而第二個階段為 Dos 的程式、被攻擊的伺服器以及製圖程式都完成之後的測試階段，這個部分遇到的問題是 pyshark 抓取流量與 matplotlib 兩個不同的 process 交互之間的延遲，理論上約為 2 秒鐘，但實際情況完全不一樣，所以在調整流量的閥值、抓取時間的這個部分上花了很久、其中經歷了一波硬體升級，windows 自動更新導致虛擬機完全壞掉的悲劇，總算不負苦心，有一個觀賞性較好的成果在最後的 Lab 展示上</p>
+<h4 id="dos-lab-小結">Dos Lab 小結</h4>
+<p>這個 Lab 給我留下許多虛擬機當掉搞心態的陰影，但這也給我關於虛擬機的開發經驗，讓我知道以後要怎麼處理這個棘手問題，希望明年也能再把這個很酷的 Lab 在展示出來，讓更多人知道 Dos 的暴力美學?</p>
+<h2 id="研討會">研討會</h2>
+<p>研討會的話，其實沒什麼特別的，但還是說一下，這次身為機動組和餐飲組，老實說，自己從工作人員的角度反而沒有從會眾的角度來的精彩(可能因為規模比較小，加上自己不是核心人員)，但我自己覺得也不要過多的自我檢討，就當作見證黑客社十周年的一份子，提醒自己不要讓黑客社蒙羞</p>
+<h2 id="總結">總結</h2>
+<p>2023 年過了，接下來就是準備換我們接手黑客社了，希望透過這次的資安週、研討會經驗，能讓我們順利的將黑客精神傳承下去。最後放上 2023 的資安週團照</p>
+<p>
+  <img src="https://i.imgur.com/HsPpOac.jpg" alt="資安週團照">
+
+</p>
+
+
                 
-            
-             
-            
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2023-08-28/" data-toggle="tooltip" data-placement="top" title="[Discord Bot] Better Interactions with UI">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
 
 
 <div id="disqus-comment"></div>
@@ -229,142 +271,49 @@
 
 
 
+            </div>
+
             
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
             </div>
             
-            
 
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-	
-    <section class="visible-md visible-lg">
-	
-        <div class="short-about">
             
-            <a href="/about">
-               <img src="/element/cabbageWorm.jpeg" alt="avatar" style="cursor: pointer" />
-            </a>
-            
-            
-                <p>IT Student, Open Source and Life Adventurer</p>
-            
-           
-           <ul class="list-inline">
-               
-               <li>
-                   <a href="mailto:marvelo.k0515@gmail.com">
-                      <span class="fa-stack fa-lg">
-                          <i class="fa fa-circle fa-stack-2x"></i>
-                          <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                      </span>
-                   </a>
-               </li>
-               
-               
-               <li>
-                   <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
-                       <span class="fa-stack fa-lg">
-                           <i class="fas fa-circle fa-stack-2x"></i>
-                           <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               <li>
-                   <a target="_blank" href="https://github.com/Kevin051596">
-                       <span class="fa-stack fa-lg">
-                           <i class="fas fa-circle fa-stack-2x"></i>
-                           <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-               
-               <li>
-                   <a target="_blank" href="https://www.instagram.com/yukai8765/">
-                       <span class="fa-stack fa-lg">
-                           <i class="fas fa-circle fa-stack-2x"></i>
-                           <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
-                       </span>
-                   </a>
-               </li>
-               
-                </ul>
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/life-record" title="Life Record">
+                            Life Record
+                        </a>
+                        
+                    </div>
+                </section>
+                
             </div>
-    </section>
-	
-    
-    
-    
-    
-    <section>
-        <hr class="hidden-sm hidden-xs">
-        <h5>FEATURED TAGS</h5>
-        <div class="tags">
-            
-            
-               
-                    <a class="tag" href="/tags/back-end" title="back-end">
-                        Back-end
-                    </a>
-               
-            
-               
-                    <a class="tag" href="/tags/chatbot" title="chatbot">
-                        chatBot
-                    </a>
-               
-            
-               
-                    <a class="tag" href="/tags/git" title="git">
-                        Git
-                    </a>
-               
-            
-               
-                    <a class="tag" href="/tags/javascript" title="javascript">
-                        JavaScript
-                    </a>
-               
-            
-               
-                    <a class="tag" href="/tags/life-record" title="life-record">
-                        Life Record
-                    </a>
-               
-            
-               
-                    <a class="tag" href="/tags/python" title="python">
-                        Python
-                    </a>
-               
-            
-               
-                    <a class="tag" href="/tags/selenium" title="selenium">
-                        Selenium
-                    </a>
-               
-            
-        </div>
-    </section>
-    
-
-    
-    
-    
-</div>
-
         </div>
     </div>
 </article>
-
 
 
 <button aria-label="回到頂部" class="btn btn-moveTop">

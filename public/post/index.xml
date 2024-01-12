@@ -6,7 +6,16 @@
     <description>Recent content in Posts on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HCCCON &amp; 2023 FCU 資安週感想</title>
+      <link>https://yukaibackpacker.netlify.app/post/2024-01-12/</link>
+      <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/post/2024-01-12/</guid>
+      <description>本文概要 今天不談技術，主要寫個人感受，因此這篇文章是紀錄我這一年在黑客社參加資安週、研討會活動的心路歷程，但其實我在資安週的工作量遠大於研討</description>
+    </item>
+    
     <item>
       <title>[Discord Bot] Better Interactions with UI</title>
       <link>https://yukaibackpacker.netlify.app/post/2023-08-28/</link>

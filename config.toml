@@ -58,7 +58,7 @@ home = ["HTML", "RSS", "Algolia"]
 
   # Include any custom CSS and/or JS files, url or relative to /static folder
   custom_css = ["css/addones.css"]
-  custom_js = ["js/sideLinks.js", "js/addones.min.js"]
+  custom_js = ["js/sideLinks.js","js/addones.min.js"]
 
   [params.social]
   email          = "marvelo.k0515@gmail.com"
