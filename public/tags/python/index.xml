@@ -6,7 +6,16 @@
     <description>Recent content in Python on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[實戰紀錄] 掃描紀錄自動化轉化工具</title>
+      <link>https://yukaibackpacker.netlify.app/post/2024-03-23/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/post/2024-03-23/</guid>
+      <description>大綱 主要紀錄一下這兩點的開發過程，而這個案子雖然還用到了爬蟲抓取中文翻譯的資料，並且使用了 pandas 來實現 xlsx 的轉換，但因為沒什麼特別的地方，都是很基</description>
+    </item>
+    
     <item>
       <title>[Discord Bot] Better Interactions with UI</title>
       <link>https://yukaibackpacker.netlify.app/post/2023-08-28/</link>

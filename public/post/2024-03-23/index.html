@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/2024-03-23.jpg">
+    <meta property="twitter:image" content="/img/2024-03-23.jpg" />
+    
+
+    
+    <meta name="title" content="[實戰紀錄] 掃描紀錄自動化轉化工具" />
+    <meta property="og:title" content="[實戰紀錄] 掃描紀錄自動化轉化工具" />
+    <meta property="twitter:title" content="[實戰紀錄] 掃描紀錄自動化轉化工具" />
+    
+
+    
+    <meta name="description" content="內容包含如何讀取 .nessus、後續的效能優化與 cli 功能的開發整合">
+    <meta property="og:description" content="內容包含如何讀取 .nessus、後續的效能優化與 cli 功能的開發整合" />
+    <meta property="twitter:description" content="內容包含如何讀取 .nessus、後續的效能優化與 cli 功能的開發整合" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai, yukaibackpacking, software engineering, 軟體工程, 背包旅行">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
+
+    <title>[實戰紀錄] 掃描紀錄自動化轉化工具 | Yukaibackpacker Blog</title>
+
+    <link rel="canonical" href="/post/2024-03-23/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukaibackpacker.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukaibackpacker.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukaibackpacker.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/2024-03-23.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>[實戰紀錄] 掃描紀錄自動化轉化工具</h1>
+                    <h2 class="subheading">nessus 轉換成 xlsx 開發過程</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Saturday, March 23, 2024
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="大綱">大綱</h2>
+<p>主要紀錄一下這兩點的開發過程，而這個案子雖然還用到了爬蟲抓取中文翻譯的資料，並且使用了 pandas 來實現 xlsx 的轉換，但因為沒什麼特別的地方，都是很基礎的語法功能而已，這邊就不紀錄了。</p>
+<ul>
+<li>讀取 .nessus 檔案（解析 XML 的過程）</li>
+<li>Command Line 功能（python argparse module 的使用）</li>
+</ul>
+<h2 id="讀取-nessus-檔案">讀取 .nessus 檔案</h2>
+<p>使用第三方函示庫 <code>nessus_file_reader</code>，來讀取 .nessus 檔案。使用到的程式碼如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> nessus_file_reader <span style="color:#ff79c6">as</span> nfr
+</span></span><span style="display:flex;"><span>root <span style="color:#ff79c6">=</span> nfr<span style="color:#ff79c6">.</span>file<span style="color:#ff79c6">.</span>nessus_scan_file_root_element(filename) <span style="color:#6272a4"># 讀入檔案</span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">for</span> case_index, report_host <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">enumerate</span>(nfr<span style="color:#ff79c6">.</span>scan<span style="color:#ff79c6">.</span>report_hosts(root)):
+</span></span><span style="display:flex;"><span>    report_items_per_host <span style="color:#ff79c6">=</span> nfr<span style="color:#ff79c6">.</span>host<span style="color:#ff79c6">.</span>report_items(report_host)
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> index, report_item <span style="color:#ff79c6">in</span> <span style="color:#8be9fd;font-style:italic">enumerate</span>(report_items_per_host):
+</span></span><span style="display:flex;"><span>        __risk_factor <span style="color:#ff79c6">=</span> nfr<span style="color:#ff79c6">.</span>plugin<span style="color:#ff79c6">.</span>report_item_value(report_item, <span style="color:#f1fa8c">&#39;risk_factor&#39;</span>)
+</span></span><span style="display:flex;"><span>        __plugin_id <span style="color:#ff79c6">=</span> nfr<span style="color:#ff79c6">.</span>plugin<span style="color:#ff79c6">.</span>report_item_value(report_item, <span style="color:#f1fa8c">&#39;pluginID&#39;</span>)
+</span></span></code></pre></div><p>這個套件的解析過程會把 .nessus 當作 XML 來分析，先找出這份 XML 的 root 之後，尋找所有的 <code>ReportHost</code>，這是每一組 ip 的報告結果，接者再從這些報告結果中找出 <code>ReportItem</code> 一筆一筆分析</p>
+<p>了解 <code>nessus_file_reader</code> 是如何解析 XML，就換我用 <code>ElementTree</code> 寫一個。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> xml.etree.ElementTree <span style="color:#ff79c6">as</span> ET
+</span></span><span style="display:flex;"><span>filename <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">def</span> <span style="color:#50fa7b">main</span>():
+</span></span><span style="display:flex;"><span>    tree <span style="color:#ff79c6">=</span> ET<span style="color:#ff79c6">.</span>parse(filename)
+</span></span><span style="display:flex;"><span>    root <span style="color:#ff79c6">=</span> tree<span style="color:#ff79c6">.</span>getroot() <span style="color:#6272a4"># 找出 XML 檔案的 root</span>
+</span></span><span style="display:flex;"><span>    hosts <span style="color:#ff79c6">=</span> root<span style="color:#ff79c6">.</span>find(<span style="color:#f1fa8c">&#34;Report&#34;</span>)<span style="color:#ff79c6">.</span>findall(<span style="color:#f1fa8c">&#34;ReportHost&#34;</span>) <span style="color:#6272a4"># 找出所有的 ReportHost</span>
+</span></span><span style="display:flex;"><span>    report_item_name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;risk_factor&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">for</span> report_host <span style="color:#ff79c6">in</span> hosts:
+</span></span><span style="display:flex;"><span>        reports <span style="color:#ff79c6">=</span> report_host<span style="color:#ff79c6">.</span>findall(<span style="color:#f1fa8c">&#34;ReportItem&#34;</span>) <span style="color:#6272a4"># 從每個 ReportHost 找出所有的 ReportItem</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">for</span> report_item <span style="color:#ff79c6">in</span> reports:
+</span></span><span style="display:flex;"><span>            report_item_content_value <span style="color:#ff79c6">=</span> report_item<span style="color:#ff79c6">.</span>get(report_item_name)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">if</span> report_item_content_value <span style="color:#ff79c6">is</span> <span style="color:#ff79c6">None</span>:
+</span></span><span style="display:flex;"><span>                report_item_content <span style="color:#ff79c6">=</span> report_item<span style="color:#ff79c6">.</span>find(report_item_name)
+</span></span><span style="display:flex;"><span>                <span style="color:#ff79c6">if</span> report_item_content <span style="color:#ff79c6">is</span> <span style="color:#ff79c6">not</span> <span style="color:#ff79c6">None</span>:
+</span></span><span style="display:flex;"><span>                    report_item_content_value <span style="color:#ff79c6">=</span> report_item_content<span style="color:#ff79c6">.</span>text
+</span></span></code></pre></div><p>需要注意的是，在找 <code>report_item_name</code> 的 tag，可能會遇到多層的巢狀結構，所以如果用 <code>get()</code> 的返回值為 <code>None</code>，也就是 tag 的 attribute 沒有 <code>report_item_name</code>，此時就需要用 <code>find()</code> 往內尋找</p>
+<h2 id="自訂義-command-line">自訂義 Command Line</h2>
+<p>這是我第一次挑戰寫 CLI 的工具，直接使用內建的 <code>argparse</code> 來建立指令，一開始需要先宣告 parser</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser <span style="color:#ff79c6">=</span> argparse<span style="color:#ff79c6">.</span>ArgumentParser(description<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;CLI描述&#39;</span>)
+</span></span></code></pre></div><h3 id="設置預設觸發-function">設置預設觸發 function</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#ff79c6">.</span>set_defaults(handle<span style="color:#ff79c6">=</span>simple_transform)
+</span></span></code></pre></div><h3 id="參數功能">參數功能</h3>
+<p>設置如下，其中 <code>store_true</code> 代表只要<strong>出現</strong>這個參數就設為 True，這樣就不用特地給將 True Value 打出來</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#ff79c6">.</span>add_argument(<span style="color:#f1fa8c">&#39;-sl&#39;</span>, <span style="color:#f1fa8c">&#39;--show_all_level&#39;</span>, action<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;store_true&#39;</span>,
+</span></span><span style="display:flex;"><span>                        help<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;是否輸出 Critical level 之外等級的漏洞&#39;</span>)
+</span></span><span style="display:flex;"><span>parser<span style="color:#ff79c6">.</span>add_argument(<span style="color:#f1fa8c">&#39;-info&#39;</span>, <span style="color:#f1fa8c">&#39;--info&#39;</span>, action<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;store_true&#39;</span>,
+</span></span><span style="display:flex;"><span>                        help<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;是否輸出 infomation&#39;</span>)
+</span></span><span style="display:flex;"><span>parser<span style="color:#ff79c6">.</span>add_argument(<span style="color:#f1fa8c">&#39;-o&#39;</span>, <span style="color:#f1fa8c">&#39;--output&#39;</span>, <span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">str</span>, default<span style="color:#ff79c6">=</span>os<span style="color:#ff79c6">.</span>getcwd(),
+</span></span><span style="display:flex;"><span>                        help<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;輸出的位置&#39;</span>)
+</span></span></code></pre></div><h3 id="群組功能">群組功能</h3>
+<p>這個功能可以用來設置一定要輸入該群組中其中一個指令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>group <span style="color:#ff79c6">=</span> parser<span style="color:#ff79c6">.</span>add_mutually_exclusive_group(required<span style="color:#ff79c6">=</span><span style="color:#ff79c6">True</span>)
+</span></span><span style="display:flex;"><span>group<span style="color:#ff79c6">.</span>add_argument(<span style="color:#f1fa8c">&#39;-f&#39;</span>, <span style="color:#f1fa8c">&#39;--file&#39;</span>, <span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">str</span>,
+</span></span><span style="display:flex;"><span>                    help<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;要轉換的 .nessus 檔案&#39;</span>)
+</span></span><span style="display:flex;"><span>group<span style="color:#ff79c6">.</span>add_argument(<span style="color:#f1fa8c">&#39;-l&#39;</span>, <span style="color:#f1fa8c">&#39;--list&#39;</span>, <span style="color:#8be9fd;font-style:italic">type</span><span style="color:#ff79c6">=</span><span style="color:#8be9fd;font-style:italic">str</span>,
+</span></span><span style="display:flex;"><span>                    help<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;轉換多個 .nessus 檔案&#39;</span>)
+</span></span></code></pre></div><h3 id="子命令功能">子命令功能</h3>
+<p>如果要增加子命令，使用以下方法即可，<code>subparsers</code> 的用法就跟 <code>parser</code> 一樣</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>subparsers <span style="color:#ff79c6">=</span> parser<span style="color:#ff79c6">.</span>add_subparsers(metavar<span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;子命令&#39;</span>)
+</span></span></code></pre></div><h2 id="資料來源">資料來源</h2>
+<ul>
+<li><a href="https://pypi.org/project/nessus-file-reader/">nessus-file-reader</a></li>
+<li><a href="https://reurl.cc/lgm0ad">Python Cli 編寫指南</a></li>
+</ul>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-01-12/" data-toggle="tooltip" data-placement="top" title="HCCCON &amp; 2023 FCU 資安週感想">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2024-04-02/" data-toggle="tooltip" data-placement="top" title="[技術擴張 | React 需求做不了？！] Day01">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/python" title="Python">
+                            Python
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai Blog 2024
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

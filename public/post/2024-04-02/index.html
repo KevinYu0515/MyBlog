@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/2024-04-02/main.jpg">
+    <meta property="twitter:image" content="/img/2024-04-02/main.jpg" />
+    
+
+    
+    <meta name="title" content="[技術擴張 | React 需求做不了？！] Day01" />
+    <meta property="og:title" content="[技術擴張 | React 需求做不了？！] Day01" />
+    <meta property="twitter:title" content="[技術擴張 | React 需求做不了？！] Day01" />
+    
+
+    
+    <meta name="description" content="本篇記錄用 Vite 建立 React 專案、React Router、React Function 等內容">
+    <meta property="og:description" content="本篇記錄用 Vite 建立 React 專案、React Router、React Function 等內容" />
+    <meta property="twitter:description" content="本篇記錄用 Vite 建立 React 專案、React Router、React Function 等內容" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai, yukaibackpacking, software engineering, 軟體工程, 背包旅行">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
+
+    <title>[技術擴張 | React 需求做不了？！] Day01 | Yukaibackpacker Blog</title>
+
+    <link rel="canonical" href="/post/2024-04-02/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukaibackpacker.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukaibackpacker.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukaibackpacker.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/2024-04-02/main.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>[技術擴張 | React 需求做不了？！] Day01</h1>
+                    <h2 class="subheading">學習 React 心路歷程，在 CASE 下來前摸透 React 生態圈</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Tuesday, April 2, 2024
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="outline">Outline</h2>
+<ul>
+<li>用 Vite 快速建立 React</li>
+<li>React Function Component</li>
+<li>React Router</li>
+</ul>
+<h2 id="用-vite-快速建立-react">用 Vite 快速建立 React</h2>
+<p>不多說，我們直接用 vite 初始化一個 react 專案，以下是初始化指令</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm create vite@latest <span style="color:#ff79c6">[</span>project-name<span style="color:#ff79c6">]</span>
+</span></span></code></pre></div><p>可以發現 vite 提供許多開發框架，並且支援 TypeScript 和 JavaScript。而這次專案我想要挑戰一下 TypeScript，畢竟大家總說 TypeScript 相對 JavaScript 更安全謹慎，另外在開發 Vue 的時候已經接觸 JavaScript 很長段時間了，上手 TypeScript 應該不會太有障礙吧，希望如此。
+
+  <img src="/img/2024-04-02/image1.png" alt="alt text">
+
+
+
+  <img src="/img/2024-04-02/image2.png" alt="alt text">
+
+
+建立好後就可以使用指令執行專案了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">cd</span> <span style="color:#ff79c6">[</span>project-name<span style="color:#ff79c6">]</span>
+</span></span><span style="display:flex;"><span>npm install     
+</span></span><span style="display:flex;"><span>npm run dev 
+</span></span></code></pre></div><p>另外提醒， Vite 只有在 Node.js 版本 14.18+、16+ 才被支援，如果裝的不順利，建議先確認 Node 版本並更新。</p>
+<p>在 vite 還沒問世之前，React 有提供另一個建立專案的 CLI，也就是 CRA（create react app）。來看以下這兩種方式建立的專案架構有何差異：(左邊是 vite，右邊是 CRA)
+<div class="row">
+    
+       <div class="col col-sm-12 col-lg-6">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>D:<span style="color:#f1fa8c">\R</span>EACT-PROJECT
+</span></span><span style="display:flex;"><span>|   .eslintrc.cjs
+</span></span><span style="display:flex;"><span>|   .gitignore
+</span></span><span style="display:flex;"><span>|   index.html
+</span></span><span style="display:flex;"><span>|   package.json
+</span></span><span style="display:flex;"><span>|   README.md
+</span></span><span style="display:flex;"><span>|   tsconfig.json
+</span></span><span style="display:flex;"><span>|   tsconfig.node.json
+</span></span><span style="display:flex;"><span>|   vite.config.ts
+</span></span><span style="display:flex;"><span>|
+</span></span><span style="display:flex;"><span>├── public
+</span></span><span style="display:flex;"><span>|       vite.svg
+</span></span><span style="display:flex;"><span>|
+</span></span><span style="display:flex;"><span>├── src
+</span></span><span style="display:flex;"><span>    |   App.css
+</span></span><span style="display:flex;"><span>    |   App.tsx
+</span></span><span style="display:flex;"><span>    |   index.css
+</span></span><span style="display:flex;"><span>    |   main.tsx
+</span></span><span style="display:flex;"><span>    |   vite-env.d.ts
+</span></span><span style="display:flex;"><span>    |
+</span></span><span style="display:flex;"><span>    ├── assets
+</span></span><span style="display:flex;"><span>            react.svg
+</span></span></code></pre></div>
+        </div>
+    
+       <div class="col col-sm-12 col-lg-6">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>react-project2
+</span></span><span style="display:flex;"><span>├── package.json
+</span></span><span style="display:flex;"><span>├── package-lock.json
+</span></span><span style="display:flex;"><span>├── public
+</span></span><span style="display:flex;"><span>│   ├── favicon.ico
+</span></span><span style="display:flex;"><span>│   ├── index.html
+</span></span><span style="display:flex;"><span>│   ├── logo192.png
+</span></span><span style="display:flex;"><span>│   ├── logo512.png
+</span></span><span style="display:flex;"><span>│   ├── manifest.json
+</span></span><span style="display:flex;"><span>│   └── robots.txt
+</span></span><span style="display:flex;"><span>├── README.md
+</span></span><span style="display:flex;"><span>└── src
+</span></span><span style="display:flex;"><span>    ├── App.css
+</span></span><span style="display:flex;"><span>    ├── App.js
+</span></span><span style="display:flex;"><span>    ├── App.test.js
+</span></span><span style="display:flex;"><span>    ├── index.css
+</span></span><span style="display:flex;"><span>    ├── index.js
+</span></span><span style="display:flex;"><span>    ├── logo.svg
+</span></span><span style="display:flex;"><span>    ├── reportWebVitals.js
+</span></span><span style="display:flex;"><span>    └── setupTests.js
+</span></span></code></pre></div>
+        </div>
+    
+</div>
+
+可以發現 vite 將 index.html 從 public 資料夾移出至頂層，而這是因為 vite 在開發階段會被作為一個伺服器，而 index.html 是這個伺服器的入口，但其實，如果你想要將 index.html 移到其他地方也可以，只需在 vite.config.ts 指定路徑即可，從這看來 vite 提供更高的自由度。</p>
+<p>並且可以發現在 vite 下的專案，會特別標記使用到 <code>jsx</code> 語法的檔案，雖然副檔名是 <code>.js</code> 或 <code>.jsx</code> 沒有差異，但如果將原本是 <code>.jsx</code> 的檔案改成 <code>.js</code> 會導致在 vite 環境下無法運作。</p>
+<h2 id="react-function-component">React Function Component</h2>
+<p>React 是以 Component 為基礎來開發，可以將重複的功能獨立出來一個 Component 並使用在任何地方減少程式碼累綴的問題。而 <code>function component</code> 是以 JavaScript 的 function 語法來表達的一種元件，最後會回傳一個由 JSX 撰寫的 React Element。如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">function</span> Welcome(props) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> <span style="color:#ff79c6">&lt;</span>h1<span style="color:#ff79c6">&gt;</span>Hello, {props.name}<span style="color:#ff79c6">&lt;</span>/h1&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>至於要應用時就只要將其引入，並以 <code>&lt;componet name&gt;</code> 的方式標記即可。
+<div class="alert alert-warning">
+    <strong>注意：Componet 的第一個字母一定要大寫，而且 Component 的名稱一定要和 function 名稱一樣</strong>
+</div>
+</p>
+<h3 id="導覽列例子">導覽列例子</h3>
+<p>我以匿名函式的方式去宣告 function component，並將導覽列內容透過 map 方法展開來。比較特別一點的是 <code>useLinkList()</code> 的解構被視為 <code>React Hook</code>，而在預設的 eslint 規則下，React Hook 必須在 function component 中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> React <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;react&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> <span style="color:#f1fa8c">&#39;./index.css&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { useLinkList } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;./config&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> Navbar: <span style="color:#8be9fd">React.FC</span> <span style="color:#ff79c6">=</span> () <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">const</span> { navArr } <span style="color:#ff79c6">=</span> useLinkList();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">nav</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">ul</span>&gt;
+</span></span><span style="display:flex;"><span>        {navArr.map((link, index) <span style="color:#ff79c6">=&gt;</span> (
+</span></span><span style="display:flex;"><span>          ...
+</span></span><span style="display:flex;"><span>        ))}
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#ff79c6">ul</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">nav</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> Navbar;
+</span></span></code></pre></div><p>接著將這個元件引入到要使用的畫面，另外要注意 function component 回傳的 React Element 只能有一個，所以一般推薦會在回傳值用 <code>&lt;&gt; ... &lt;/&gt;</code> 將全部的元件包覆起來作為一個 Element 回傳</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#6272a4">// cat App.tsx
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> Navbar <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;./components/nav&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> App: <span style="color:#8be9fd">React.FC</span> <span style="color:#ff79c6">=</span> () <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">Navbar</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/&gt;
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> App
+</span></span></code></pre></div><h3 id="帶有參數的例子">帶有參數的例子</h3>
+<p>在這裡我定義了一個帶有參數的 function component，但因為這是 typescript，所以還需要定義這個 function 使用到的參數型別，也就是 Post 型別的 data 參數。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">interface</span> ContentCardProps {
+</span></span><span style="display:flex;"><span>    data: <span style="color:#8be9fd">Post</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> ContentCard: <span style="color:#8be9fd">React.FC</span>&lt;<span style="color:#ff79c6">ContentCardProps</span>&gt; <span style="color:#ff79c6">=</span> ({ data }) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>        ...
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>接著一樣將其引入需要使用的地方，至於把參數帶入的方式也很簡單，將參數當作 <code>attribue</code> 設定即可，也就是 data 這個 attribute 對應到的就是 post。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> postData <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;../../data/postData.json&#39;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> Home: <span style="color:#8be9fd">React.FC</span> <span style="color:#ff79c6">=</span> () <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">div</span> <span style="color:#50fa7b">className</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#39;home-container&#39;</span>&gt;
+</span></span><span style="display:flex;"><span>      {postData.map((post, index) <span style="color:#ff79c6">=&gt;</span> (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">ContentCard</span> <span style="color:#50fa7b">key</span><span style="color:#ff79c6">=</span>{index} <span style="color:#50fa7b">data</span><span style="color:#ff79c6">=</span>{post} /&gt;
+</span></span><span style="display:flex;"><span>      ))}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>  );
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="react-router">React Router</h2>
+<p>既然剛剛有實作出 navbar，那當然少不了 router 的部分，一樣要先安裝套件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm i react-router-dom
+</span></span></code></pre></div><p>而這邊所使用的版本是 v6.22.3，因此不支援 <code>&lt;Switch&gt;</code> 和 <code>componet</code> 的寫法，取而代之的是 <code>&lt;Routes&gt;</code> 和 <code>element</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { BrowserRouter <span style="color:#ff79c6">as</span> Router, Route, Routes } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;react-router-dom&#39;</span>;
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> App: <span style="color:#8be9fd">React.FC</span> <span style="color:#ff79c6">=</span> () <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">Router</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">Navbar</span> /&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">Routes</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Route</span> <span style="color:#50fa7b">path</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/&#34;</span> <span style="color:#50fa7b">element</span><span style="color:#ff79c6">=</span>{&lt;<span style="color:#ff79c6">Home</span>/&gt;} /&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Route</span> <span style="color:#50fa7b">path</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/gallery&#34;</span> <span style="color:#50fa7b">element</span><span style="color:#ff79c6">=</span>{&lt;<span style="color:#ff79c6">Gallery</span>/&gt;} /&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Route</span> <span style="color:#50fa7b">path</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/about&#34;</span> <span style="color:#50fa7b">element</span><span style="color:#ff79c6">=</span>{&lt;<span style="color:#ff79c6">About</span>/&gt;} /&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Route</span> <span style="color:#50fa7b">path</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;/log&#34;</span> <span style="color:#50fa7b">element</span><span style="color:#ff79c6">=</span>{&lt;<span style="color:#ff79c6">Logs</span>/&gt;} /&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#ff79c6">Routes</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#ff79c6">div</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">Router</span>&gt;
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> App
+</span></span></code></pre></div><p>不過如果是比較舊的 react 專案，還是推薦將版本降下來，才不會影響到太多 v5 支援的功能</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm uninstall react-router-dom
+</span></span><span style="display:flex;"><span>npm install react-router-dom@5.2.0
+</span></span></code></pre></div><h2 id="參考資料">參考資料</h2>
+<ul>
+<li><a href="https://kinsta.com/knowledgebase/attempted-import-error-switch-is-not-exported-from-react-router-dom/">React Router Not Working</a></li>
+<li><a href="https://cn.vitejs.dev/guide/#index-html-and-project-root">Vite Documentation</a></li>
+</ul>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-03-23/" data-toggle="tooltip" data-placement="top" title="[實戰紀錄] 掃描紀錄自動化轉化工具">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/react" title="React">
+                            React
+                        </a>
+                        
+                        <a class="tag" href="/tags/web" title="Web">
+                            Web
+                        </a>
+                        
+                        <a class="tag" href="/tags/front-end" title="Front-end">
+                            Front-end
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai Blog 2024
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

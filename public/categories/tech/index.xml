@@ -6,7 +6,25 @@
     <description>Recent content in Tech on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 12 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 02 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[技術擴張 | React 需求做不了？！] Day01</title>
+      <link>https://yukaibackpacker.netlify.app/post/2024-04-02/</link>
+      <pubDate>Tue, 02 Apr 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/post/2024-04-02/</guid>
+      <description>Outline 用 Vite 快速建立 React React Function Component React Router 用 Vite 快速建立 React 不多說，我們直接用 vite 初始化一個 react 專案，以下是初始化指令 npm create vite@latest [project-name] 可以發現 vite 提供許多開發框架，並且支援 TypeScript</description>
+    </item>
+    
+    <item>
+      <title>[實戰紀錄] 掃描紀錄自動化轉化工具</title>
+      <link>https://yukaibackpacker.netlify.app/post/2024-03-23/</link>
+      <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaibackpacker.netlify.app/post/2024-03-23/</guid>
+      <description>大綱 主要紀錄一下這兩點的開發過程，而這個案子雖然還用到了爬蟲抓取中文翻譯的資料，並且使用了 pandas 來實現 xlsx 的轉換，但因為沒什麼特別的地方，都是很基</description>
+    </item>
+    
     <item>
       <title>HCCCON &amp; 2023 FCU 資安週感想</title>
       <link>https://yukaibackpacker.netlify.app/post/2024-01-12/</link>
