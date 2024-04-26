@@ -6,14 +6,14 @@
     <description>Recent content on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 02 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>[技術擴張 | React 需求做不了？！] Day01</title>
-      <link>https://yukaibackpacker.netlify.app/post/2024-04-02/</link>
-      <pubDate>Tue, 02 Apr 2024 00:00:00 +0000</pubDate>
+      <title>嘗試優化網頁直到 LightHouse 放煙火</title>
+      <link>https://yukaibackpacker.netlify.app/post/2024-04-25/</link>
+      <pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2024-04-02/</guid>
-      <description>Outline 用 Vite 快速建立 React React Function Component React Router 用 Vite 快速建立 React 不多說，我們直接用 vite 初始化一個 react 專案，以下是初始化指令 npm create vite@latest [project-name] 可以發現 vite 提供許多開發框架，並且支援 TypeScript</description>
+      <guid>https://yukaibackpacker.netlify.app/post/2024-04-25/</guid>
+      <description>本篇的動機為某次 Web 上課的作業是優化 Free CSS 網站上提供的模板，以 Lighthouse 的評測結果作為評分標準。當時以前端起家的我想說，那豈不是輕輕鬆鬆，但在第一個項目</description>
     </item>
     
     <item>

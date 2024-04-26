@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Front-end on YuKai Blog</title>
-    <link>https://yukaibackpacker.netlify.app/tags/front-end/</link>
-    <description>Recent content in Front-end on YuKai Blog</description>
+    <title>Webpack on YuKai Blog</title>
+    <link>https://yukaibackpacker.netlify.app/tags/webpack/</link>
+    <description>Recent content in Webpack on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/front-end/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/webpack/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>嘗試優化網頁直到 LightHouse 放煙火</title>
       <link>https://yukaibackpacker.netlify.app/post/2024-04-25/</link>

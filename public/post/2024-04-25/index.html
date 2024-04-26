@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/2024-04-25/main.jpg">
+    <meta property="twitter:image" content="/img/2024-04-25/main.jpg" />
+    
+
+    
+    <meta name="title" content="嘗試優化網頁直到 LightHouse 放煙火" />
+    <meta property="og:title" content="嘗試優化網頁直到 LightHouse 放煙火" />
+    <meta property="twitter:title" content="嘗試優化網頁直到 LightHouse 放煙火" />
+    
+
+    
+    <meta name="description" content="本文說明如何使用 react.js &#43; webpack &#43; babel 三件套的方式優化 HTML 5 網頁">
+    <meta property="og:description" content="本文說明如何使用 react.js &#43; webpack &#43; babel 三件套的方式優化 HTML 5 網頁" />
+    <meta property="twitter:description" content="本文說明如何使用 react.js &#43; webpack &#43; babel 三件套的方式優化 HTML 5 網頁" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai, yukaibackpacking, software engineering, 軟體工程, 背包旅行">
+    <link rel="shortcut icon" href="/element/cabbageWorm.jpeg">
+
+    <title>嘗試優化網頁直到 LightHouse 放煙火 | Yukaibackpacker Blog</title>
+
+    <link rel="canonical" href="/post/2024-04-25/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukaibackpacker.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukaibackpacker.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukaibackpacker.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/2024-04-25/main.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>嘗試優化網頁直到 LightHouse 放煙火</h1>
+                    <h2 class="subheading">webpack 新手的網頁優化考古過程</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Thursday, April 25, 2024
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <p>本篇的動機為某次 Web 上課的作業是優化 Free CSS 網站上提供的模板，以 Lighthouse 的評測結果作為評分標準。當時以前端起家的我想說，那豈不是輕輕鬆鬆，但在第一個項目 Performance 的優化上，才發現沒這麼簡單，比如：要壓縮 JS 文檔需要打包工具，也就是 <code>webpack</code>、<code>vite</code> 這類的前端打包工具。轉念一想，自己好像沒有深入研究過打包工具，所以這篇主要會拆分成兩部分，有使用與未使用打包工具來各個擊破 Lighthouse 提供的問題點。</p>
+<p>另外為什麼我選擇 <code>webpack</code>，因為 Free CSS 的模板主要以 CommonJS 實現模組功能，這樣就不需要特別設定 ESModule，另外也因為其發展較久，所以網路上的資源相當豐富，學習起來應該不會太難吧，另外在結合 <code>react.js</code> 和 <code>babel</code>，形成 <code>react.js</code> + <code>webpack</code> + <code>babel</code> 的三件套。</p>
+<h2 id="performance">Performance</h2>
+<p>這一部分基本上只要 <code>webpack</code> 配置的好，就能處理大部分的問題。<br>
+左邊為原本的模板結構，右邊為修改後的結構。</p>
+<div class="row">
+    
+       <div class="col col-sm-12 col-lg-6">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>D:.
+</span></span><span style="display:flex;"><span>│  404.html
+</span></span><span style="display:flex;"><span>│  about.html
+</span></span><span style="display:flex;"><span>│  booking.html
+</span></span><span style="display:flex;"><span>│  contact.html
+</span></span><span style="display:flex;"><span>│  destination.html
+</span></span><span style="display:flex;"><span>│  index.html
+</span></span><span style="display:flex;"><span>│  package.html
+</span></span><span style="display:flex;"><span>│  service.html
+</span></span><span style="display:flex;"><span>│  team.html
+</span></span><span style="display:flex;"><span>│  testimonial.html
+</span></span><span style="display:flex;"><span>│
+</span></span><span style="display:flex;"><span>├─css
+</span></span><span style="display:flex;"><span>├─img
+</span></span><span style="display:flex;"><span>├─js
+</span></span><span style="display:flex;"><span>└─lib
+</span></span><span style="display:flex;"><span>    ├─animate
+</span></span><span style="display:flex;"><span>    ├─easing
+</span></span><span style="display:flex;"><span>    ├─owlcarousel
+</span></span><span style="display:flex;"><span>    ├─tempusdominus
+</span></span><span style="display:flex;"><span>    ├─waypoints
+</span></span><span style="display:flex;"><span>    └─wow
+</span></span></code></pre></div>
+        </div>
+    
+       <div class="col col-sm-12 col-lg-6">
+            <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>D:.
+</span></span><span style="display:flex;"><span>|
+</span></span><span style="display:flex;"><span>├─dist
+</span></span><span style="display:flex;"><span>├─node_modules
+</span></span><span style="display:flex;"><span>├─public
+</span></span><span style="display:flex;"><span>|   ├─404.html
+</span></span><span style="display:flex;"><span>|   ├─favicon.ico
+</span></span><span style="display:flex;"><span>|   └─index.html
+</span></span><span style="display:flex;"><span>|
+</span></span><span style="display:flex;"><span>├─src
+</span></span><span style="display:flex;"><span>|   ├─assets
+</span></span><span style="display:flex;"><span>|   ├─components
+</span></span><span style="display:flex;"><span>|   ├─css
+</span></span><span style="display:flex;"><span>|   ├─js
+</span></span><span style="display:flex;"><span>|   ├─App.jsx
+</span></span><span style="display:flex;"><span>|   └─index.js
+</span></span><span style="display:flex;"><span>|
+</span></span><span style="display:flex;"><span>├─.babelrc
+</span></span><span style="display:flex;"><span>├─package-lock.json
+</span></span><span style="display:flex;"><span>├─package.json
+</span></span><span style="display:flex;"><span>└─webpack.config.js
+</span></span></code></pre></div>
+        </div>
+    
+</div>
+
+<h3 id="一般屬性">一般屬性</h3>
+<p><strong>output</strong>：用來設定打包後輸出的位置</p>
+<ul>
+<li>path：打包後輸出的位置</li>
+<li>filename：打包後的名稱
+<ul>
+<li>而這邊 name 就會根據 key 值去生成</li>
+</ul>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    output<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        path<span style="color:#ff79c6">:</span> __dirname <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34;/dist&#34;</span>,
+</span></span><span style="display:flex;"><span>        filename<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;[name].js&#34;</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>devServer</strong>：用來設置開發時的測試環境</p>
+<ul>
+<li>static：靜態檔案來源</li>
+<li>compress：是否需要壓縮檔案</li>
+<li>port：開啟的埠口</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    devServer<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">static</span><span style="color:#ff79c6">:</span> path.resolve(__dirname, <span style="color:#f1fa8c">&#34;dist&#34;</span>),
+</span></span><span style="display:flex;"><span>        compress<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>        port<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">9000</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>resolve</strong>：這個設定用來描述 module 如何被解析</p>
+<ul>
+<li>alias：可以用來替換使用 <code>import</code> 方法的路徑，假如有一個路徑：<br>
+<code>import 'src/css/style.css'</code>，就可以透過下面配置換成 <code>import 'css/style.css'</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    resolve<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        alias<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>            css<span style="color:#ff79c6">:</span> path.resolve(__dirname, <span style="color:#f1fa8c">&#34;src/css&#34;</span>)
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>entry</strong>：抓取 js 的進入點，如下圖所示，會將這些進入點，也就是會使用到的 js 全部打包成 bundle.js</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>  entry<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>    bundle<span style="color:#ff79c6">:</span> [
+</span></span><span style="display:flex;"><span>      <span style="color:#f1fa8c">&#34;./src/js/main.js&#34;</span>,
+</span></span><span style="display:flex;"><span>      ...
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="module">Module</h3>
+<ul>
+<li>配置 css 先透過 <code>css-loader</code> 處理，接者用 <code>MiniCssExtractPlugin</code> 插件壓縮。</li>
+<li>配置 js、jsx 則使用 <code>babel-loader</code> 加載處理，<code>babel</code> 可以處理不同 js 版本的問題</li>
+<li>打包圖片的部分，<code>webpack 5</code> 之前是採用 <code>file-loader</code> 或 <code>url-loader</code> 處理圖片，而我這次使用的是 <code>webpack 5</code>，這是用 <code>type:asset</code> 方式配置</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    module<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        rules<span style="color:#ff79c6">:</span> [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/\.css$/</span>,
+</span></span><span style="display:flex;"><span>                use<span style="color:#ff79c6">:</span> [MiniCssExtractPlugin.loader, <span style="color:#f1fa8c">&#34;css-loader&#34;</span>],
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/\.(js|jsx)/</span>,
+</span></span><span style="display:flex;"><span>                exclude<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/node_modules/</span>,
+</span></span><span style="display:flex;"><span>                use<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>                    loader<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;babel-loader&#34;</span>,
+</span></span><span style="display:flex;"><span>                    options<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>                        presets<span style="color:#ff79c6">:</span> [<span style="color:#f1fa8c">&#39;@babel/preset-react&#39;</span>, <span style="color:#f1fa8c">&#39;@babel/preset-env&#39;</span>],
+</span></span><span style="display:flex;"><span>                    },
+</span></span><span style="display:flex;"><span>                },
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/\.(png|jpe?g|gif|webp)$/i</span>,
+</span></span><span style="display:flex;"><span>                type<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;asset&#39;</span>,
+</span></span><span style="display:flex;"><span>                parser<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>                    dataUrlCondition<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>                        maxSize<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">10</span> <span style="color:#ff79c6">*</span> <span style="color:#bd93f9">1024</span>, <span style="color:#6272a4">// 小於 10 KB 會轉成 base64 的 url
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                    }
+</span></span><span style="display:flex;"><span>                },
+</span></span><span style="display:flex;"><span>                generator<span style="color:#ff79c6">:</span>{ 
+</span></span><span style="display:flex;"><span>                    filename<span style="color:#ff79c6">:</span><span style="color:#f1fa8c">&#39;static/images/[name][ext]&#39;</span>, <span style="color:#6272a4">// 輸出檔案位置
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                },
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="plugin">Plugin</h3>
+<ul>
+<li><code>HtmlWebpackPlugin</code>：用來壓縮 html</li>
+<li><code>MiniCssExtractPlugin</code>： 用來壓縮 css</li>
+<li><code>BundleAnalyzerPlugin</code>：檔案打包後的可視化工具</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    plugins<span style="color:#ff79c6">:</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">new</span> HtmlWebpackPlugin({
+</span></span><span style="display:flex;"><span>            template<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;./public/index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>            filename<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;index.html&#39;</span>,
+</span></span><span style="display:flex;"><span>            inject<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>            minify<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>        }),
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">new</span> MiniCssExtractPlugin(),
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">new</span> BundleAnalyzerPlugin()
+</span></span><span style="display:flex;"><span>    ],
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>
+  <img src="/img/2024-04-25/bundle-analysis.png" alt="bundle 可視化結果">
+
+</p>
+<h3 id="optiminization">Optiminization</h3>
+<p>這一部分配置打包優化的設定，主要介紹兩個常用的配置，<code>TerserPlugin</code> 插件和 <code>splitChunks</code>，最終配置如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    optimization<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        splitChunks<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>            cacheGroups<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>                vendors<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>                    test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/[\\/]node_modules[\\/]/</span>,
+</span></span><span style="display:flex;"><span>                    chunks<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;initial&#39;</span>,
+</span></span><span style="display:flex;"><span>                    name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;vendors&#39;</span>,
+</span></span><span style="display:flex;"><span>                    enforce<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>                    priority<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">10</span>, <span style="color:#6272a4">// 預設為 0，必須大於預設 cacheGroups
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>                },
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        minimize<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>        minimizer<span style="color:#ff79c6">:</span> [
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">new</span> TerserPlugin({
+</span></span><span style="display:flex;"><span>                test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/\.js(\?.*)?$/i</span>,
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="terserplugin">TerserPlugin</h4>
+<p>用來壓縮 js 檔案，安裝指令與使用方式如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install terser-webpack-plugin --save-dev
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>module.exports <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>    optimization<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        minimize<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>        minimizer<span style="color:#ff79c6">:</span> [
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">new</span> TerserPlugin({
+</span></span><span style="display:flex;"><span>                test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/\.js(\?.*)?$/i</span>,
+</span></span><span style="display:flex;"><span>            })
+</span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="splitchunks">splitChunks</h4>
+<p>splitChunks 可以幫助我們拆分 js 檔案，減少單個 bundle 的容量，比如 node_modules 的第三方模組打包成 <code>vendor.js</code>，自己開發的 js 模組打包成 <code>bundle.js</code>，而這項設定在 webpack4 就被預設開啟，所以不需要另外下載，以下為 splitChunks 的預設配置</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span>splitChunks<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>    chunks<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;async&#39;</span>,
+</span></span><span style="display:flex;"><span>    minSize<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">30000</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#6272a4">// minRemainingSize: 0, (Webpack 5 才有此選項)
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>    maxSize<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">0</span>,
+</span></span><span style="display:flex;"><span>    minChunks<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">1</span>,
+</span></span><span style="display:flex;"><span>    maxAsyncRequests<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">6</span>,
+</span></span><span style="display:flex;"><span>    maxInitialRequests<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">4</span>,
+</span></span><span style="display:flex;"><span>    automaticNameDelimiter<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;~&#39;</span>,
+</span></span><span style="display:flex;"><span>    cacheGroups<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>    vendors<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        test<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">/[\\/]node_modules[\\/]/</span>,
+</span></span><span style="display:flex;"><span>        priority<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">10</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">default</span><span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        minChunks<span style="color:#ff79c6">:</span> <span style="color:#bd93f9">2</span>,
+</span></span><span style="display:flex;"><span>        priority<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">20</span>,
+</span></span><span style="display:flex;"><span>        reuseExistingChunk<span style="color:#ff79c6">:</span> <span style="color:#ff79c6">true</span>,
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>最重要的是 chunks 和 cacheGroups 的設定，其他設定基本上就是字面的意思</p>
+<ul>
+<li>
+<p>chunks：async | initial | all</p>
+<ul>
+<li>async：只處理 lazy loading 的 chunk，如：import(xxx) 語法載入的模組</li>
+<li>initial：只處理同步加載的 chunk，如：import xxx 語法載入的模組</li>
+<li>all：處理以上兩種情況的 chunk</li>
+</ul>
+</li>
+<li>
+<p>cacheGroups</p>
+<ul>
+<li>定義 chunks 所屬的緩存組</li>
+<li>{cacheGroups}：緩存組名稱，可由 name 屬性更改</li>
+<li>cacheGroups.{cacheGroups}.priority：緩存組優先級，默認為 0</li>
+<li>cacheGroups.{cacheGroups}.test：控制當下緩存組匹配的 chunk，省略它會選擇所有 chunk</li>
+<li>cacheGroups.{cacheGroups}.filename：僅當 chunk 為同步加載時，才允許覆蓋文件名</li>
+<li>cacheGroups.{cacheGroups}.enforce：忽略全域的部分選項</li>
+<li>補充 1：可以將 caheGroups 當作一個區域，所以當我們在這個區域內配置的 chunks 屬性就不會影響到其他 cacheGroups，也就是說 cacheGroups 彼此的設定是獨立的</li>
+<li>補充 2：如果想要避免全域設定的 chunks 影響到 cacheGroups 的設定，可以添加 <code>enforce</code> 為 true，這樣就會強制使用 cacheGroups 內的設定</li>
+</ul>
+</li>
+</ul>
+<h2 id="accessibillity">Accessibillity</h2>
+<h3 id="elements-must-meet-minimum-color-contrast-ratio-thresholds">Elements must meet minimum color contrast ratio thresholds</h3>
+<ul>
+<li>這條的問題點希望我們能縮小顏色對比的閥值，使得使用者能更好的閱讀 APP 上的文字。</li>
+<li>標準如下：
+<ul>
+<li>小型文字 =&gt; 4.5:1</li>
+<li>大型文字 =&gt; 3:1</li>
+</ul>
+</li>
+</ul>
+<p>可以透過這個<a href="https://dequeuniversity.com/rules/axe/4.8/color-contrast"><strong>網頁工具</strong></a>來調出適合的閥值</p>
+<h3 id="links-must-have-discernible-text">Links must have discernible text</h3>
+<ul>
+<li>這條問題點可以添加 <code>aria-label</code> 屬性來對 link 加以敘述</li>
+</ul>
+<p>更多關於這個問題的<a href="https://dequeuniversity.com/rules/axe/4.8/link-name"><strong>詳細說明</strong></a></p>
+<h2 id="best-practice">Best Practice</h2>
+<h3 id="uses-third-party-cookies">Uses third-party cookies</h3>
+<ul>
+<li>這條問題點避免使用第三方 cookies</li>
+<li>解決方法：由於我的第三方 cookies 是來自於 font-awesome 來載入 icon 圖檔，所以我可以將圖檔下載後，以靜態檔案的方式加入。</li>
+<li>其他方法：
+<ul>
+<li>添加 Cookie 屬性 Partitioned，以支援依頂層環境劃分的跨網站 Cookie</li>
+<li>使用相關網站集（RWS），說明網站間的關係，使瀏覽器能允許第三方 cookie</li>
+</ul>
+</li>
+</ul>
+<p>更多關於這個問題的<a href="https://developers.google.com/privacy-sandbox/3pcd?utm_source=lighthouse&amp;utm_medium=devtools&amp;hl=zh-tw"><strong>詳細說明</strong></a></p>
+<h2 id="總結">總結</h2>
+<ul>
+<li>使用 webpack + react.js + babel 優化 Performance
+<ul>
+<li>使用到的 webpack 設定如下
+<ul>
+<li>mode、devtool、entry、resolve.alias、output、devServer</li>
+<li>module.rules
+<ul>
+<li>使用 MiniCssExtractPlugin、css-loader 加載 css</li>
+<li>使用 babel-loader 加載 js</li>
+<li>使用 webpack5 的內建方式(type: &lsquo;asset&rsquo;)打包圖片</li>
+</ul>
+</li>
+<li>plugins
+<ul>
+<li>HtmlWebpackPlugin</li>
+<li>MiniCssExtractPlugin</li>
+<li>BundleAnalyzerPlugin：可視化分析 bundle</li>
+</ul>
+</li>
+<li>optimization
+<ul>
+<li>splitChunks
+<ul>
+<li>chunks、cacheGroups</li>
+</ul>
+</li>
+<li>TerserPlugin</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用線上工具調整顏色閥值</li>
+<li>Links element 要添加 aria-label 表敘述</li>
+<li>避免使用第三方 cookies</li>
+</ul>
+<p>最後附上一張 Lighthouse 的煙火
+
+  <img src="/img/2024-04-25/firework.gif" alt="alt">
+
+</p>
+<h2 id="相關資料">相關資料</h2>
+<ul>
+<li><a href="https://webpack.js.org/">webpack documations</a></li>
+<li><a href="https://awdr74100.github.io/2020-04-06-webpack-splitchunksplugin/">webpack-splitchunks</a></li>
+<li><a href="https://github.com/guojiongwei/webpack5-react-ts">webpack5-react-ts</a></li>
+<li><a href="https://web.dev/?hl=zh-tw">web-dev</a></li>
+<li><a href="https://www.performance90.com/guide/remove-duplicate-modules-in-javascript-bundles/">remove-duplicate-modules-in-javascript-bundles</a></li>
+<li><a href="https://gcdeng.com/blog/a-guidebook-to-optimize-web-vitals#largest-contentful-paint-lcp">Web Vitals 優化方式懶人包</a></li>
+</ul>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-03-23/" data-toggle="tooltip" data-placement="top" title="[實戰紀錄] 掃描紀錄自動化轉化工具">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/webpack" title="Webpack">
+                            Webpack
+                        </a>
+                        
+                        <a class="tag" href="/tags/front-end" title="Front-end">
+                            Front-end
+                        </a>
+                        
+                        <a class="tag" href="/tags/react" title="React">
+                            React
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai Blog 2024
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>
