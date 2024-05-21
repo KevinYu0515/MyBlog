@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>React on YuKai Blog</title>
-    <link>https://yukaibackpacker.netlify.app/tags/react/</link>
+    <link>https://yukaitechstack.netlify.app/tags/react/</link>
     <description>Recent content in React on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/react/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/react/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>嘗試優化網頁直到 LightHouse 放煙火</title>
-      <link>https://yukaibackpacker.netlify.app/post/2024-04-25/</link>
+      <link>https://yukaitechstack.netlify.app/post/2024-04-25/</link>
       <pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2024-04-25/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2024-04-25/</guid>
       <description>本篇的動機為某次 Web 上課的作業是優化 Free CSS 網站上提供的模板，以 Lighthouse 的評測結果作為評分標準。當時以前端起家的我想說，那豈不是輕輕鬆鬆，但在第一個項目</description>
     </item>
     

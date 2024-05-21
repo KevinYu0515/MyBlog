@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Crawler on YuKai Blog</title>
-    <link>https://yukaibackpacker.netlify.app/tags/crawler/</link>
+    <link>https://yukaitechstack.netlify.app/tags/crawler/</link>
     <description>Recent content in Crawler on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 20 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/tags/crawler/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 20 Aug 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/crawler/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Google Map 商家資料爬取</title>
-      <link>https://yukaibackpacker.netlify.app/post/2022-08-20/</link>
+      <link>https://yukaitechstack.netlify.app/post/2022-08-20/</link>
       <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2022-08-20/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2022-08-20/</guid>
       <description>技能大綱 如何用 Selenium 點擊、滑動、鎖定元素 如何用 Python 製作 json 相關 Library：selenium、pandas、json、bs4、time 主要過程與介</description>
     </item>
     

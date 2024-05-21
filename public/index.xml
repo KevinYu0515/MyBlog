@@ -2,134 +2,134 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>YuKai Blog</title>
-    <link>https://yukaibackpacker.netlify.app/</link>
+    <link>https://yukaitechstack.netlify.app/</link>
     <description>Recent content on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaibackpacker.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 06 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Forensics 初學者紀錄</title>
-      <link>https://yukaibackpacker.netlify.app/post/2024-05-06/</link>
+      <link>https://yukaitechstack.netlify.app/post/2024-05-06/</link>
       <pubDate>Mon, 06 May 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2024-05-06/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2024-05-06/</guid>
       <description>工具列表 資訊提取 strings：Linux 系統的原生命令列工具，可以用來將二進位檔案的可閱讀部分取出 exiftool：用於讀寫、檢視圖片、音</description>
     </item>
     
     <item>
       <title>嘗試優化網頁直到 LightHouse 放煙火</title>
-      <link>https://yukaibackpacker.netlify.app/post/2024-04-25/</link>
+      <link>https://yukaitechstack.netlify.app/post/2024-04-25/</link>
       <pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2024-04-25/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2024-04-25/</guid>
       <description>本篇的動機為某次 Web 上課的作業是優化 Free CSS 網站上提供的模板，以 Lighthouse 的評測結果作為評分標準。當時以前端起家的我想說，那豈不是輕輕鬆鬆，但在第一個項目</description>
     </item>
     
     <item>
       <title>[實戰紀錄] 掃描紀錄自動化轉化工具</title>
-      <link>https://yukaibackpacker.netlify.app/post/2024-03-23/</link>
+      <link>https://yukaitechstack.netlify.app/post/2024-03-23/</link>
       <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2024-03-23/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2024-03-23/</guid>
       <description>大綱 主要紀錄一下這兩點的開發過程，而這個案子雖然還用到了爬蟲抓取中文翻譯的資料，並且使用了 pandas 來實現 xlsx 的轉換，但因為沒什麼特別的地方，都是很基</description>
     </item>
     
     <item>
       <title>HCCCON &amp; 2023 FCU 資安週感想</title>
-      <link>https://yukaibackpacker.netlify.app/post/2024-01-12/</link>
+      <link>https://yukaitechstack.netlify.app/post/2024-01-12/</link>
       <pubDate>Fri, 12 Jan 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2024-01-12/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2024-01-12/</guid>
       <description>本文概要 今天不談技術，主要寫個人感受，因此這篇文章是紀錄我這一年在黑客社參加資安週、研討會活動的心路歷程，但其實我在資安週的工作量遠大於研討</description>
     </item>
     
     <item>
       <title>[Discord Bot] Better Interactions with UI</title>
-      <link>https://yukaibackpacker.netlify.app/post/2023-08-28/</link>
+      <link>https://yukaitechstack.netlify.app/post/2023-08-28/</link>
       <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2023-08-28/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2023-08-28/</guid>
       <description>Discord UI 使用 Discord.ext 提供許多 UI 元件來優化使用者體驗，而不需要以純文字、接收數個參數等繁雜處理方式來獲得我們所需要的資訊。以下將說明如何使用 Discord UI 元件。 首</description>
     </item>
     
     <item>
       <title>Node.js Event Loop VS. Browser Event Loop</title>
-      <link>https://yukaibackpacker.netlify.app/post/2023-08-01/</link>
+      <link>https://yukaitechstack.netlify.app/post/2023-08-01/</link>
       <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2023-08-01/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2023-08-01/</guid>
       <description>同步與非同步 同步的意思是一次只處理一次事件，而非同步的意思是同時多個事件一起處理。如下 同步執行 同步執行就是將程式碼一行一行執行下來 console.log(&amp;#34;Beginning&amp;#34;) console.log(&amp;#34;Hello World&amp;#34;) console.log(&amp;#34;Ending&amp;#34;) 執</description>
     </item>
     
     <item>
       <title>[Discord Bot] Commands Compare: Normal、Slash、Hybrid</title>
-      <link>https://yukaibackpacker.netlify.app/post/2023-07-06/</link>
+      <link>https://yukaitechstack.netlify.app/post/2023-07-06/</link>
       <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2023-07-06/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2023-07-06/</guid>
       <description>前言 本文適合對 OOP 有略知，且已邀請機器人至伺服器的讀者。 若還未完成，這是我推薦的設置教程：Discord Bot 如果都沒問題就可以開始了~ 以下為本次</description>
     </item>
     
     <item>
       <title>[ GIT 錯誤報告 ]</title>
-      <link>https://yukaibackpacker.netlify.app/post/2022-09-28/</link>
+      <link>https://yukaitechstack.netlify.app/post/2022-09-28/</link>
       <pubDate>Wed, 28 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2022-09-28/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2022-09-28/</guid>
       <description>錯誤紀錄 遠端儲存庫沒有對應的分支 error: src refspec main does not match any error: failed to push some refs to [repo_url] 解決方法 將本地儲存庫待上傳的分支更名 git branch -m [old branch] [new branch] 部分內容未被合併，該版本不</description>
     </item>
     
     <item>
       <title>Commands List</title>
-      <link>https://yukaibackpacker.netlify.app/post/2022-09-26/</link>
+      <link>https://yukaitechstack.netlify.app/post/2022-09-26/</link>
       <pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2022-09-26/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2022-09-26/</guid>
       <description>官網 git 文件 首次使用必要指令 設定使用者名稱 git config --global user.name &amp;#34;your_username&amp;#34; 設定使用者電子信箱 git config --global user.email &amp;#34;your_email_address@example.com&amp;#34; 列出使用者資訊 git config --global --list 常見上傳流水線指令 初始化本地儲存庫 git init 將</description>
     </item>
     
     <item>
       <title>Google Map 商家資料爬取</title>
-      <link>https://yukaibackpacker.netlify.app/post/2022-08-20/</link>
+      <link>https://yukaitechstack.netlify.app/post/2022-08-20/</link>
       <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/post/2022-08-20/</guid>
+      <guid>https://yukaitechstack.netlify.app/post/2022-08-20/</guid>
       <description>技能大綱 如何用 Selenium 點擊、滑動、鎖定元素 如何用 Python 製作 json 相關 Library：selenium、pandas、json、bs4、time 主要過程與介</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://yukaibackpacker.netlify.app/about/</link>
+      <link>https://yukaitechstack.netlify.app/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/about/</guid>
+      <guid>https://yukaitechstack.netlify.app/about/</guid>
       <description></description>
     </item>
     
     <item>
       <title></title>
-      <link>https://yukaibackpacker.netlify.app/notes/</link>
+      <link>https://yukaitechstack.netlify.app/notes/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/notes/</guid>
+      <guid>https://yukaitechstack.netlify.app/notes/</guid>
       <description>JavaScript 學習筆記 C/C++ 學習筆記</description>
     </item>
     
     <item>
       <title></title>
-      <link>https://yukaibackpacker.netlify.app/search/placeholder/</link>
+      <link>https://yukaitechstack.netlify.app/search/placeholder/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/search/placeholder/</guid>
+      <guid>https://yukaitechstack.netlify.app/search/placeholder/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Posts Archive</title>
-      <link>https://yukaibackpacker.netlify.app/archive/</link>
+      <link>https://yukaitechstack.netlify.app/archive/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaibackpacker.netlify.app/archive/</guid>
+      <guid>https://yukaitechstack.netlify.app/archive/</guid>
       <description></description>
     </item>
     
