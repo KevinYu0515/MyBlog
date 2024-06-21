@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/2024-06-07/main.jpg">
+    <meta property="twitter:image" content="/img/2024-06-07/main.jpg" />
+    
+
+    
+    <meta name="title" content="[開發環境配置] Windows Terminal &#43; WSL 基本設置" />
+    <meta property="og:title" content="[開發環境配置] Windows Terminal &#43; WSL 基本設置" />
+    <meta property="twitter:title" content="[開發環境配置] Windows Terminal &#43; WSL 基本設置" />
+    
+
+    
+    <meta name="description" content="先紀錄目前的 WSL、Windows Terminal 的配置">
+    <meta property="og:description" content="先紀錄目前的 WSL、Windows Terminal 的配置" />
+    <meta property="twitter:description" content="先紀錄目前的 WSL、Windows Terminal 的配置" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai, yukaitechstack, software engineering, 軟體工程, 背包旅行">
+    <link rel="shortcut icon" href="/img/cover.jpg">
+
+    <title>[開發環境配置] Windows Terminal &#43; WSL 基本設置 | YukaiTechStack Blog</title>
+
+    <link rel="canonical" href="/post/2024-06-07/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukaitechstack.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukaitechstack.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukaitechstack.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/2024-06-07/main.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>[開發環境配置] Windows Terminal &#43; WSL 基本設置</h1>
+                    <h2 class="subheading">概要紀錄自己目前的開發環境配置，以便後續筆電轉移</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Friday, June 7, 2024
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="wsl-配置">WSL 配置</h2>
+<p>WSL 要怎麼裝需要開啟什麼就不說了，不知道的可以參考這<a href="https://learn.microsoft.com/zh-tw/windows/wsl/install">連結</a></p>
+<p>目前 WSL 安裝的映像檔如下：</p>
+<ul>
+<li>Ubuntu-22.04 LTS (預設)</li>
+<li>docker-desktop-data</li>
+<li>docker-desktop</li>
+</ul>
+<p>使用的 wsl version 為 2.1.5.0</p>
+<p>Ubuntu 系統內安裝以下套件：</p>
+<ul>
+<li>Gnome 文字編輯器<br>
+<code>sudo apt install gnome-text-editor -y</code></li>
+<li>GIMP 點陣圖形編輯器<br>
+<code>sudo apt install gimp -y</code></li>
+<li>Nautilus， GNOME 桌面的檔案管理器<br>
+<code>sudo apt install nautilus -y</code></li>
+<li>VLC 跨平台多媒體播放器<br>
+<code>sudo apt install vlc -y</code></li>
+<li>X11 應用程式，Linux 視窗系統，隨附應用程式和工具其他集合<br>
+<code>sudo apt install x11-apps -y</code></li>
+<li>google chrome
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8be9fd;font-style:italic">cd</span> /tmp
+</span></span><span style="display:flex;"><span>wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+</span></span><span style="display:flex;"><span>sudo apt install --fix-missing ./google-chrome-stable_current_amd64.deb
+</span></span></code></pre></div></li>
+</ul>
+<p>以上內容參考 <a href="https://learn.microsoft.com/zh-tw/windows/wsl/tutorials/gui-apps">Linux GUI 安裝建議</a></p>
+<p>另外使用 VMware® Workstation 17 Pro 另外安裝一台 kali-linux-2023.3-vmware-amd64.vmx</p>
+<p>設備細節如下：</p>
+<ul>
+<li>Memory：2 GB</li>
+<li>Process：4</li>
+<li>Hard Disk：80.1 GB</li>
+</ul>
+<h2 id="windows-terminal-配置">Windows Terminal 配置</h2>
+<p>這邊紀錄 Windows Terminal 美化需要的操作</p>
+<ol>
+<li>
+<p>安装 Powerline 字形： <a href="https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/Meslo.zip">Meslo</a>
+Powerline 字形提供 badge 上的許多 icon，所以為了顯示這些特別的 Unicode，要載入 Meslo，接著將字體 MesloLGS Nerd Font 加入 windows terminal settings.json 底下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#f1fa8c">&#34;profiles&#34;</span>: 
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;defaults&#34;</span>: 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&#34;colorScheme&#34;</span>: <span style="color:#f1fa8c">&#34;Solarized Dark&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&#34;font&#34;</span>: 
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;face&#34;</span>: <span style="color:#f1fa8c">&#34;MesloLGS Nerd Font&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>另外也要於 VSCode 新增該字體，file &gt; Perferences &gt; font &gt; font family 加入 &lsquo;MesloLGS NF&rsquo;, &lsquo;MesloLGS Nerd Font Propo&rsquo;</p>
+</li>
+<li>
+<p>安裝 Posh-Git
+能將 Git 訊息加到 badge 上，也提供 tab 自動補全 git 指令的功能</p>
+</li>
+<li>
+<p>安装 Oh-My-Posh
+為 PowerShell 的 badge 提供主題樣式</p>
+</li>
+</ol>
+<p>使用 PowerShell 執行第二點與第三點的安裝指令，過程中全按 Y　即可</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Install-Module posh-git -Scope CurrentUser
+</span></span><span style="display:flex;"><span>Install-Module oh-my-posh -Scope CurrentUser
+</span></span></code></pre></div><p>接著繼續在 PowerShell 中設置 Powerline，輸入 <code>code $profile</code> 會使用 VSCode 打開配置腳本，將下列指令加入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Import-Module posh-git
+</span></span><span style="display:flex;"><span>Import-Module oh-my-posh
+</span></span><span style="display:flex;"><span>oh-my-posh init pwsh --config <span style="color:#f1fa8c">&#39;https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/blueish.omp.json&#39;</span> | Invoke-Expression
+</span></span></code></pre></div><p>如果要更換主題，將 <code>https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/blueish.omp.json</code> 最後的 blueish 換成要的主題即可</p>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-05-06/" data-toggle="tooltip" data-placement="top" title="Forensics 初學者紀錄">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/post/2024-06-21/" data-toggle="tooltip" data-placement="top" title="React Native X AWS 的 APP 初體驗(上)">Next
+                            Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/setup" title="Setup">
+                            Setup
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai Blog 2024
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

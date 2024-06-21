@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/default.jpg">
+    <meta property="twitter:image" content="/img/default.jpg" />
+    
+
+    
+    <meta name="title" content="React Native X AWS 的 APP 初體驗(上)" />
+    <meta property="og:title" content="React Native X AWS 的 APP 初體驗(上)" />
+    <meta property="twitter:title" content="React Native X AWS 的 APP 初體驗(上)" />
+    
+
+    
+    <meta name="description" content="此篇記錄花了一個月的零碎時間，總計應不超過 5 天的 RN 並串接 AWS 服務的踩坑血淚史，上篇重點在於前端開發">
+    <meta property="og:description" content="此篇記錄花了一個月的零碎時間，總計應不超過 5 天的 RN 並串接 AWS 服務的踩坑血淚史，上篇重點在於前端開發" />
+    <meta property="twitter:description" content="此篇記錄花了一個月的零碎時間，總計應不超過 5 天的 RN 並串接 AWS 服務的踩坑血淚史，上篇重點在於前端開發" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai, yukaitechstack, software engineering, 軟體工程, 背包旅行">
+    <link rel="shortcut icon" href="/img/cover.jpg">
+
+    <title>React Native X AWS 的 APP 初體驗(上) | YukaiTechStack Blog</title>
+
+    <link rel="canonical" href="/post/2024-06-21/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukaitechstack.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukaitechstack.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukaitechstack.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/default.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>React Native X AWS 的 APP 初體驗(上)</h1>
+                    <h2 class="subheading">web 仔想踏入 APP 領域瞧瞧的第一步</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Friday, June 21, 2024
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="前言">前言</h2>
+<p>這其實是學校的資料庫課程，需要一個實際應用要能對資料庫操作，並有一個簡單的操作畫面。不過，開發者之魂上身的我，決定作死開發 APP，並串接雲端的資料庫（因為我有修另一堂雲端的課，想說這樣可以兩邊都用），誰在跟你走地端，我要來個降維打擊你各位。但畢竟沒有完整得 APP 開發經驗（硬要說的話高中科展有寫過簡單的 Android Studio，但跟垃圾沒兩樣，而且也不知道自己在寫什麼），因此想說先以網頁開發的經驗去寫 APP，藉此對 APP 的架構能有初步的認識，所以選擇 React Native 作為前端開發框架，來過度這段開發時期。</p>
+<p>至於雲端的部分，則是將後端部屬在 AWS EC2 上，並嘗試使用 RDS 和 S3 兩個 serverless 的服務，減少在地端架設伺服器的工作。</p>
+<p>也就是說這一次前端與後端都用到新的技術，但由於之前有 React 的經驗，所以覺得 React Native 應該不會難以上手，最難以捉摸的應該就是 AWS 的部分了，另外，整個開發流程以 Typescript 作為主要語言，藉此在每一層的資料轉換時更能確定需要提供什麼類型的資料。</p>
+<p>將分為三個部分講解，分別為前端建設、後端建設、AWS 服務串接。而這篇只講解前端的部分，後端於下篇解說。</p>
+<h2 id="frontend-build">Frontend Build</h2>
+<h3 id="use-expo-to-build-app">Use Expo To Build APP</h3>
+<p>使用 Expo 來搭建 React Native，Expo 提供許多工具來為 React Native 測試，使用如下命令初始化一個 React Native 專案</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npx create-expo-app@latest
+</span></span></code></pre></div><p>接著就可以使用以下指令來 Build APP，更詳細的指令會提供在初始化後的 package.json 中的 script</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npx expo start
+</span></span></code></pre></div><p>要注意的是測試 Android 時，要開啟 Android Simulator，Expo 才找得到模擬器進行建構，否則會跳出找不到裝置錯誤
+
+  <img src="/img/2024-06-21/001.jpg" alt="image">
+
+
+又或者這類錯誤，是說你的模擬器還沒完全開機
+
+  <img src="/img/2024-06-21/002.jpg" alt="image">
+
+</p>
+<p>另外如果要重新載 APP，就按下 r 就可以了，但要注意的是 Android Studio Simulator 很吃電腦效能，當機是正常不過了，這時候只要將模擬器重開就好，而且如果有使用到環境變數，直接修改環境變數是不會被重載捕捉到的，所以也要重新用 Expo 重新建構一次。</p>
+<p>那如果要在真實裝置上使用，需要做到三件事，但僅供參考：</p>
+<ol>
+<li>將防火牆新增輸入規則：Window 的做法是 winodw defender &gt; 進階設定 &gt; 新增輸入規則。接者將 Expo 預設的 8081 port 打開就行了</li>
+<li>與裝置使用同個網路</li>
+<li>安裝 expo 的反向代理功能，並開啟 tunnel 連接</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm i -g @expo/ngrok
+</span></span><span style="display:flex;"><span>npx expo start --tunnel
+</span></span></code></pre></div><p>如果重載 APP 還是沒有變化，可能是真實裝置還在上一個版本，這時只要將裝置清理或重起來重新下載新版本就可以了。</p>
+<h3 id="how-to-figure-out-axios">How To Figure Out Axios</h3>
+<p>如果是使用 axios 發送 Request，在真實裝置上會因為不是使用 SSL/TLS 傳輸，導致被阻擋發送，這時只要在 app.json 新增這項規則就可以了，這是另外安裝 <code>expo-build-properties</code> 這個插件來調整 expo build 的參數，這樣就能使得 android 使用 http 方式發送，但還是建議將 SSL 加入，減少安全疑慮。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#f1fa8c">&#34;plugins&#34;</span>: [
+</span></span><span style="display:flex;"><span>      [
+</span></span><span style="display:flex;"><span>        <span style="color:#f1fa8c">&#34;expo-build-properties&#34;</span>,
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#ff79c6">&#34;android&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;usesCleartextTraffic&#34;</span>: <span style="color:#ff79c6">true</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }]
+</span></span><span style="display:flex;"><span>    ],
+</span></span></code></pre></div><p>另外一個問題是不能用 localhost 進行發送，這是因為這不是在電腦地端上，所以必須找到電腦的 ip，才能成功請求到地端的 API，如果是在雲端就是雲端 Ec2 的 ip。</p>
+<h3 id="time-to-write-react-native">Time to Write React Native</h3>
+<p>基本上 RN 的寫法跟 React 一樣，狀態變化渲染可以用 useState，監測狀態變化產生 side effect 可以用 useEffect，要學習的部分就是怎麼應用 RN 的 Component，以及習慣 RN 的 style 怎麼寫，這次主要使用到這幾個：</p>
+<ul>
+<li>View</li>
+<li>Text</li>
+<li>Image</li>
+<li>Pressable</li>
+<li>ActivityIndicator</li>
+</ul>
+<p>不過 Style 的部分基本上就是 css 的屬性拿過來改，所以不難理解。</p>
+<h4 id="viewtext">View、Text</h4>
+<p>在初始化架構中會發現來自 Themd 這個檔案，而這提供許多風格化設計的 Componet，也就是對 Componet 再次包裝，如下可以發現多了 lightColor、darkColor 兩個不同風格時的顏色選擇，因此我們可以透過這種手法來自定義我們需要的 Component，再放入畫面來減少程式碼的重複性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">type</span> ThemeProps <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>  lightColor?: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>  darkColor?: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">type</span> ViewProps <span style="color:#ff79c6">=</span> ThemeProps <span style="color:#ff79c6">&amp;</span> DefaultView[<span style="color:#f1fa8c">&#39;props&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#8be9fd;font-style:italic">function</span> View(props: <span style="color:#8be9fd">ViewProps</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">const</span> { style, lightColor, darkColor, ...otherProps } <span style="color:#ff79c6">=</span> props;
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">const</span> backgroundColor <span style="color:#ff79c6">=</span> useThemeColor({ light: <span style="color:#8be9fd">lightColor</span>, dark: <span style="color:#8be9fd">darkColor</span> }, <span style="color:#f1fa8c">&#39;background&#39;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> &lt;<span style="color:#ff79c6">DefaultView</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{[{ backgroundColor }, style]} {<span style="color:#50fa7b">...otherProps</span>} /&gt;;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因此我自定義了一個 Loading 元件，並且可以修改其外部樣式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#8be9fd;font-style:italic">function</span> Loading(props: <span style="color:#8be9fd">DefaultView</span>[<span style="color:#f1fa8c">&#39;props&#39;</span>] ) {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">View</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{props.style}&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">ActivityIndicator</span> <span style="color:#50fa7b">size</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;small&#34;</span> <span style="color:#50fa7b">color</span><span style="color:#ff79c6">=</span><span style="color:#f1fa8c">&#34;#FFD52D&#34;</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">View</span>&gt;
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>具體使用如下，這行的意思是 isLoading 如果為 true 就渲染後面的元件並套用 mainCard 這個 style。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span>{ isLoading <span style="color:#ff79c6">&amp;&amp;</span> &lt;<span style="color:#ff79c6">Loading</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.mainCard} /&gt; } 
+</span></span></code></pre></div><h4 id="pressable">Pressable</h4>
+<p>現在 RN 支援的按鈕觸發元件是 Pressable，這我覺得是 RN 想要捨棄之前 TouchableOpacity，TouchableHighlight、TouchableWithoutFeedback，在這個舊時期如果你想要改變按鈕的透明度，就要使用第一個，如果想要標式按鈕，就要用第二個，元件種類太多，因此直接將決定權和更高的彈性給使用者去設計按鈕的各階段變化，所以現在我可以透過 pressIn、pressOut，來決定我要什麼樣的設計或後續邏輯。如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span> &lt;<span style="color:#ff79c6">Pressable</span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">onPress</span><span style="color:#ff79c6">=</span>{() <span style="color:#ff79c6">=&gt;</span> handleDeleteProduct()}
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">onPressIn</span><span style="color:#ff79c6">=</span>{() <span style="color:#ff79c6">=&gt;</span> setPressToDelete(<span style="color:#ff79c6">true</span>)}
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">onPressOut</span><span style="color:#ff79c6">=</span>{() <span style="color:#ff79c6">=&gt;</span> setPressToDelete(<span style="color:#ff79c6">false</span>)}
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{(pressToDelete <span style="color:#ff79c6">?</span> styles.pressInDeleteButton : <span style="color:#8be9fd">styles.pressOutDeleteButton</span>)}
+</span></span><span style="display:flex;"><span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{fontSize: <span style="color:#8be9fd">20</span>, fontWeight<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;700&#39;</span>, color<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;#FFBC0A&#39;</span>, textAlign<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;center&#39;</span>}}&gt;
+</span></span><span style="display:flex;"><span>      {pressToDelete <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;此商品成功刪除&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;刪除此商品&#34;</span>}
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">Pressable</span>&gt;
+</span></span></code></pre></div><p>以這個元件為例，我可以透過按件去改變 pressToDelete 的狀態來變化按鈕上的文字、樣式，即按下會顯示 &ldquo;此商品成功刪除&rdquo;，放開會顯示 &ldquo;刪除此商品&rdquo;，另外當按下去那刻也會觸發 handleDeleteProduct。</p>
+<h4 id="image">Image</h4>
+<p>這個元件重點在於要如何將圖片資料傳送進去，也就是藉由 source 這個 prop，但如果是直接放入就需要是轉換成 byte Array 的形式才能顯示，如果是 url 或者 base64 image，就要將其包裹成一個 object 再傳入解析</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">Image</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{width: <span style="color:#8be9fd">80</span>, height: <span style="color:#8be9fd">80</span>}} <span style="color:#50fa7b">source</span><span style="color:#ff79c6">=</span>{{uri: <span style="color:#8be9fd">props.item.img</span>}} /&gt;
+</span></span></code></pre></div><p>我個人比較偏愛這個方法，另外但如果是打包的靜態資料，就要將其引入之後直接作為 source prop value</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">Image</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.tinyLogo}
+</span></span><span style="display:flex;"><span>    <span style="color:#50fa7b">source</span><span style="color:#ff79c6">=</span>{<span style="color:#ff79c6">require</span>(<span style="color:#f1fa8c">&#39;@expo/snack-static/react-native-logo.png&#39;</span>)}
+</span></span><span style="display:flex;"><span>/&gt;
+</span></span></code></pre></div><h4 id="style">Style</h4>
+<p>style 的部分可以透過 stylesheet 來建立一個 style 物件，並作為模組傳入所需要的元件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { StyleSheet } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;react-native&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> styles <span style="color:#ff79c6">=</span> StyleSheet.create({
+</span></span><span style="display:flex;"><span>    mainCard<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        alignItems<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;flex-start&#39;</span>,
+</span></span><span style="display:flex;"><span>        backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;#FFF&#34;</span>,
+</span></span><span style="display:flex;"><span>        width<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;90%&#39;</span>,
+</span></span><span style="display:flex;"><span>        height<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;auto&#39;</span>,
+</span></span><span style="display:flex;"><span>        marginLeft: <span style="color:#8be9fd">20</span>,
+</span></span><span style="display:flex;"><span>        borderRadius: <span style="color:#8be9fd">10</span>,
+</span></span><span style="display:flex;"><span>        zIndex: <span style="color:#8be9fd">2</span>,
+</span></span><span style="display:flex;"><span>        padding: <span style="color:#8be9fd">20</span>,
+</span></span><span style="display:flex;"><span>        marginBottom: <span style="color:#8be9fd">20</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">default</span> styles;
+</span></span></code></pre></div><p>對於 style prop 可接受的值，可以是單獨的 style，也可以是多個 style，只是要注意後面樣式會覆蓋前面樣式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{[styles.cardTitle, {marginBottom: <span style="color:#8be9fd">0</span>}]}&gt;{item.name}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span></code></pre></div><p>如同上述例子，會發現後面又有一個 marginBottom，所以會覆蓋掉 cardTitle 定義的 marginBottom。</p>
+<p>而且還可以做邏輯判斷，如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">Pressable</span> <span style="color:#50fa7b">onPress</span><span style="color:#ff79c6">=</span>{handleSubmit} <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{pressed <span style="color:#ff79c6">?</span> styles.pressOutButton : <span style="color:#8be9fd">styles.pressInButton</span>}&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{fontSize: <span style="color:#8be9fd">20</span>, fontWeight<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;700&#39;</span>, color<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;#FFF&#39;</span>, textAlign<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;center&#39;</span>}}&gt;{pressed <span style="color:#ff79c6">?</span> <span style="color:#f1fa8c">&#34;此商品成功送出&#34;</span> <span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;新增此商品&#34;</span>}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">Pressable</span>&gt;
+</span></span></code></pre></div><p>不過要在 prop 作邏輯判斷建議還是要用（括號）包裹起來</p>
+<h4 id="details">Details</h4>
+<p>剩下一些小細節，但我認為這些是應該歸究於開發 react 的細節</p>
+<ol>
+<li>要將多個元件用 &lt;&gt;&lt;/&gt; 包裹成單個元件：反正就先起手式 &lt;&gt;&lt;/&gt;</li>
+<li>用 map 動態渲染，會需要 unique key prop，記得先將 Componet 拉出來在引用進去，這樣才不會有複數節點導致 key 需要每個 Componet 都要設</li>
+</ol>
+<p>Bad Design</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> TimeBasedView <span style="color:#ff79c6">=</span> (props<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>  time: <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>  data<span style="color:#ff79c6">:</span> {[key: <span style="color:#8be9fd">string</span>]<span style="color:#ff79c6">:</span> orderType[]},
+</span></span><span style="display:flex;"><span>}) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">View</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{width<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;100%&#39;</span>, backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;#F1F1F1&#39;</span>}}&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.listTime}&gt;{props.time}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#ff79c6">View</span>&gt;
+</span></span><span style="display:flex;"><span>      {props.data[props.time].map((item, index) <span style="color:#ff79c6">=&gt;</span> (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">View</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{[styles.listCard, (props.index <span style="color:#ff79c6">===</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">&amp;&amp;</span> styles.listFirstCard)]}&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.listCardText}&gt;訂單編號：{props.item.id}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.listCardText}&gt;訂單人：{props.item.customer}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>          &lt;<span style="color:#ff79c6">Text</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">onPress</span><span style="color:#ff79c6">=</span>{() <span style="color:#ff79c6">=&gt;</span> navigation.navigate({name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;Details&#39;</span>, params<span style="color:#ff79c6">:</span> {id: <span style="color:#8be9fd">props.item.id</span>}} <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">never</span>)}
+</span></span><span style="display:flex;"><span>            <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{fontWeight<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;bold&#39;</span>, padding: <span style="color:#8be9fd">2</span>, paddingTop: <span style="color:#8be9fd">8</span>}}
+</span></span><span style="display:flex;"><span>          &gt;點擊進行查看 &lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;/<span style="color:#ff79c6">View</span>&gt;
+</span></span><span style="display:flex;"><span>      ))}
+</span></span><span style="display:flex;"><span>    &lt;/&gt;
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Good Design</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> TimeBasedView <span style="color:#ff79c6">=</span> (props<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>  time: <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>  data<span style="color:#ff79c6">:</span> {[key: <span style="color:#8be9fd">string</span>]<span style="color:#ff79c6">:</span> orderType[]},
+</span></span><span style="display:flex;"><span>}) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">View</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{width<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;100%&#39;</span>, backgroundColor<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;#F1F1F1&#39;</span>}}&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.listTime}&gt;{props.time}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;/<span style="color:#ff79c6">View</span>&gt;
+</span></span><span style="display:flex;"><span>      {props.data[props.time].map((item, index) <span style="color:#ff79c6">=&gt;</span> (
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">OrderView</span> <span style="color:#50fa7b">key</span><span style="color:#ff79c6">=</span>{index} <span style="color:#50fa7b">index</span><span style="color:#ff79c6">=</span>{index} <span style="color:#50fa7b">item</span><span style="color:#ff79c6">=</span>{item} /&gt;
+</span></span><span style="display:flex;"><span>      ))}
+</span></span><span style="display:flex;"><span>    &lt;/&gt;
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> OrderView <span style="color:#ff79c6">=</span> (props<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>  index: <span style="color:#8be9fd">number</span>,
+</span></span><span style="display:flex;"><span>  item: <span style="color:#8be9fd">orderType</span>,
+</span></span><span style="display:flex;"><span>}) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">const</span> navigation <span style="color:#ff79c6">=</span> useNavigation();
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">View</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{[styles.listCard, (props.index <span style="color:#ff79c6">===</span> <span style="color:#bd93f9">0</span> <span style="color:#ff79c6">&amp;&amp;</span> styles.listFirstCard)]}&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.listCardText}&gt;訂單編號：{props.item.id}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">Text</span> <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{styles.listCardText}&gt;訂單人：{props.item.customer}&lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>      &lt;<span style="color:#ff79c6">Text</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">onPress</span><span style="color:#ff79c6">=</span>{() <span style="color:#ff79c6">=&gt;</span> navigation.navigate({name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;Details&#39;</span>, params<span style="color:#ff79c6">:</span> {id: <span style="color:#8be9fd">props.item.id</span>}} <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">never</span>)}
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">style</span><span style="color:#ff79c6">=</span>{{fontWeight<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#39;bold&#39;</span>, padding: <span style="color:#8be9fd">2</span>, paddingTop: <span style="color:#8be9fd">8</span>}}
+</span></span><span style="display:flex;"><span>      &gt;點擊進行查看 &lt;/<span style="color:#ff79c6">Text</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">View</span>&gt;
+</span></span><span style="display:flex;"><span>  )
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="use-react-navigation-to-control-screen">Use React Navigation To Control Screen</h3>
+<p>我另外使用 React Natigtion 來作導航控制，主要是 Expo 提供的元件太少，要如何佈局可以參考官方的例子，這裡紀錄三點好用的功能</p>
+<h4 id="導向攜帶參數">導向攜帶參數</h4>
+<p>基本上我覺得就跟 Web 的 Route 是一樣的概念，可以將參數放進 params 在傳遞給指定的元件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { useNavigation, NavigationProp } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#39;@react-navigation/native&#39;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> navigation <span style="color:#ff79c6">=</span> useNavigation&lt;<span style="color:#ff79c6">NavigationProp</span>&lt;<span style="color:#50fa7b">OrderRootStackParamList</span>&gt;<span style="color:#ff79c6">&gt;</span>();
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> handleSubmitOrder <span style="color:#ff79c6">=</span> () <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    navigation.navigate(<span style="color:#f1fa8c">&#34;OrderSetUp&#34;</span>, { orderItems });
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>這樣我就可以導向到 OrderSetup 的 Component，並使用 orderItems Object</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#6272a4">// In OrderSetup Componetnt
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> { useRoute } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;@react-navigation/native&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> route <span style="color:#ff79c6">=</span> useRoute&lt;<span style="color:#ff79c6">OrderSetUpRouteProp</span>&gt;();
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> { orderItems } <span style="color:#ff79c6">=</span> route.params;
+</span></span></code></pre></div><p>可以透過 useRoute 來解析出傳過來的參數，就不用在定義 prop 抽絲剝繭出傳過來的參數</p>
+<h4 id="畫面重新渲染">畫面重新渲染</h4>
+<p>當我們需要將畫面重新渲染的時候，可以使用 useIsFocused 來判斷此 Componet 是否出現在畫面上，並搭配 useEffect 監測這個值來重新渲染畫面，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { useIsFocused } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;@react-navigation/native&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> isFocused <span style="color:#ff79c6">=</span> useIsFocused();
+</span></span><span style="display:flex;"><span>useEffect(() <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>  }, [isFocused]);
+</span></span></code></pre></div><h4 id="等待-component-生成再導向">等待 Component 生成再導向</h4>
+<p>如果直接導向到一個還沒有被建立的元件，會導致導向錯誤，雖然還是有機率成功，但其實可以建立一個 Ref 捕抓 NavigationContainer 元件的狀態再進行導向會穩定許多。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> {
+</span></span><span style="display:flex;"><span>  NavigationContainer,
+</span></span><span style="display:flex;"><span>  createNavigationContainerRef,
+</span></span><span style="display:flex;"><span>} <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;@react-navigation/native&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> navigationRef <span style="color:#ff79c6">=</span> createNavigationContainerRef();
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> navigate <span style="color:#ff79c6">=</span> (name: <span style="color:#8be9fd">string</span>, params?: <span style="color:#8be9fd">any</span>) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#ff79c6">if</span> (navigationRef.isReady()) {
+</span></span><span style="display:flex;"><span>    navigationRef.navigate({ name, params } <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">never</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4">// Component
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span>&lt;<span style="color:#ff79c6">NativeBaseProvider</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#ff79c6">NavigationContainer</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">ref</span><span style="color:#ff79c6">=</span>{navigationRef}
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">linking</span><span style="color:#ff79c6">=</span>{linking}
+</span></span><span style="display:flex;"><span>        <span style="color:#50fa7b">independent</span><span style="color:#ff79c6">=</span>{<span style="color:#ff79c6">true</span>}
+</span></span><span style="display:flex;"><span>    &gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#ff79c6">RootLayoutNav</span> /&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#ff79c6">NavigationContainer</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">NativeBaseProvider</span>&gt;
+</span></span></code></pre></div><h3 id="use-redux-to-identify-role">Use Redux to Identify Role</h3>
+<p>由於我會在不同深度的 componet 需要 user 的資料，所以我設計登入之後會將資料儲存在 Redux Store，配置如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { createSlice, configureStore } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;@reduxjs/toolkit&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">interface</span> State {
+</span></span><span style="display:flex;"><span>  role: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>  id: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>  name: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>  address: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>  phone: <span style="color:#8be9fd">string</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> roleSlice <span style="color:#ff79c6">=</span> createSlice({
+</span></span><span style="display:flex;"><span>  name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;roleAuth&#34;</span>,
+</span></span><span style="display:flex;"><span>  initialState<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>    role<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    id<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    name<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    address<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    phone<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  reducers<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>    userLogin<span style="color:#ff79c6">:</span> (state, action) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      state.role <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;user&#34;</span>;
+</span></span><span style="display:flex;"><span>      state.id <span style="color:#ff79c6">=</span> action.payload.id;
+</span></span><span style="display:flex;"><span>      state.name <span style="color:#ff79c6">=</span> action.payload.name;
+</span></span><span style="display:flex;"><span>      (state.address <span style="color:#ff79c6">=</span> action.payload.address),
+</span></span><span style="display:flex;"><span>        (state.phone <span style="color:#ff79c6">=</span> action.payload.phone);
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    adminLogin<span style="color:#ff79c6">:</span> (state, action) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      state.role <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;admin&#34;</span>;
+</span></span><span style="display:flex;"><span>      state.id <span style="color:#ff79c6">=</span> action.payload.id;
+</span></span><span style="display:flex;"><span>      state.name <span style="color:#ff79c6">=</span> action.payload.name;
+</span></span><span style="display:flex;"><span>      state.address <span style="color:#ff79c6">=</span> action.payload.address;
+</span></span><span style="display:flex;"><span>      state.phone <span style="color:#ff79c6">=</span> action.payload.phone;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    Logout<span style="color:#ff79c6">:</span> (state) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      state.role <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>      state.id <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>      state.name <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>      state.address <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>      state.phone <span style="color:#ff79c6">=</span> <span style="color:#f1fa8c">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">const</span> { userLogin, adminLogin, Logout } <span style="color:#ff79c6">=</span> roleSlice.actions;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">const</span> store <span style="color:#ff79c6">=</span> configureStore({
+</span></span><span style="display:flex;"><span>  reducer: <span style="color:#8be9fd">roleSlice.reducer</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>主要是透過 reducers 中定義的 function 來改變 store state，因此我可以在任何地方呼叫這些 function 來改變，方法如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span>store.dispatch(
+</span></span><span style="display:flex;"><span>    adminLogin({
+</span></span><span style="display:flex;"><span>        id: <span style="color:#8be9fd">data.SID</span>,
+</span></span><span style="display:flex;"><span>        name: <span style="color:#8be9fd">data.SName</span>,
+</span></span><span style="display:flex;"><span>        address: <span style="color:#8be9fd">data.SAddress</span>,
+</span></span><span style="display:flex;"><span>        phone: <span style="color:#8be9fd">data.SPhone</span>,
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>另外可以藉此方法取出 store state</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span>store.getState()
+</span></span></code></pre></div><p>而以上是 Redux 的基本功能，但如果我今天要監聽 store 的狀態來重新渲染畫面，就會有點複雜，我是使用了 react-redux 插件中的 Provider、useSelector 來實現這個效果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { useSelector, Provider } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;react-redux&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Parent Component
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">return</span> (
+</span></span><span style="display:flex;"><span>&lt;<span style="color:#ff79c6">Provider</span> <span style="color:#50fa7b">store</span><span style="color:#ff79c6">=</span>{store}&gt;
+</span></span><span style="display:flex;"><span>  &lt;<span style="color:#ff79c6">NativeBaseContainer</span> /&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#ff79c6">Provider</span>&gt;
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Child Component
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> role: <span style="color:#8be9fd">string</span> <span style="color:#ff79c6">=</span> useSelector((state: <span style="color:#8be9fd">State</span>) <span style="color:#ff79c6">=&gt;</span> state.role);
+</span></span><span style="display:flex;"><span>  useEffect(() <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">if</span> (role <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#34;admin&#34;</span>) navigate(<span style="color:#f1fa8c">&#34;AdminHome&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (role <span style="color:#ff79c6">===</span> <span style="color:#f1fa8c">&#34;user&#34;</span>) navigate(<span style="color:#f1fa8c">&#34;setting&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">else</span> navigate(<span style="color:#f1fa8c">&#34;Login&#34;</span>);
+</span></span><span style="display:flex;"><span>  }, [role]);
+</span></span></code></pre></div><p>簡單來說，透過 Provider 將 store 的狀態註冊，就能用 useSelector 取出被監聽的值，只要這個值有變化，Provider 就會重新並帶動其子元件同步渲染。具體原理請見 react 的 Context、Provider。</p>
+<p>在這個例子不只是重新渲染，還會因為 role 的狀態變化產生副作用，也就是會導向到指定路由</p>
+<p>另外要注意的是 Provider 與 useSelector 的深度不能太靠近，不然會抓不到 store</p>
+<h2 id="after-frontend">After Frontend</h2>
+<p>基本上前段有用到的功能都提到了，但其實還有一個 react-image-picker 的插件用來選取裝置內的圖片，但因為這個插件需要調整 APP 的權限設定，而這需要寫一個 XML，所以就得等我研究完 Android Studio 再說，也就是說現在只能在 Browser 的情況下使用選取圖片。下篇就紀錄後端的架設，採用 node-ts + express 配置，並說明如何使用 s3、rds 服務。</p>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-06-07/" data-toggle="tooltip" data-placement="top" title="[開發環境配置] Windows Terminal &#43; WSL 基本設置">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/react-native" title="React Native">
+                            React Native
+                        </a>
+                        
+                        <a class="tag" href="/tags/front-end" title="Front-end">
+                            Front-end
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai Blog 2024
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

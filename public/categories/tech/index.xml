@@ -6,7 +6,25 @@
     <description>Recent content in Tech on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 May 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/categories/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Native X AWS 的 APP 初體驗(上)</title>
+      <link>https://yukaitechstack.netlify.app/post/2024-06-21/</link>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaitechstack.netlify.app/post/2024-06-21/</guid>
+      <description>前言 這其實是學校的資料庫課程，需要一個實際應用要能對資料庫操作，並有一個簡單的操作畫面。不過，開發者之魂上身的我，決定作死開發 APP，並串接</description>
+    </item>
+    
+    <item>
+      <title>[開發環境配置] Windows Terminal &#43; WSL 基本設置</title>
+      <link>https://yukaitechstack.netlify.app/post/2024-06-07/</link>
+      <pubDate>Fri, 07 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaitechstack.netlify.app/post/2024-06-07/</guid>
+      <description>WSL 配置 WSL 要怎麼裝需要開啟什麼就不說了，不知道的可以參考這連結 目前 WSL 安裝的映像檔如下： Ubuntu-22.04 LTS (預設) docker-desktop-data docker-desktop 使用的 wsl version 為 2.1.5.0 Ubuntu 系統內安裝以下套件： Gnome 文</description>
+    </item>
+    
     <item>
       <title>Forensics 初學者紀錄</title>
       <link>https://yukaitechstack.netlify.app/post/2024-05-06/</link>

@@ -38,7 +38,7 @@ home = ["HTML", "RSS", "Algolia"]
 
   # Sidebar settings
   sidebar_about_description = "IT Student, Open Source and Life Adventurer"
-  sidebar_avatar = "element/cabbageWorm.jpeg"
+  sidebar_avatar = "img/cover.jpg"
 
   featured_tags = true 
   featured_condition_size = 0 

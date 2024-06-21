@@ -6,7 +6,16 @@
     <description>Recent content in Front-end on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 25 Apr 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/front-end/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/front-end/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Native X AWS 的 APP 初體驗(上)</title>
+      <link>https://yukaitechstack.netlify.app/post/2024-06-21/</link>
+      <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukaitechstack.netlify.app/post/2024-06-21/</guid>
+      <description>前言 這其實是學校的資料庫課程，需要一個實際應用要能對資料庫操作，並有一個簡單的操作畫面。不過，開發者之魂上身的我，決定作死開發 APP，並串接</description>
+    </item>
+    
     <item>
       <title>嘗試優化網頁直到 LightHouse 放煙火</title>
       <link>https://yukaitechstack.netlify.app/post/2024-04-25/</link>
