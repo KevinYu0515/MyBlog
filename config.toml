@@ -1,7 +1,7 @@
 baseurl = "https://yukai0xe.netlify.app"
-title = "YuKai Blog"
+title = "YuKAi0xe Blog"
 languageCode = "en-us"
-disqusShortname = "yukai"
+disqusShortname = "yukai0xe"
 googleAnalytics = ""
 preserveTaxonomyNames = true
 paginate = 7 #frontpage pagination
@@ -14,8 +14,8 @@ home = ["HTML", "RSS", "Algolia"]
   author = "YuKai"
   header_image = "/img/homee.jpg"
   SEOTitle = "Yukai0xe Blog"
-  description = "YuKai，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術"
-  keyword = "YuKai, yukai0xe, software engineering, 軟體工程, 背包旅行" 
+  description = "YuKAi0xe，資訊系學生，生活探險家 | 走在江湖，總得有個硬實力技術"
+  keyword = "YuKAi, yukai0xe, software engineering, 軟體工程" 
   slogan = ["機不可失，失不再來",
             "藤枝必亡，但朽木終將重生", 
             "怕走崎嶇路，莫想登高峰", 
