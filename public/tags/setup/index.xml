@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Setup on YuKai Blog</title>
-    <link>https://yukaitechstack.netlify.app/tags/setup/</link>
+    <link>https://yukai0xe.netlify.app/tags/setup/</link>
     <description>Recent content in Setup on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/setup/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai0xe.netlify.app/tags/setup/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[開發環境配置] Windows Terminal &#43; WSL 基本設置</title>
-      <link>https://yukaitechstack.netlify.app/post/2024-06-07/</link>
+      <link>https://yukai0xe.netlify.app/post/2024-06-07/</link>
       <pubDate>Fri, 07 Jun 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2024-06-07/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2024-06-07/</guid>
       <description>WSL 配置 WSL 要怎麼裝需要開啟什麼就不說了，不知道的可以參考這連結 目前 WSL 安裝的映像檔如下： Ubuntu-22.04 LTS (預設) docker-desktop-data docker-desktop 使用的 wsl version 為 2.1.5.0 Ubuntu 系統內安裝以下套件： Gnome 文</description>
     </item>
     

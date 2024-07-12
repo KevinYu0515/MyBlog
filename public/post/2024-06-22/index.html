@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    
+    <meta property="og:site_name" content="YuKai Blog">
+    <meta property="og:type" content="article">
+
+    
+    <meta property="og:image" content="/img/default.jpg">
+    <meta property="twitter:image" content="/img/default.jpg" />
+    
+
+    
+    <meta name="title" content="React Native X AWS 的 APP 初體驗(下)" />
+    <meta property="og:title" content="React Native X AWS 的 APP 初體驗(下)" />
+    <meta property="twitter:title" content="React Native X AWS 的 APP 初體驗(下)" />
+    
+
+    
+    <meta name="description" content="此篇記錄花了一個月的零碎時間，總計應不超過 5 天的 RN 並串接 AWS 服務的踩坑血淚史，下篇重點在於後端、雲端開發">
+    <meta property="og:description" content="此篇記錄花了一個月的零碎時間，總計應不超過 5 天的 RN 並串接 AWS 服務的踩坑血淚史，下篇重點在於後端、雲端開發" />
+    <meta property="twitter:description" content="此篇記錄花了一個月的零碎時間，總計應不超過 5 天的 RN 並串接 AWS 服務的踩坑血淚史，下篇重點在於後端、雲端開發" />
+    
+
+    
+    <meta property="twitter:card" content="summary" />
+    
+    
+
+    <meta name="keyword"  content="YuKai, yukai0xe, software engineering, 軟體工程, 背包旅行">
+    <link rel="shortcut icon" href="/img/cover.jpg">
+
+    <title>React Native X AWS 的 APP 初體驗(下) | Yukai0xe Blog</title>
+
+    <link rel="canonical" href="/post/2024-06-22/">
+
+    
+    
+    
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    
+    <link rel="stylesheet" type='text/css' href="/css/main.css">
+
+    
+    <link rel="stylesheet" href="/css/font-awesome.all.min.css">
+
+    
+    <link rel="stylesheet" href="https://yukai0xe.netlify.app/css/addones.css">
+
+    
+    <script src="/js/jquery.min.js"></script>
+
+    
+    <script src="/js/bootstrap.min.js"></script>
+
+    
+    <script src="/js/hux-blog.min.js"></script>
+
+    
+    <script src="/js/lazysizes.min.js"></script>
+
+    
+    
+    <script src="https://yukai0xe.netlify.app/js/sideLinks.js"></script>
+    
+    <script src="https://yukai0xe.netlify.app/js/addones.min.js"></script>
+    
+
+</head>
+
+
+
+
+
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">YuKai Blog</a>
+        </div>
+
+        
+        
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">All Posts</a>
+                    </li>
+                    
+                        
+                        <li>
+                            <a href="/categories/tech/">tech</a>
+                        </li>
+                        
+                    
+                    
+		    
+                        <li><a href="/archive//">ARCHIVE</a></li>
+                    
+                        <li><a href="/notes//">NOTES</a></li>
+                    
+                        <li><a href="/about//">ABOUT</a></li>
+                    
+		            <li>
+                        <a href="/search"><i class="fa fa-search"></i></a>
+		           </li>
+                </ul>
+            </div>
+        </div>
+        
+    </div>
+    
+</nav>
+<script>
+    
+    
+    
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        
+            $navbar.className = " ";
+            
+            setTimeout(function(){
+                
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+
+
+
+<header class="intro-header" style="--background:url(/img/default.jpg)">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>React Native X AWS 的 APP 初體驗(下)</h1>
+                    <h2 class="subheading">web 仔想踏入雲端領域瞧瞧的第一步</h2>
+                    <span class="meta">
+                        
+                            
+                            
+                                Posted by 
+                                
+                                    YuKai
+                                 
+                                on 
+                                Saturday, June 22, 2024
+                                
+                            
+                            
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="view-bar"></div>
+
+
+
+<article>
+    <div class="container">
+        <div class="row">
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+               
+                <h2 id="前言">前言</h2>
+<p>這一篇要來講後端的部分，採用 node.ts + express，結合 AWS 資源的 RDS 和 S3，如果要看前端的部分，請見上篇。</p>
+<h2 id="backend-build">Backend Build</h2>
+<h3 id="路由劃分">路由劃分</h3>
+<p>後端的部分先在地端開發測試完後，才部屬到 EC2 上面，而由於這份專案，使用到了兩個身分，所以路由、Database 也拆分成兩部分來調用，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#6272a4">// routes/admin.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> express <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;express&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">export</span> <span style="color:#ff79c6">const</span> router <span style="color:#ff79c6">=</span> express.Router();
+</span></span><span style="display:flex;"><span>router.<span style="color:#ff79c6">get</span>(<span style="color:#f1fa8c">&#39;/get_seller&#39;</span>, <span style="color:#ff79c6">async</span> (req, res) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> seller <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> adminDB.query_seller();
+</span></span><span style="display:flex;"><span>    res.json(seller);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#6272a4">// server.ts
+</span></span></span><span style="display:flex;"><span><span style="color:#6272a4"></span><span style="color:#ff79c6">import</span> express <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;express&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> cors <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;cors&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> bodyParser <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;body-parser&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { router <span style="color:#ff79c6">as</span> admin_router } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;./routes/admin&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> app <span style="color:#ff79c6">=</span> express();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app.use(cors());
+</span></span><span style="display:flex;"><span>app.use(bodyParser.json({ limit<span style="color:#ff79c6">:</span> <span style="color:#f1fa8c">&#34;50mb&#34;</span> }));
+</span></span><span style="display:flex;"><span>app.use(bodyParser.urlencoded({ extended: <span style="color:#8be9fd">true</span> }));
+</span></span><span style="display:flex;"><span>app.use(<span style="color:#f1fa8c">&#34;/admin&#34;</span>, admin_router);
+</span></span></code></pre></div><p>這樣當我要調用這個路由底下的子路由，可以這麼做 <code>http://server_ip/admin/get_seller</code>，這樣就能發送到 routes 資料夾底下 admin.ts 中註冊的 <code>/get_seller</code>，這樣我就可以劃分更詳細的路由階層，而不會使得路由名過長</p>
+<h3 id="aws-rds">AWS RDS</h3>
+<p>連接 AWS RDS 其實跟地端的方法差不多，只要提供資料庫的資訊就可以了，這邊透過創建連接池來控制連接的數量，和提供資料庫資訊</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> pool: <span style="color:#8be9fd">any</span> <span style="color:#ff79c6">=</span> mysql.createPool({
+</span></span><span style="display:flex;"><span>  connectionLimit: <span style="color:#8be9fd">5</span>,
+</span></span><span style="display:flex;"><span>  host: <span style="color:#8be9fd">process.env.RDS_HOSTNAME</span>,
+</span></span><span style="display:flex;"><span>  user: <span style="color:#8be9fd">process.env.RDS_USERNAME</span>,
+</span></span><span style="display:flex;"><span>  password: <span style="color:#8be9fd">process.env.RDS_PASSWORD</span>,
+</span></span><span style="display:flex;"><span>  port: <span style="color:#8be9fd">parseInt</span>(process.env.RDS_PORT <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">string</span>),
+</span></span><span style="display:flex;"><span>  database: <span style="color:#8be9fd">process.env.RDS_DATABASE</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><p>而我使用連結池的意義在於，一開始我不太確定資料庫的計費方式，所以以為是當連接資料庫時才開始計費，這變向來說，只要我一直連著，但卻沒有對資料庫有任何操作，豈不是很浪費，所以才使用連接池來控制連接數，只要指令結束就取消連接，但後來才知道其實是根據 RDS 的配置來計費的，所以就算一直連著也不會比較貴，反而沒有去連接才是最浪費的，因此現在連接池對我來說的意義變成是為了可以更好的去控管每次的連接，限制同時連接的量而做的進階配置。</p>
+<h3 id="aws-s3">AWS S3</h3>
+<p>關於 S3 的配置就比較複雜，首先需要下載 aws-sdk，並於本機安裝 aws-cli。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm i aws-sdk
+</span></span></code></pre></div><p>關於 AWS CLI 的安裝方式請參考<a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">這網址</a></p>
+<p>接著使用 aws cli 的指令，進行設定，來生成 .aws 資料</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>aws configure
+</span></span></code></pre></div><p>好了之後，在 .aws 底下有兩個檔案 config 和 crendentials，前者是 aws 設定，後者就是儲存可使用身分。</p>
+<p>記得要將使用的身分加入 crendentiasl，才能讓 aws cli 去核對身分，不然會出現 aws record not found 錯誤。</p>
+<p>最後在安裝 multer-s3 用於上傳檔案到 s3，這只是因為我比較習慣 multer 對檔案的處理方式，所以才安裝這個插件，如果要單純靠 client-s3 用指令上傳也是可以的</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm i multer-s3
+</span></span></code></pre></div><p>都安裝好後，就可以開始寫程式。</p>
+<ol>
+<li>
+<p>創建 S3 Client
+S3 Client 用來創建一個身分來訪問 S3，可以看到下面 credentials 中有三個屬性，而這可以從 IAM 獲取，但由於我是 Learner Lab 的使用者，沒有足夠權限創建 IAM Role，只能拿 Learner Lab 提供為期四小時的臨時身分，所以每過四小時，我都需要重新配置有關身分的環境變數，另外這個臨時身分也要記得加進 .aws/crendentials 內，不然會找不到</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> s3Config <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> S3Client({
+</span></span><span style="display:flex;"><span>    region: <span style="color:#8be9fd">process.env.AWS_REGION</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">string</span>,
+</span></span><span style="display:flex;"><span>    credentials<span style="color:#ff79c6">:</span> {
+</span></span><span style="display:flex;"><span>        accessKeyId: <span style="color:#8be9fd">process.env.AWS_ACCESS_KEY_ID</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">string</span>,
+</span></span><span style="display:flex;"><span>        secretAccessKey: <span style="color:#8be9fd">process.env.AWS_SECRET_ACCESS_KEY</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">string</span>,
+</span></span><span style="display:flex;"><span>        sessionToken: <span style="color:#8be9fd">process.env.AWS_SESSION_TOKEN</span> <span style="color:#ff79c6">as</span> <span style="color:#8be9fd">string</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div></li>
+<li>
+<p>使用 multer-s3 上傳檔案
+注意這邊的 key 是指上傳到 s3 的檔案名稱，這邊是用 uuidv4 生成</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">const</span> uploadToS3 <span style="color:#ff79c6">=</span> multer({
+</span></span><span style="display:flex;"><span>    storage: <span style="color:#8be9fd">multerS3</span>({
+</span></span><span style="display:flex;"><span>        s3: <span style="color:#8be9fd">s3Config</span>,
+</span></span><span style="display:flex;"><span>        bucket: <span style="color:#8be9fd">BUCKET_NAME</span>,
+</span></span><span style="display:flex;"><span>        metadata<span style="color:#ff79c6">:</span> (req, file, cb) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>            cb(<span style="color:#ff79c6">null</span>, {fieldName: <span style="color:#8be9fd">file.fieldname</span>});
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        key<span style="color:#ff79c6">:</span> (req, file, cb) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>            cb(<span style="color:#ff79c6">null</span>, uuidv4().toString());
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    })
+</span></span><span style="display:flex;"><span>})
+</span></span></code></pre></div></li>
+<li>
+<p>從 S3 獲取圖片
+由於直接從 S3 點擊儲放的圖片連結，會因為沒有身分導致沒有權限訪問，所以我們需要將身分帶入連結參數，我使用 s3-request-presigner 協助生成一個帶有身分的臨時連結，這個連結就能有效地訪問到圖片</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#ff79c6">import</span> { getSignedUrl } <span style="color:#ff79c6">from</span> <span style="color:#f1fa8c">&#34;@aws-sdk/s3-request-presigner&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#ff79c6">const</span> getImageFromS3 <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">async</span> (params<span style="color:#ff79c6">:</span> {key: <span style="color:#8be9fd">string</span>}) <span style="color:#ff79c6">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> getObjectParams <span style="color:#ff79c6">=</span> {
+</span></span><span style="display:flex;"><span>        Bucket: <span style="color:#8be9fd">BUCKET_NAME</span>,
+</span></span><span style="display:flex;"><span>        Key: <span style="color:#8be9fd">params.key</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> command <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> GetObjectCommand(getObjectParams);
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">const</span> url <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">await</span> getSignedUrl(s3Config, command, { expiresIn: <span style="color:#8be9fd">3600</span> });
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">return</span> url;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>以上基本上就是後端需要寫的程式，接著講講 AWS 上的配置</p>
+<h2 id="aws-setting">AWS Setting</h2>
+<p>基本上沒有特別需求就不用調整太多設定，只是要記得把公有請求打開，或是把本機 ip 加入安全群組內，主要講一下 S3 對於身分權限的配置</p>
+<p>S3 Bucket 創好之後，還需要額外新增 policy 和開放 CORS，前者是對於身分權限的控制、後者是允許跨網域請求。</p>
+<p>
+  <img src="/img/2024-06-22/001.jpg" alt="image">
+
+</p>
+<p>上圖為 policy 的簡易設置，重點在於 Statement 內的屬性</p>
+<ul>
+<li>Sid：任意取即可，用來辨別這個 policy 負責什麼</li>
+<li>Effect：身分權限的控制</li>
+<li>Principal：允許什麼樣的身分，圖上配置為不限制</li>
+<li>Action：身分能做的事</li>
+<li>Resource：身分可以訪問的 bucket</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;Version&#34;</span>: <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#ff79c6">&#34;Statement&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;Sid&#34;</span>: <span style="color:#f1fa8c">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;Effect&#34;</span>: <span style="color:#f1fa8c">&#34;Allow&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;Principal&#34;</span>: <span style="color:#f1fa8c">&#34;*&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;Action&#34;</span>: <span style="color:#f1fa8c">&#34;s3:ListBucket&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#ff79c6">&#34;Resource&#34;</span>: <span style="color:#f1fa8c">&#34;arn:aws:s3::[bucketname]&#34;</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>
+  <img src="/img/2024-06-22/002.jpg" alt="image">
+
+</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>[
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&#34;AllowedHeaders&#34;</span>:[<span style="color:#f1fa8c">&#34;&#34;</span>],
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&#34;AllowedMethods&#34;</span>:[<span style="color:#f1fa8c">&#34;HEAD&#34;</span>, <span style="color:#f1fa8c">&#34;GET&#34;</span>],
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&#34;AllowedOrigins&#34;</span>:[<span style="color:#f1fa8c">&#34;&#34;</span>],
+</span></span><span style="display:flex;"><span>        <span style="color:#ff79c6">&#34;ExposeHeaders&#34;</span>:[]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>]
+</span></span></code></pre></div><h2 id="總結">總結</h2>
+<p>這一次的開發，讓我對 React 生態圈有更多的認識，也發現雲端資源的有趣之處，希望在這之後就時大雲端時代，全部地端跑完之後，搬上雲端實現網路自由，所以很感謝雲端課的 Kate 老師很慷慨地給我這麼多的額度，讓我可以不用顧忌金錢，持續挖掘成為更有能力的開發者。</p>
+
+
+                
+                <hr>
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/post/2024-06-21/" data-toggle="tooltip" data-placement="top" title="React Native X AWS 的 APP 初體驗(上)">&larr;
+                            Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+                
+
+                
+
+
+<div id="disqus-comment"></div>
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "yukai" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+            </div>
+
+            
+            
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+            
+
+            
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/cloud" title="Cloud">
+                            Cloud
+                        </a>
+                        
+                        <a class="tag" href="/tags/aws" title="AWS">
+                            AWS
+                        </a>
+                        
+                        <a class="tag" href="/tags/back-end" title="Back-end">
+                            Back-end
+                        </a>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+<button aria-label="回到頂部" class="btn btn-moveTop">
+    <img width="50" height="50" src="/element/arrow_up.png"/>
+</button>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">                  
+                    
+                    <li>
+                        <a href="mailto:marvelo.k0515@gmail.com">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                    
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/profile.php?id=100009946749327">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/Kevin051596">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		            
+                    
+                    <li>
+                        <a target="_blank" href="https://www.instagram.com/yukai8765/">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-instagram fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                   
+                    <li>
+                        <a target="_blank" href="https://discordapp.com/users/640102516738097163">
+                            <span class="fa-stack fa-lg">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fab fa-discord fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+		           
+                </ul>
+		        <p class="copyright text-muted">
+                    Copyright &copy; YuKai Blog 2024
+                    <br>
+                    | <a href="https://themes.gohugo.io/hugo-theme-cleanwhite">Refer to CleanWhite Hugo Theme</a> |
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script>
+    function loadAsync(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+
+<script>
+    
+    if($('#tag_cloud').length !== 0){
+        loadAsync("/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+
+<script>
+    loadAsync("https://cdn.jsdelivr.net/npm/fastclick@1.0.6/lib/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+
+<style>
+    .inline-fold{
+        display: none;
+    }
+</style>
+
+
+
+
+
+</body>
+</html>
+<script>
+    const slogans = []
+    $(document).ready(() => {
+        $(".site-heading ul li").each((index, element) => {
+            slogans.push(element.innerText)
+        })
+        $(window).load(() => {
+            $(".subheading").text(slogans[Math.floor(Math.random() * (slogans.length - 0))])
+        })
+    })
+</script>

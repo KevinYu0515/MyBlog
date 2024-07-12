@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Front-end on YuKai Blog</title>
-    <link>https://yukaitechstack.netlify.app/tags/front-end/</link>
+    <link>https://yukai0xe.netlify.app/tags/front-end/</link>
     <description>Recent content in Front-end on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/front-end/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai0xe.netlify.app/tags/front-end/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>React Native X AWS 的 APP 初體驗(上)</title>
-      <link>https://yukaitechstack.netlify.app/post/2024-06-21/</link>
+      <link>https://yukai0xe.netlify.app/post/2024-06-21/</link>
       <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2024-06-21/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2024-06-21/</guid>
       <description>前言 這其實是學校的資料庫課程，需要一個實際應用要能對資料庫操作，並有一個簡單的操作畫面。不過，開發者之魂上身的我，決定作死開發 APP，並串接</description>
     </item>
     
     <item>
       <title>嘗試優化網頁直到 LightHouse 放煙火</title>
-      <link>https://yukaitechstack.netlify.app/post/2024-04-25/</link>
+      <link>https://yukai0xe.netlify.app/post/2024-04-25/</link>
       <pubDate>Thu, 25 Apr 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2024-04-25/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2024-04-25/</guid>
       <description>本篇的動機為某次 Web 上課的作業是優化 Free CSS 網站上提供的模板，以 Lighthouse 的評測結果作為評分標準。當時以前端起家的我想說，那豈不是輕輕鬆鬆，但在第一個項目</description>
     </item>
     

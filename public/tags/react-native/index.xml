@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>React Native on YuKai Blog</title>
-    <link>https://yukaitechstack.netlify.app/tags/react-native/</link>
+    <link>https://yukai0xe.netlify.app/tags/react-native/</link>
     <description>Recent content in React Native on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/react-native/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 21 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai0xe.netlify.app/tags/react-native/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>React Native X AWS 的 APP 初體驗(上)</title>
-      <link>https://yukaitechstack.netlify.app/post/2024-06-21/</link>
+      <link>https://yukai0xe.netlify.app/post/2024-06-21/</link>
       <pubDate>Fri, 21 Jun 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2024-06-21/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2024-06-21/</guid>
       <description>前言 這其實是學校的資料庫課程，需要一個實際應用要能對資料庫操作，並有一個簡單的操作畫面。不過，開發者之魂上身的我，決定作死開發 APP，並串接</description>
     </item>
     

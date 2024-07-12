@@ -2,44 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on YuKai Blog</title>
-    <link>https://yukaitechstack.netlify.app/tags/python/</link>
+    <link>https://yukai0xe.netlify.app/tags/python/</link>
     <description>Recent content in Python on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 23 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai0xe.netlify.app/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[實戰紀錄] 掃描紀錄自動化轉化工具</title>
-      <link>https://yukaitechstack.netlify.app/post/2024-03-23/</link>
+      <link>https://yukai0xe.netlify.app/post/2024-03-23/</link>
       <pubDate>Sat, 23 Mar 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2024-03-23/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2024-03-23/</guid>
       <description>大綱 主要紀錄一下這兩點的開發過程，而這個案子雖然還用到了爬蟲抓取中文翻譯的資料，並且使用了 pandas 來實現 xlsx 的轉換，但因為沒什麼特別的地方，都是很基</description>
     </item>
     
     <item>
       <title>[Discord Bot] Better Interactions with UI</title>
-      <link>https://yukaitechstack.netlify.app/post/2023-08-28/</link>
+      <link>https://yukai0xe.netlify.app/post/2023-08-28/</link>
       <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2023-08-28/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2023-08-28/</guid>
       <description>Discord UI 使用 Discord.ext 提供許多 UI 元件來優化使用者體驗，而不需要以純文字、接收數個參數等繁雜處理方式來獲得我們所需要的資訊。以下將說明如何使用 Discord UI 元件。 首</description>
     </item>
     
     <item>
       <title>[Discord Bot] Commands Compare: Normal、Slash、Hybrid</title>
-      <link>https://yukaitechstack.netlify.app/post/2023-07-06/</link>
+      <link>https://yukai0xe.netlify.app/post/2023-07-06/</link>
       <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2023-07-06/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2023-07-06/</guid>
       <description>前言 本文適合對 OOP 有略知，且已邀請機器人至伺服器的讀者。 若還未完成，這是我推薦的設置教程：Discord Bot 如果都沒問題就可以開始了~ 以下為本次</description>
     </item>
     
     <item>
       <title>Google Map 商家資料爬取</title>
-      <link>https://yukaitechstack.netlify.app/post/2022-08-20/</link>
+      <link>https://yukai0xe.netlify.app/post/2022-08-20/</link>
       <pubDate>Sat, 20 Aug 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2022-08-20/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2022-08-20/</guid>
       <description>技能大綱 如何用 Selenium 點擊、滑動、鎖定元素 如何用 Python 製作 json 相關 Library：selenium、pandas、json、bs4、time 主要過程與介</description>
     </item>
     

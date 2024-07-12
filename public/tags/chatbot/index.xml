@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>chatBot on YuKai Blog</title>
-    <link>https://yukaitechstack.netlify.app/tags/chatbot/</link>
+    <link>https://yukai0xe.netlify.app/tags/chatbot/</link>
     <description>Recent content in chatBot on YuKai Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukaitechstack.netlify.app/tags/chatbot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 28 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai0xe.netlify.app/tags/chatbot/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Discord Bot] Better Interactions with UI</title>
-      <link>https://yukaitechstack.netlify.app/post/2023-08-28/</link>
+      <link>https://yukai0xe.netlify.app/post/2023-08-28/</link>
       <pubDate>Mon, 28 Aug 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2023-08-28/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2023-08-28/</guid>
       <description>Discord UI 使用 Discord.ext 提供許多 UI 元件來優化使用者體驗，而不需要以純文字、接收數個參數等繁雜處理方式來獲得我們所需要的資訊。以下將說明如何使用 Discord UI 元件。 首</description>
     </item>
     
     <item>
       <title>[Discord Bot] Commands Compare: Normal、Slash、Hybrid</title>
-      <link>https://yukaitechstack.netlify.app/post/2023-07-06/</link>
+      <link>https://yukai0xe.netlify.app/post/2023-07-06/</link>
       <pubDate>Thu, 06 Jul 2023 00:00:00 +0000</pubDate>
       
-      <guid>https://yukaitechstack.netlify.app/post/2023-07-06/</guid>
+      <guid>https://yukai0xe.netlify.app/post/2023-07-06/</guid>
       <description>前言 本文適合對 OOP 有略知，且已邀請機器人至伺服器的讀者。 若還未完成，這是我推薦的設置教程：Discord Bot 如果都沒問題就可以開始了~ 以下為本次</description>
     </item>
     

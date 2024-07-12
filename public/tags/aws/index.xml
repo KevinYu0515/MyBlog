@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>AWS on YuKai Blog</title>
+    <link>https://yukai0xe.netlify.app/tags/aws/</link>
+    <description>Recent content in AWS on YuKai Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 22 Jun 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://yukai0xe.netlify.app/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>React Native X AWS 的 APP 初體驗(下)</title>
+      <link>https://yukai0xe.netlify.app/post/2024-06-22/</link>
+      <pubDate>Sat, 22 Jun 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://yukai0xe.netlify.app/post/2024-06-22/</guid>
+      <description>前言 這一篇要來講後端的部分，採用 node.ts + express，結合 AWS 資源的 RDS 和 S3，如果要看前端的部分，請見上篇。 Backend Build 路由劃分 後端的部分先在地端開發測</description>
+    </item>
+    
+  </channel>
+</rss>
