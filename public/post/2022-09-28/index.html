@@ -201,37 +201,46 @@
                 col-md-10 col-md-offset-1
                 post-container">
                
-                <h2 id="錯誤紀錄">錯誤紀錄</h2>
+                <h3 id="錯誤紀錄">錯誤紀錄</h3>
 <h4 id="遠端儲存庫沒有對應的分支">遠端儲存庫沒有對應的分支</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>error: src refspec main does not match any 
-</span></span><span style="display:flex;"><span>error: failed to push some refs to [repo_url]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>error: src refspec main does not match any 
+</span></span><span style="display:flex;"><span>error: failed to push some refs to <span style="color:#ff79c6">[</span>repo_url<span style="color:#ff79c6">]</span>
 </span></span></code></pre></div><p><strong>解決方法</strong><br>
 將本地儲存庫待上傳的分支更名</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>git branch -m [old branch] [<span style="color:#ff79c6">new</span> branch] 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git branch -m <span style="color:#ff79c6">[</span>old branch<span style="color:#ff79c6">]</span> <span style="color:#ff79c6">[</span>new branch<span style="color:#ff79c6">]</span> 
 </span></span></code></pre></div><hr>
 <h4 id="部分內容未被合併該版本不是遠端儲存庫最新版本">部分內容未被合併，該版本不是遠端儲存庫最新版本</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>! [rejected]        main -&gt; main (non-fast-forward)  
-</span></span><span style="display:flex;"><span>error: failed to push some refs to [repo_url]
-</span></span></code></pre></div><p><strong>解決方法</strong><br>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>! <span style="color:#ff79c6">[</span>rejected<span style="color:#ff79c6">]</span>        main -&gt; main <span style="color:#ff79c6">(</span>non-fast-forward<span style="color:#ff79c6">)</span>  
+</span></span><span style="display:flex;"><span>error: failed to push some refs to <span style="color:#ff79c6">[</span>repo_url<span style="color:#ff79c6">]</span>
+</span></span></code></pre></div><p><strong>解決方法</strong> <br>
 先拉取遠端儲存庫分支版本，並將其允許無相關的歷史紀錄與現在分支合併接著重新提交</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>git fetch origin main
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git fetch origin main
 </span></span><span style="display:flex;"><span>git merge --allow-unrelated-histories origin/main  
-</span></span><span style="display:flex;"><span>git <span style="color:#ff79c6">add</span> .  
+</span></span><span style="display:flex;"><span>git add .  
 </span></span><span style="display:flex;"><span>git commit
 </span></span></code></pre></div><hr>
 <h4 id="gitignore-沒有效果">.gitignore 沒有效果</h4>
 <p>原因：因為 <code>git</code> 通常會去讀取緩存的那份 <code>.gitignore</code>，而這份通常指的是該項目在遠端儲存庫當前的版本，所以才會無論怎麼對 <code>.gitignore</code> 操作都無法改變。</p>
-<p><strong>解決方法</strong>
+<p><strong>解決方法</strong><br>
 先清除掉 local 端的 <code>git</code> 緩存，重新創建一份 <code>.gitignore</code> 後，再將此版本提交上主線程</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-csharp" data-lang="csharp"><span style="display:flex;"><span>git rm -r --cached .
-</span></span><span style="display:flex;"><span>git <span style="color:#ff79c6">add</span> .
-</span></span><span style="display:flex;"><span>git commit -m &#39;update .gitignore&#39;
-</span></span><span style="display:flex;"><span># 記得不要使用 git commit -a -m 或是 git commit . -m 的指令樣式，不然會將之前的內容也新增回來
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached .
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#f1fa8c">&#39;update .gitignore&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#6272a4"># 記得不要使用 git commit -a -m 或是 git commit . -m 的指令樣式，不然會將之前的內容也新增回來</span>
 </span></span></code></pre></div><p>這樣處理完後，如果有其他人 clone 此專案，只需執行前兩步即可</p>
-<h2 id="參考資料">參考資料</h2>
+<h4 id="個人建立的私有資料庫無法上傳問題">個人建立的私有資料庫無法上傳問題</h4>
+<p>原因：私有資料庫只允許擁有者和被邀請加入的開發者才能上傳、下拉使用，所以需要表示上傳者的身分才能成功上傳</p>
+<p><strong>解決方法</strong><br>
+總共有兩種方式解決，第一種較適合還沒 clone repo，第二種則適合已經 clone 但不想重新 clone 的開發者</p>
+<ol>
+<li>將 repo 以 ssh 方式 clone</li>
+<li>創建 personal access token 並以這樣的形式<code>（https://[your-username]:[your-private-access-token-here]@github.com/[your-repo]）</code>加入 remote url</li>
+</ol>
+<h3 id="參考資料">參考資料</h3>
 <ol>
 <li><a href="https://developer.aliyun.com/article/614459">Fatal: refusing to merge unrelated histories</a></li>
 <li><a href="https://blog.csdn.net/qq_27249535/article/details/121906285">Rejected problem</a></li>
+<li><a href="https://stackoverflow.com/questions/56269686/git-repository-not-found-error-for-private-repository-on-github">git-repository-not-found-error-for-private-repository-on-github</a></li>
 </ol>
 
 
