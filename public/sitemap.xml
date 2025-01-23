@@ -2,31 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://yukai0xe.netlify.app/categories/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/tags/chatbot/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/post/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/tags/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/categories/tech/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/tags/workflow-tool/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://yukai0xe.netlify.app/post/n8n-%E6%87%89%E7%94%A8/</loc>
+    <lastmod>2025-01-23T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://yukai0xe.netlify.app/tags/aws/</loc>
     <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai0xe.netlify.app/tags/back-end/</loc>
     <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://yukai0xe.netlify.app/categories/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://yukai0xe.netlify.app/tags/cloud/</loc>
     <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://yukai0xe.netlify.app/post/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://yukai0xe.netlify.app/post/2024-06-22/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai0xe.netlify.app/tags/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai0xe.netlify.app/categories/tech/</loc>
-    <lastmod>2024-06-22T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai0xe.netlify.app/</loc>
     <lastmod>2024-06-22T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai0xe.netlify.app/tags/front-end/</loc>
@@ -78,9 +87,6 @@
     <lastmod>2024-01-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai0xe.netlify.app/post/2023-08-28/</loc>
-    <lastmod>2023-08-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://yukai0xe.netlify.app/tags/chatbot/</loc>
     <lastmod>2023-08-28T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://yukai0xe.netlify.app/tags/javascript/</loc>
