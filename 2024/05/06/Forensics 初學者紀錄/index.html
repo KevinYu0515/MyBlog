@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Forensics Beginner - YuKai0xe&#039;s Blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="YuKai0xe&#039;s Blog"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="YuKai0xe&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="如題，本篇記錄透過 picoCTF 學習 forensics 基本能力，可以大致分為 image、flow、general、disk 等常見種類，當然現實情況一定更為複雜，而這些也只是我敲 pico 過程遇到的類型而已，整篇將先以認識到的工具說明，然後抓幾道有趣的題目來做說明"><meta property="og:type" content="blog"><meta property="og:title" content="Forensics Beginner"><meta property="og:url" content="http://example.com/2024/05/06/Forensics%20%E5%88%9D%E5%AD%B8%E8%80%85%E7%B4%80%E9%8C%84/"><meta property="og:site_name" content="YuKai0xe&#039;s Blog"><meta property="og:description" content="如題，本篇記錄透過 picoCTF 學習 forensics 基本能力，可以大致分為 image、flow、general、disk 等常見種類，當然現實情況一定更為複雜，而這些也只是我敲 pico 過程遇到的類型而已，整篇將先以認識到的工具說明，然後抓幾道有趣的題目來做說明"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://example.com/gallery/covers/default.jpg"><meta property="article:published_time" content="2024-05-05T16:00:00.000Z"><meta property="article:modified_time" content="2025-02-11T04:42:03.626Z"><meta property="article:author" content="yukai0xe"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://example.com/gallery/covers/default.jpg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://example.com/2024/05/06/Forensics%20%E5%88%9D%E5%AD%B8%E8%80%85%E7%B4%80%E9%8C%84/"},"headline":"Forensics Beginner","image":["http://example.com/gallery/covers/default.jpg"],"datePublished":"2024-05-05T16:00:00.000Z","dateModified":"2025-02-11T04:42:03.626Z","author":{"@type":"Person","name":"yukai0xe"},"publisher":{"@type":"Organization","name":"YuKai0xe's Blog","logo":{"@type":"ImageObject","url":"http://example.com/img/logo.svg"}},"description":"如題，本篇記錄透過 picoCTF 學習 forensics 基本能力，可以大致分為 image、flow、general、disk 等常見種類，當然現實情況一定更為複雜，而這些也只是我敲 pico 過程遇到的類型而已，整篇將先以認識到的工具說明，然後抓幾道有趣的題目來做說明"}</script><link rel="canonical" href="http://example.com/2024/05/06/Forensics%20%E5%88%9D%E5%AD%B8%E8%80%85%E7%B4%80%E9%8C%84/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-3-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/"><img src="/img/logo.svg" alt="YuKai0xe&#039;s Blog" height="28"></a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/notes">Notes</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-6-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/covers/default.jpg" alt="Forensics Beginner"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2024-05-05T16:00:00.000Z" title="2024/5/6 上午12:00:00">2024-05-06</time></span><span class="level-item">Updated&nbsp;<time dateTime="2025-02-11T04:42:03.626Z" title="2025/2/11 下午12:42:03">2025-02-11</time></span><span class="level-item"><a class="link-muted" href="/categories/Security/">Security</a><span> / </span><a class="link-muted" href="/categories/Security/Forensics/">Forensics</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Forensics Beginner</h1><div class="content"><h2 id="工具列表"><a href="#工具列表" class="headerlink" title="工具列表"></a>工具列表</h2><h3 id="資訊提取"><a href="#資訊提取" class="headerlink" title="資訊提取"></a>資訊提取</h3><ul>
+<li><strong>strings</strong>：Linux 系統的原生命令列工具，可以用來將二進位檔案的可閱讀部分取出</li>
+<li><strong>exiftool</strong>：用於讀寫、檢視圖片、音訊、PDF等檔案格式的 metadata</li>
+<li><strong>binwalk</strong>：用於分析二進位檔案的工具，可提取出嵌入的檔案系統、壓縮資料、暗藏的程式碼，此外還提供數位簽名檢查、自定義模式匹配特定內容等功能</li>
+<li><strong>pngcheck</strong>：可用於檢查每個 chunk（數據塊）是否符合 PNG 格式，為修復 PNG 的一大利器</li>
+</ul>
+<h3 id="隱寫"><a href="#隱寫" class="headerlink" title="隱寫"></a>隱寫</h3><ul>
+<li><strong>steghide</strong>：可以用來處理圖片和音頻的隱寫工具</li>
+<li><strong>zsteg</strong>：用於檢測 PNG、BMP 圖片格式的隱寫數據，主要支援以下隱寫類型<ul>
+<li>LSB steganography in PNG &amp; BMP</li>
+<li>zlib-compressed data</li>
+<li>OpenStego</li>
+<li>Camouflage 1.2.1</li>
+<li>LSB with The Eratosthenes set</li>
+</ul>
+</li>
+<li><strong>StegSolve</strong>：基於 Java 開發的圖片隱寫檢視器，也支援多種圖片格式，可以查看圖片的具體資訊、提取檔案的 RGB 資訊、進行立體試圖分析、瀏覽動圖的幀資訊以及進行圖片拼接等操作</li>
+</ul>
+<h3 id="位元處理"><a href="#位元處理" class="headerlink" title="位元處理"></a>位元處理</h3><ul>
+<li><strong>xxd</strong>：Linux 系統的原生命令列工具，可用於將檔案轉換為十六進位、二進位的表示方式並對位元編輯，也能將編輯後檔案進行反轉</li>
+<li><strong>VsCode hex editor plugin</strong>：VsCode 編輯器的插件，可將檔案以十六進位方式表示 bytes，並對此進行編輯（習慣用 GUI 很推這個編輯器）</li>
+</ul>
+<h3 id="封包分析"><a href="#封包分析" class="headerlink" title="封包分析"></a>封包分析</h3><ul>
+<li><strong>WireShark</strong>：網路封包分析軟體，可以用來截取網路封包，顯示網路封包資料</li>
+</ul>
+<h3 id="磁碟分析"><a href="#磁碟分析" class="headerlink" title="磁碟分析"></a>磁碟分析</h3><ul>
+<li><strong>sleuthkit</strong>：電子取證調查工具，可以使用 CLI 的方式於磁碟恢復丟失的文件、並對磁碟進行映像分析</li>
+<li><strong>autopsy</strong>：sleuthkit 的網頁接口，基本上支援 sleuthkit 的所有功能，以 GUI 方式進行</li>
+</ul>
+<h3 id="實用網站"><a href="#實用網站" class="headerlink" title="實用網站"></a>實用網站</h3><ul>
+<li><strong>CyberChef</strong>：一個圖形化介面的網站，提供加解密、加解碼、資料格式轉換、哈希計算、文本處理、網絡流量分析的超級瑞士刀</li>
+<li><strong>decodeUnicode.org</strong>：一個網站記載 unicode 的編碼，包含 UTF-8、UTF-16 等表示方式</li>
+</ul>
+<h2 id="重要知識"><a href="#重要知識" class="headerlink" title="重要知識"></a>重要知識</h2><h3 id="常見檔案格式"><a href="#常見檔案格式" class="headerlink" title="常見檔案格式"></a>常見檔案格式</h3><p>圖片格式被程式讀取時，通常都是倒過來讀取的，所以將 bytes 轉換回 decimal 需要倒著計算，如下：  </p>
+<blockquote>
+<p>00 04 00 00 的 4 個 bytes，應該要被解讀成 0x400(0x00000400)，也就是 1024 bytes<br>注意不要算成 0x40000，這樣數字會超大</p>
+</blockquote>
+<h4 id="png-format"><a href="#png-format" class="headerlink" title="png format"></a>png format</h4><p>PNG 圖像格式由一個 8 bytes 的檔案辨識標頭 + 3 個以上的資料塊（chunk）組成，即 file header + 3 chunks</p>
+<p>File Header：89 50 4E 47 0D 0A 1A 0A</p>
+<table>
+<thead>
+<tr>
+<th>hex bytesCode</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>89</td>
+<td>檢測傳輸系統是否支援 8 位元的字元編碼，減少將文字檔案被錯誤的辨識成 PNG 檔案的機會。</td>
+</tr>
+<tr>
+<td>50 4E 47</td>
+<td>分別對應 PNG 的 ASCII，讓使用者方便辨識。</td>
+</tr>
+<tr>
+<td>0D 0A</td>
+<td>DOS 風格的換行符，也就是所謂的 CRLF。用於 DOS-Unix 資料的換行符轉換。</td>
+</tr>
+<tr>
+<td>1A</td>
+<td>在 DOS 命令列下，用於阻止檔案顯示的檔案結束符。</td>
+</tr>
+<tr>
+<td>0A</td>
+<td>Unix 風格的換行符（LF）。用於 Unix-DOS 換行符的轉換。</td>
+</tr>
+</tbody></table>
+<hr>
+<p>Chunk：又可分為關鍵資料塊和輔助資料塊，每個資料塊的組成如下</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>bytes count</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Length</td>
+<td>4 bytes</td>
+<td>指定資料塊中資料區域的長度，長度不可超過(2^31-1)個位元組</td>
+</tr>
+<tr>
+<td>Chunk Type Code</td>
+<td>4 bytes</td>
+<td>由 ASCII 字母(A-Z和a-z) 組成</td>
+</tr>
+<tr>
+<td>Chunk Data</td>
+<td>可變長度</td>
+<td>儲存指定的數據</td>
+</tr>
+<tr>
+<td>CRC</td>
+<td>4 bytes</td>
+<td>儲存用來檢測是否檔案傳輸有誤的循環冗餘碼</td>
+</tr>
+</tbody></table>
+<p>關鍵資料塊（critical chunk）:</p>
+<ul>
+<li>IHDR（header chunk）：包含圖像基本資訊，作為第一個資料塊出現並只出現一次。</li>
+<li>PLTE（palette chunk）：必須放在 IDAT 之前。</li>
+<li>IDAT（image data chunk）：儲存實際圖像資料。PNG 資料允許包含多個連續的 IDAT。</li>
+<li>IEND（image trailer chunk）：放在檔案尾部，表示 PNG 資料流結束。</li>
+</ul>
+<p>輔助資料塊（ancillary chunks）：</p>
+<table>
+<thead>
+<tr>
+<th>Chunk Type Code</th>
+<th>description</th>
+<th>position limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>cHRM</td>
+<td>基色和白色點資料塊</td>
+<td>放在 PLTE 和 IDAT 之前</td>
+</tr>
+<tr>
+<td>gAMA</td>
+<td>圖像 γ 資料塊</td>
+<td>放在 PLTE 和 IDAT 之前</td>
+</tr>
+<tr>
+<td>sBIT</td>
+<td>樣本有效位資料塊</td>
+<td>放在 PLTE 和 IDAT 之前</td>
+</tr>
+<tr>
+<td>bKGD</td>
+<td>背景顏色資料塊</td>
+<td>放在 PLTE 之後 IDAT 之前</td>
+</tr>
+<tr>
+<td>hIST</td>
+<td>圖像直方圖資料塊</td>
+<td>放在 PLTE 之後 IDAT 之前</td>
+</tr>
+<tr>
+<td>tRNS</td>
+<td>圖像透明資料塊</td>
+<td>放在 PLTE 之後 IDAT 之前</td>
+</tr>
+<tr>
+<td>pHYs</td>
+<td>物理像素尺寸資料塊</td>
+<td>放在 IDAT 之前</td>
+</tr>
+<tr>
+<td>tIME</td>
+<td>圖像最後修改時間資料塊</td>
+<td>無限制</td>
+</tr>
+<tr>
+<td>tEXt</td>
+<td>檔案基本訊息資料塊</td>
+<td>無限制</td>
+</tr>
+<tr>
+<td>zTXt</td>
+<td>壓縮文字資料塊</td>
+<td>無限制</td>
+</tr>
+<tr>
+<td>eXIf</td>
+<td>可交換圖像文件格式 (Exif) 資料塊</td>
+<td>放在 IHDR 和 IEND 之間，但不能在 IDAT 之間</td>
+</tr>
+<tr>
+<td>sCAL</td>
+<td>(專用公共數據塊)</td>
+<td>放在 IDAT 之前</td>
+</tr>
+<tr>
+<td>oFFs</td>
+<td>(專用公共數據塊)</td>
+<td>放在 IDAT 之前</td>
+</tr>
+<tr>
+<td>fRAc</td>
+<td>(專用公共數據塊)</td>
+<td>無限制</td>
+</tr>
+<tr>
+<td>gIFg</td>
+<td>(專用公共數據塊)</td>
+<td>無限制</td>
+</tr>
+<tr>
+<td>gIFt</td>
+<td>(專用公共數據塊)</td>
+<td>無限制</td>
+</tr>
+<tr>
+<td>gIFx</td>
+<td>(專用公共數據塊)</td>
+<td>無限制</td>
+</tr>
+</tbody></table>
+<h4 id="bmp-format"><a href="#bmp-format" class="headerlink" title="bmp format"></a>bmp format</h4><p>BMP 格式由 File Header + Info Header + (optional palette) + Raw Data 組成<br>不過通常 optional palette 不會出現，所以也可以將其省略</p>
+<p>File Header：用於辨識 BMP 格式，總共佔 14 bytes，組成如下</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>bytes count</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>type</td>
+<td>2 bytes</td>
+<td>剛好對應 BM 的 ASCII，也就是 0x42、0x4D</td>
+</tr>
+<tr>
+<td>size</td>
+<td>4 bytes</td>
+<td>紀錄 BMP 檔案的大小</td>
+</tr>
+<tr>
+<td>reserved 1</td>
+<td>2 bytes</td>
+<td>保留欄位</td>
+</tr>
+<tr>
+<td>reserved 2</td>
+<td>2 bytes</td>
+<td>保留欄位</td>
+</tr>
+<tr>
+<td>offset</td>
+<td>4 bytes</td>
+<td>具體圖片資料離檔案開頭的偏移量</td>
+</tr>
+</tbody></table>
+<p>Info Header：BMP 圖片的 meta data，組成如下</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>bytes count</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>size</td>
+<td>4 bytes</td>
+<td>表示 Info Header 的長度</td>
+</tr>
+<tr>
+<td>width</td>
+<td>4 bytes</td>
+<td>圖檔寬度為多少 pixel</td>
+</tr>
+<tr>
+<td>height</td>
+<td>4 bytes</td>
+<td>圖檔高度為多少 pixel</td>
+</tr>
+<tr>
+<td>planes</td>
+<td>2 bytes</td>
+<td>位元圖層數</td>
+</tr>
+<tr>
+<td>bits</td>
+<td>2 bytes</td>
+<td>每個 pixel 需要多少 bits</td>
+</tr>
+<tr>
+<td>compression</td>
+<td>4 bytes</td>
+<td>0，代表不壓縮；1，代表壓縮</td>
+</tr>
+<tr>
+<td>imagesize</td>
+<td>4 bytes</td>
+<td>點陣圖的資料大小</td>
+</tr>
+<tr>
+<td>xresolution</td>
+<td>4 bytes</td>
+<td>水平解析度</td>
+</tr>
+<tr>
+<td>yresolution</td>
+<td>4 bytes</td>
+<td>垂直解析度</td>
+</tr>
+<tr>
+<td>ncolours</td>
+<td>4 bytes</td>
+<td>點陣圖使用的調色盤顏色數</td>
+</tr>
+<tr>
+<td>importantcolours</td>
+<td>4 bytes</td>
+<td>重要的顏色數</td>
+</tr>
+</tbody></table>
+<p>Raw Data：剩下的就是點陣圖的檔案資料，需要注意幾點</p>
+<ol>
+<li>按照 info header 的 bits 決定每幾個 bytes 一組。如 bits 為 0x20，就代表每四個 bytes 一組</li>
+<li>若圖片的長寬都是 16 pixels，就代表圖片的每一列需要 16 x 4 &#x3D; 64 bytes，整張圖需要 64 * 16 &#x3D; 1024 bytes，而這也就是 Raw Data 的長度</li>
+</ol>
+<h4 id="zip-format"><a href="#zip-format" class="headerlink" title="zip format"></a>zip format</h4><p>Zip 格式由 Local file header + Central directory file header + End of central directory record 組成</p>
+<p>Local file header signature：主要查看是否有 PK 標頭，即 0x04034b50<br>Central directory file header signature： 0x02014b50<br>End of central directory signature： 0x06054b50</p>
+<p>除了這些標頭，其他每個 bytes 也都有特別意義，但在打 picoCTF 時沒有使用到，就暫先不提</p>
+<h3 id="一些特別的-Protocol"><a href="#一些特別的-Protocol" class="headerlink" title="一些特別的 Protocol"></a>一些特別的 Protocol</h3><ul>
+<li>TFTP：為 TCP&#x2F;IP 協定中一種簡單的檔案傳輸協定，基於 UDP 協定傳送檔案，只能從檔案伺服器下載或上傳檔案，並不能列出目錄</li>
+<li>UPnP：一種通訊協定，提供家中的設備可以輕易的自動連結到網路並完成相關設定。也就是說如果作業系統有開啟這項協定，就會自動新增設備於電腦上</li>
+<li>SSDP：在 UPnP 的環境中，提供了一個網路用戶端可以用來發現網路服務的機制，使用 1900 Port</li>
+<li>ARP（位址解析協定）：一種網路協議，用於將 IP 位址對應到 MAC 位址</li>
+<li>DNS：一套用於將容易記憶的域名轉換為對應的 IP 地址的系統</li>
+</ul>
+<h2 id="題目紀錄"><a href="#題目紀錄" class="headerlink" title="題目紀錄"></a>題目紀錄</h2><h3 id="Simple-Recon"><a href="#Simple-Recon" class="headerlink" title="Simple Recon"></a>Simple Recon</h3><p>遇到未知的檔案可以先用以下工具、命令先蒐集資訊</p>
+<ul>
+<li><code>file [file name]</code>：確認檔案類型</li>
+<li>拿 zsteg（只有 PNG、BMP 才有用）、binwalk、exiftool 解析檔案</li>
+<li>如果是圖片嘗試把圖片打開 &#x3D;&gt; 檔案修復、找線上工具</li>
+<li>打開 hex Editor 看 hex bytes 或 strings 抓取可閱讀部分</li>
+<li>資訊蒐集完，進一步猜測要做<strong>隱寫解析</strong>、<strong>隱藏檔案提取</strong>、<strong>檔案修復處理</strong>等經典題目操作</li>
+<li>以上都沒有的話就可以開始通靈了</li>
+</ul>
+<p>如果很明確的是 pcap、pcapng 這種網路封包的檔案，那就是開 wireshark 去解析，以下為常見操作</p>
+<ul>
+<li>Dump files</li>
+<li>String search</li>
+<li>Follow tcp or udp</li>
+<li>IO Graphs</li>
+<li>Statistic Analyize</li>
+<li>Extract Protocol File</li>
+</ul>
+<p>如果是 disk img ，那就是要作磁碟映像分析，通常用到 Sleuthkit（CLI）、Autopsy（GUI）分析<br>常見的 SleuthKit 命令：</p>
+<ul>
+<li><code>mmls</code>：將磁碟的每一層資訊列出</li>
+<li><code>fls</code>：將磁碟檔案列出，通常會搭配偏移量 <code>-o</code></li>
+<li><code>icat</code>：抓取磁碟檔案的內容，通常會搭配偏移量 <code>-o</code></li>
+</ul>
+<h3 id="General"><a href="#General" class="headerlink" title="General"></a>General</h3><h4 id="information"><a href="#information" class="headerlink" title="information"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/186?category=4&originalEvent=34&page=1">information</a></h4><p>照著 Simple Recon 走一遍，可以發現在 exiftool 解析時發現奇怪的資訊<br><img src="/img/2024-05-06/challenge1.png" alt="challenge1"><br>把這兩段亂碼拿去 base64 decode 看看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;7a78f3d9cfb1ce42ab5a3aa30573d617&quot;</span> | bas64 -d</span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9&quot;</span> | <span class="built_in">base64</span> -d</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/2024-05-06/challenge1-2.png" alt="challenge1-2"></p>
+<h4 id="Matryoshka-doll"><a href="#Matryoshka-doll" class="headerlink" title="Matryoshka doll"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/129?category=4&originalEvent=34&page=1">Matryoshka doll</a></h4><p>發現在 binwalk 解析時，有隱藏的圖片，也就是圖中圖</p>
+<blockquote>
+<p>Zip archive data, at least v2.0 to extract, compressed size: 378952, uncompressed size: 383937, name: base_images&#x2F;2_c.jpg</p>
+</blockquote>
+<p><img src="/img/2024-05-06/challenge2.png" alt="challenge2"></p>
+<p>所以把圖片擷取出來吧，節取出來的資料夾會以 <code>_extract</code> 開頭</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">binwalk -e dolls.jpg</span><br></pre></td></tr></table></figure>
+
+<p>然後照著做下去到第四層時，就會找到 FLAG 了，套的真深<br><img src="/img/2024-05-06/challenge2-2.png" alt="challenge2-2"></p>
+<h3 id="Format-Restore"><a href="#Format-Restore" class="headerlink" title="Format Restore"></a>Format Restore</h3><h4 id="tunn3l-v1s10n"><a href="#tunn3l-v1s10n" class="headerlink" title="tunn3l v1s10n"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/112?category=4&originalEvent=34&page=1">tunn3l v1s10n</a></h4><p>先用 exiftool 解析，在 File Type 資訊可以知道這是一張 BMP  </p>
+<p><img src="/img/2024-05-06/challenge3-3.png" alt="challenge3-3"></p>
+<p>接著打開 Hex Editor，查看 Hex Bytes 有沒有錯誤才會導致程式解析失敗</p>
+<p><img src="/img/2024-05-06/challenge3.png" alt="challenge3"></p>
+<p>File Header</p>
+<ul>
+<li>type：符合 42、4D &#x3D;&gt; 不用修改</li>
+<li>size：8E 26 2C 00，表示 0x2C268E（2893454 bytes），也符合資訊 &#x3D;&gt; 不用修改<br><img src="/img/2024-05-06/challenge3-2.png" alt="challenge3-2"></li>
+<li>reserved：00 00 00 00，兩個保留區 &#x3D;&gt; 不用修改</li>
+<li><strong>offset</strong>：偏移量不符合 &#x3D;&gt; BA D0 00 00 應該要設置為 36 00 00 00</li>
+</ul>
+<p>Info Header</p>
+<ul>
+<li>size：長度不符合 &#x3D;&gt; BA D0 00 00 應該要設置為 28 00 00 00</li>
+</ul>
+<p>接著要計算圖片大小是不是 2893454 bytes</p>
+<ul>
+<li>圖片的寬：6E 04 00 00 &#x3D;&gt; 0x46E（1134 pixels）</li>
+<li>圖片的高：32 01 00 00 &#x3D;&gt; 0x132（306 pixels）</li>
+<li>圖層數：01 00 &#x3D;&gt; 0x1（1 層）</li>
+<li>每個 pixels 需要多少 bits：18 00 &#x3D;&gt; 0x18（24 bits）</li>
+</ul>
+<p>計算結果：1134 x 306 x 1 x 24 &#x2F; 8 &#x3D; 1041012 bytes &#x3D;&gt; 不符合，所以要通靈修改哪一個資訊<br>修改過程：2893454 * 8 &#x2F; 24 &#x2F; 1134 &#x3D; 850.5（0x352） &#x3D;&gt; 將圖片的高改成 52 03 00 00</p>
+<p>最後將副檔名改成 .bmp 就可以把圖片解析出來了</p>
+<h4 id="c0rrupt"><a href="#c0rrupt" class="headerlink" title="c0rrupt"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/53?category=4&originalEvent=1&page=1">c0rrupt</a></h4><p>先用 exiftool 解析檔案，但很可惜推測不出檔案類型</p>
+<p><img src="/img/2024-05-06/challenge5-8.png" alt="challenge5-8"></p>
+<p>那就直接打開 Hex Editor 通靈檔案格式，可以看到以 89 開頭，又有 N 的 ASCII，此外又出現 pHYs 的 chunk name，所以應該是 PNG。</p>
+<p><img src="/img/2024-05-06/challenge5.png" alt="challenge5"></p>
+<p>那就開始修復 PNG 吧，這邊可以搭配 pngcheck，會幫助我們偵測這張 PNG 哪裡有錯</p>
+<p>File Header 修復：89 50 4E 47 0D 0A 1A 0A<br><img src="/img/2024-05-06/challenge5-2.png" alt="challenge5-2"></p>
+<p>Chunks 修復</p>
+<p>pngcheck 提示 1： 修復 IHDR<br><img src="/img/2024-05-06/challenge5-3.png" alt="challenge5-3"><br><img src="/img/2024-05-06/challenge5-10.png" alt="challenge5-10"><br>pngcheck 提示 2： 修復 pHYS 的 CRC 部分<br><img src="/img/2024-05-06/challenge5-5.png" alt="challenge5-4"><br><img src="/img/2024-05-06/challenge5-11.png" alt="challenge5-11"><br>pngcheck 提示 3： 修復無效的 chunk 長度，將 AA AA FF A5 改成 00 00 FF A5<br><img src="/img/2024-05-06/challenge5-6.png" alt="challenge5-5"><br><img src="/img/2024-05-06/challenge5-12.png" alt="challenge5-12"><br>pngcheck 提示 4： 修復 IDAT<br><img src="/img/2024-05-06/challenge5-7.png" alt="challenge5-6"><br><img src="/img/2024-05-06/challenge5-13.png" alt="challenge5-13"></p>
+<p>這樣就完成 PNG 修復了<br><img src="/img/2024-05-06/challenge5-9.png" alt="challenge5-7"></p>
+<h3 id="Flow-Analyize"><a href="#Flow-Analyize" class="headerlink" title="Flow Analyize"></a>Flow Analyize</h3><h4 id="shark-on-wire-1"><a href="#shark-on-wire-1" class="headerlink" title="shark on wire 1"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/30?category=4&originalEvent=1&page=1">shark on wire 1</a></h4><p>用 wireshark 打開檔案後，快速翻閱一下 Protocol，可以看到很多 UDP，猜測 FLAG 應該藏在 UDP 內</p>
+<blockquote>
+<p>可以點擊中間畫面的 Protocol Column，就會以 Protocol Name 的方式排序，這樣就能把相同的 Protocol 聚集起來</p>
+</blockquote>
+<p><img src="/img/2024-05-06/challenge4.png" alt="challenge4"></p>
+<p>要檢視 udp Protocol，可以對想要檢視的 Protocol 點右鍵後就會有一個 Follow &gt; UDP Stream 的功能，這樣就能去分析這份 protocol stream 的內容，要切換 stream 只要點擊右下角</p>
+<p><img src="/img/2024-05-06/challenge4-3.png" alt="challenge4-3"></p>
+<p>翻著翻著就會找到 FLAG 了，可以知道是在 udp stream 6</p>
+<p><img src="/img/2024-05-06/challenge4-2.png" alt="challenge4-2"></p>
+<h4 id="Eavesdrop"><a href="#Eavesdrop" class="headerlink" title="Eavesdrop"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/264?category=4&originalEvent=70&page=1">Eavesdrop</a></h4><p>打開 wireshark 查看 pcap，從 tcp stream 0 可以看出以下的聊天紀錄<br><img src="/img/2024-05-06/challenge6.png" alt="challenge6"></p>
+<p>從聊天紀錄可以知道用 openssl 來解碼，所以我們還需要在找到被加碼的檔案，在 packet 61，發現這一個被加鹽過的檔案內容，所以我們可以合理懷疑就是這份檔案<br><img src="/img/2024-05-06/challenge6-2.png" alt="challenge6-2"></p>
+<p>所以把這個檔案抓出來，可以使用 pyshark 來抓取，或者將內容以 Hex Bytes 的方式呈現再手動填入。以下為參考腳本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> subprocess</span><br><span class="line"></span><br><span class="line">data = <span class="string">b&quot;\x53\x61\x6c\x74\x65\x64\x5f\x5f\x3c\x4b\x26\xe8\xb8\xf9\x1e\x2c\x4a\xf8\x03\x1c\xfa\xf5\xf8\xf1\x6f\xd4\x0c\x25\xd4\x03\x14\xe6\x49\x7b\x39\x37\x58\x08\xab\xa1\x86\xf4\x8d\xa4\x2e\xef\xa8\x95&quot;</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span> (<span class="string">&quot;file.des3&quot;</span>, <span class="string">&quot;wb&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(data)</span><br><span class="line"></span><br><span class="line">openssl_cmd = [</span><br><span class="line">    <span class="string">&#x27;openssl&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;des3&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;-d&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;-salt&#x27;</span>,        </span><br><span class="line">    <span class="string">&#x27;-in&#x27;</span>, <span class="string">&#x27;file.des3&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;-out&#x27;</span>, <span class="string">&#x27;file.txt&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;-k&#x27;</span>, <span class="string">&#x27;supersecretpassword123&#x27;</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">subprocess.run(openssl_cmd, check=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;file.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="built_in">print</span>(f.read())</span><br></pre></td></tr></table></figure>
+
+<h3 id="Disk-Analyize"><a href="#Disk-Analyize" class="headerlink" title="Disk Analyize"></a>Disk Analyize</h3><h4 id="Sleuthkit-Apprentice"><a href="#Sleuthkit-Apprentice" class="headerlink" title="Sleuthkit Apprentice"></a><a target="_blank" rel="noopener" href="https://play.picoctf.org/practice/challenge/300?category=4&originalEvent=70&page=1">Sleuthkit Apprentice</a></h4><p>這一題要用 Sleuthkit 的命令列工具來對磁碟映像解析，按照 Simple Reconn 實作一遍<br>先用 <code>mmls</code> 把磁碟的每一層資訊列出來</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mmls disk.flag.img</span><br></pre></td></tr></table></figure>
+<p><img src="/img/2024-05-06/challenge7.png" alt="challenge7"></p>
+<p>接著用 <code>fls</code> 列出資料夾，這裡要搭配 <code>-o</code> 參數，可以看到第一個 Linux 的開始位元組是在 2048，所以先把他列出來</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fls -o 2048 disk.flag.img</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/2024-05-06/challenge7-2.png" alt="challenge7-2"></p>
+<p>可以看到這些資料夾沒有熟悉的部分，所以繼續往下找</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fls -o 360448 disk.flag.img</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/2024-05-06/challenge7-3.png" alt="challenge7-3"></p>
+<p>可以看到有一個 root 資料夾，所以繼續往下找</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fls -o 360448 disk.flag.img 1995</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/2024-05-06/challenge7-4.png" alt="challenge7-4"></p>
+<p>可以看到裡面有個 my_folder 資料夾，繼續往下找</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fls -o 360448 disk.flag.img 3981</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/2024-05-06/challenge7-5.png" alt="challeneg7-5"></p>
+<p>接著將 flag.uni.txt 抓取內容出來</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">icat -o 360448 disk.flag.img 2371</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/2024-05-06/challenge7-6.png" alt="challeneg7-6"></p>
+<blockquote>
+<p>d&#x2F;d：是資料夾<br>r&#x2F;r：是檔案，有些檔案會標註 realloc，代表以前有配置這份檔案</p>
+</blockquote>
+<p>至於其他 picoCTF 的題目，另作一份<a target="_blank" rel="noopener" href="https://kevins-organization-14.gitbook.io/picoctf-writeup/"><strong>筆記</strong></a>詳閱</p>
+<h2 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://wiki.sleuthkit.org/index.php?title=TSK_Tool_Overview#File_System_Tools">Sleuthkit TSK Tool</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/ZIP_(file_format)">zip format</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41137110/article/details/119893817">bmp format</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html">png format</a></li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Forensics Beginner</p><p><a href="http://example.com/2024/05/06/Forensics 初學者紀錄/">http://example.com/2024/05/06/Forensics 初學者紀錄/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>yukai0xe</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2024-05-06</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2025-02-11</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2025/01/23/n8n-%E6%95%B4%E5%90%88%20Discord%20Slash%20%E6%8C%87%E4%BB%A4%E8%88%87%20Notion/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">整合 Discord Slash 指令與 Notion，自動化集中碎片資源</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2024/04/25/%E5%98%97%E8%A9%A6%E5%84%AA%E5%8C%96%E7%B6%B2%E9%A0%81%E7%9B%B4%E5%88%B0%20LightHouse%20%E6%94%BE%E7%85%99%E7%81%AB/"><span class="level-item">嘗試優化網頁直到 LightHouse 放煙火</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><div class="column column-left is-4-tablet is-4-desktop is-3-widescreen  order-1 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#工具列表"><span class="level-left"><span class="level-item">1</span><span class="level-item">工具列表</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#資訊提取"><span class="level-left"><span class="level-item">1.1</span><span class="level-item">資訊提取</span></span></a></li><li><a class="level is-mobile" href="#隱寫"><span class="level-left"><span class="level-item">1.2</span><span class="level-item">隱寫</span></span></a></li><li><a class="level is-mobile" href="#位元處理"><span class="level-left"><span class="level-item">1.3</span><span class="level-item">位元處理</span></span></a></li><li><a class="level is-mobile" href="#封包分析"><span class="level-left"><span class="level-item">1.4</span><span class="level-item">封包分析</span></span></a></li><li><a class="level is-mobile" href="#磁碟分析"><span class="level-left"><span class="level-item">1.5</span><span class="level-item">磁碟分析</span></span></a></li><li><a class="level is-mobile" href="#實用網站"><span class="level-left"><span class="level-item">1.6</span><span class="level-item">實用網站</span></span></a></li></ul></li><li><a class="level is-mobile" href="#重要知識"><span class="level-left"><span class="level-item">2</span><span class="level-item">重要知識</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#常見檔案格式"><span class="level-left"><span class="level-item">2.1</span><span class="level-item">常見檔案格式</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#png-format"><span class="level-left"><span class="level-item">2.1.1</span><span class="level-item">png format</span></span></a></li><li><a class="level is-mobile" href="#bmp-format"><span class="level-left"><span class="level-item">2.1.2</span><span class="level-item">bmp format</span></span></a></li><li><a class="level is-mobile" href="#zip-format"><span class="level-left"><span class="level-item">2.1.3</span><span class="level-item">zip format</span></span></a></li></ul></li><li><a class="level is-mobile" href="#一些特別的-Protocol"><span class="level-left"><span class="level-item">2.2</span><span class="level-item">一些特別的 Protocol</span></span></a></li></ul></li><li><a class="level is-mobile" href="#題目紀錄"><span class="level-left"><span class="level-item">3</span><span class="level-item">題目紀錄</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Simple-Recon"><span class="level-left"><span class="level-item">3.1</span><span class="level-item">Simple Recon</span></span></a></li><li><a class="level is-mobile" href="#General"><span class="level-left"><span class="level-item">3.2</span><span class="level-item">General</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#information"><span class="level-left"><span class="level-item">3.2.1</span><span class="level-item">information</span></span></a></li><li><a class="level is-mobile" href="#Matryoshka-doll"><span class="level-left"><span class="level-item">3.2.2</span><span class="level-item">Matryoshka doll</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Format-Restore"><span class="level-left"><span class="level-item">3.3</span><span class="level-item">Format Restore</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#tunn3l-v1s10n"><span class="level-left"><span class="level-item">3.3.1</span><span class="level-item">tunn3l v1s10n</span></span></a></li><li><a class="level is-mobile" href="#c0rrupt"><span class="level-left"><span class="level-item">3.3.2</span><span class="level-item">c0rrupt</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Flow-Analyize"><span class="level-left"><span class="level-item">3.4</span><span class="level-item">Flow Analyize</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#shark-on-wire-1"><span class="level-left"><span class="level-item">3.4.1</span><span class="level-item">shark on wire 1</span></span></a></li><li><a class="level is-mobile" href="#Eavesdrop"><span class="level-left"><span class="level-item">3.4.2</span><span class="level-item">Eavesdrop</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Disk-Analyize"><span class="level-left"><span class="level-item">3.5</span><span class="level-item">Disk Analyize</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Sleuthkit-Apprentice"><span class="level-left"><span class="level-item">3.5.1</span><span class="level-item">Sleuthkit Apprentice</span></span></a></li></ul></li></ul></li><li><a class="level is-mobile" href="#參考資料"><span class="level-left"><span class="level-item">4</span><span class="level-item">參考資料</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div><div class="column-right-shadow is-hidden-widescreen is-sticky"></div></div><div class="column column-right is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only order-3 is-sticky"><div class="card widget" data-type="categories"><div class="card-content"><div class="menu"><h3 class="menu-label">Categories</h3><ul class="menu-list"><li><a class="level is-mobile" href="/categories/Data-Analysis/"><span class="level-start"><span class="level-item">Data Analysis</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/DeveOps/"><span class="level-start"><span class="level-item">DeveOps</span></span><span class="level-end"><span class="level-item tag">3</span></span></a><ul><li><a class="level is-mobile" href="/categories/DeveOps/Docker/"><span class="level-start"><span class="level-item">Docker</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/DeveOps/Version-Control/"><span class="level-start"><span class="level-item">Version Control</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Develop/"><span class="level-start"><span class="level-item">Develop</span></span><span class="level-end"><span class="level-item tag">6</span></span></a><ul><li><a class="level is-mobile" href="/categories/Develop/Chatbot/"><span class="level-start"><span class="level-item">Chatbot</span></span><span class="level-end"><span class="level-item tag">2</span></span></a></li><li><a class="level is-mobile" href="/categories/Develop/Tools/"><span class="level-start"><span class="level-item">Tools</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Develop/Web/"><span class="level-start"><span class="level-item">Web</span></span><span class="level-end"><span class="level-item tag">3</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Security/"><span class="level-start"><span class="level-item">Security</span></span><span class="level-end"><span class="level-item tag">1</span></span></a><ul><li><a class="level is-mobile" href="/categories/Security/Forensics/"><span class="level-start"><span class="level-item">Forensics</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></li><li><a class="level is-mobile" href="/categories/Socity/"><span class="level-start"><span class="level-item">Socity</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/System-Arch/"><span class="level-start"><span class="level-item">System Arch</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li><li><a class="level is-mobile" href="/categories/Workflow-Tools/"><span class="level-start"><span class="level-item">Workflow Tools</span></span><span class="level-end"><span class="level-item tag">1</span></span></a></li></ul></div></div></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/"><img src="/img/logo.svg" alt="YuKai0xe&#039;s Blog" height="28"></a><p class="is-size-7"><span>&copy; 2025 yukai0xe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
