@@ -210,7 +210,7 @@ widgets:
         # Author's current location
         location: Taiwan / Taichung
         # URL or path to the avatar image
-        avatar: 
+        avatar: https://avatars.githubusercontent.com/u/60083916?v=4
         # Whether show the rounded avatar image
         avatar_rounded: true
         # Email address for the Gravatar
