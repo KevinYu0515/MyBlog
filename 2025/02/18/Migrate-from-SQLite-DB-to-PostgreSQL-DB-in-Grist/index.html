@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>Migrate from SQLite DB to PostgreSQL DB in Grist - YuKai0xe&#039;s Blog</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="YuKai0xe&#039;s Blog"><meta name="msapplication-TileImage" content="/img/favicon.svg"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="YuKai0xe&#039;s Blog"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="雖然 Grist 的主要資料庫為 SQLite，但同時也支援 PostgreSQL，而本篇記錄如何將 SQLite 轉換成 PostgreSQL，並把舊資料搬遷到新資料庫"><meta property="og:type" content="blog"><meta property="og:title" content="Migrate from SQLite DB to PostgreSQL DB in Grist"><meta property="og:url" content="http://blog.yukai0xe.tw/2025/02/18/Migrate-from-SQLite-DB-to-PostgreSQL-DB-in-Grist/"><meta property="og:site_name" content="YuKai0xe&#039;s Blog"><meta property="og:description" content="雖然 Grist 的主要資料庫為 SQLite，但同時也支援 PostgreSQL，而本篇記錄如何將 SQLite 轉換成 PostgreSQL，並把舊資料搬遷到新資料庫"><meta property="og:locale" content="en_US"><meta property="og:image" content="http://blog.yukai0xe.tw/img/avatar.jpeg"><meta property="article:published_time" content="2025-02-18T05:23:14.000Z"><meta property="article:modified_time" content="2025-02-18T05:59:43.176Z"><meta property="article:author" content="yukai0xe"><meta property="article:tag" content="grist"><meta property="article:tag" content="database"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="http://blog.yukai0xe.tw/img/avatar.jpeg"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://blog.yukai0xe.tw/2025/02/18/Migrate-from-SQLite-DB-to-PostgreSQL-DB-in-Grist/"},"headline":"Migrate from SQLite DB to PostgreSQL DB in Grist","image":["http://blog.yukai0xe.tw/gallery/covers/database.png"],"datePublished":"2025-02-18T05:23:14.000Z","dateModified":"2025-02-18T05:59:43.176Z","author":{"@type":"Person","name":"yukai0xe"},"publisher":{"@type":"Organization","name":"YuKai0xe's Blog","logo":{"@type":"ImageObject","url":null}},"description":"雖然 Grist 的主要資料庫為 SQLite，但同時也支援 PostgreSQL，而本篇記錄如何將 SQLite 轉換成 PostgreSQL，並把舊資料搬遷到新資料庫"}</script><link rel="canonical" href="http://blog.yukai0xe.tw/2025/02/18/Migrate-from-SQLite-DB-to-PostgreSQL-DB-in-Grist/"><link rel="icon" href="/img/favicon.svg"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link data-pjax rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link data-pjax rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><!--!--><!--!--><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">YuKai0xe&#039;s Blog</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/notes">Notes</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-8-tablet is-8-desktop is-8-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="/gallery/covers/database.png" alt="Migrate from SQLite DB to PostgreSQL DB in Grist"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2025-02-18T05:23:14.000Z" title="2025/2/18 下午1:23:14">2025-02-18</time></span><span class="level-item">Updated&nbsp;<time dateTime="2025-02-18T05:59:43.176Z" title="2025/2/18 下午1:59:43">2025-02-18</time></span><span class="level-item"><a class="link-muted" href="/categories/Develop/">Develop</a><span> / </span><a class="link-muted" href="/categories/Develop/Backend/">Backend</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Migrate from SQLite DB to PostgreSQL DB in Grist</h1><div class="content"><h2 id="新增環境變數"><a href="#新增環境變數" class="headerlink" title="新增環境變數"></a>新增環境變數</h2><p>要改變 Grist 的資料庫類型非常簡單，甚至連程式都不需要寫，首先需要新增以下環境變數</p>
+<ul>
+<li>TYPEORM_DATABASE: [your_datbase_name]</li>
+<li>TYPEORM_USERNAME: [your_username]</li>
+<li>TYPEORM_PASSWORD: [your_password]</li>
+<li>TYPEORM_PORT: [your_port]</li>
+<li>TYPEORM_TYPE: postgres</li>
+</ul>
+<p>可以將環境變數加入 <code>/etc/profile</code>，這樣就不用每次都手動新增</p>
+<figure class="highlight shell"><figcaption><span>/etc/profile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export TYPEORM_DATABASE=[your_datbase_name]</span><br><span class="line">export TYPEORM_USERNAME=[your_username]</span><br><span class="line">export TYPEORM_PASSWORD=[your_password]</span><br><span class="line">export TYPEORM_PORT=[your_port]</span><br><span class="line">export TYPEORM_TYPE=postgres</span><br></pre></td></tr></table></figure>
+
+<p>接著 <code>source /etc/profile</code>，就可以執行該 bash shell，此時我們呼叫 <code>env | grep &quot;TYPE&quot;</code>，就可以確認是否有加入環境變數</p>
+<h2 id="安裝-PostgreSQL"><a href="#安裝-PostgreSQL" class="headerlink" title="安裝 PostgreSQL"></a>安裝 PostgreSQL</h2><p>Grist 需要的變數設好後，就需要給一個資料庫給 Grist 連接，這邊使用 Local Databse，但從 Docker 下載使用</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull postgres</span><br><span class="line">docker run --name postgres -e POSTGRES_PASSWORD=[your_password] -p 5432:5432 -d postgres</span><br></pre></td></tr></table></figure>
+
+<p>裝好 postgres 之後，可以再額外安裝 postgres-client 用 CLI 來嘗試連接 local database</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install postgres-client</span><br><span class="line">psql -U [username] -h localhost -p 5432 -d [your_database_name]</span><br></pre></td></tr></table></figure>
+
+<p>但如果我不知道 <code>username</code> 和 <code>database_name</code>，可以先進入 docker 內的 postgres 查看，不過預設 username 通常會是 postgres，所以先嘗試用預設登入試試</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it [your-container-id] psql -U postgres</span><br></pre></td></tr></table></figure>
+
+<p>進入 postgres shell 之後，可以使用以下指令去找出基本資訊</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">\list                    # 列出基本資訊</span><br><span class="line">select current_username; # 查出現在使用者</span><br><span class="line">select current_database(); # 查出現在資料庫</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-pgloader-轉換-database-file-type"><a href="#使用-pgloader-轉換-database-file-type" class="headerlink" title="使用 pgloader 轉換 database file type"></a>使用 pgloader 轉換 database file type</h2><p>在 Ubuntu 上，可以直接使用 pgloader 來轉換 sqlite 的 database fie 為 postgres 的 database file</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install pgloader</span><br></pre></td></tr></table></figure>
+
+<p>安裝好後新增一個 <code>db.load</code>，並加入以下內容</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">load database</span><br><span class="line">  from sqlite:///PATH/TO/LANDING.DB</span><br><span class="line">  into postgresql://DB_USER:DB_PASSWORD@DB_HOST/DB_NAME</span><br><span class="line"></span><br><span class="line">with truncate, data only;</span><br></pre></td></tr></table></figure>
+
+<p>最後直接跑 pgloader 指令就可以了，基本上這樣就轉換成功了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pgloader db.load</span><br></pre></td></tr></table></figure>
+
+<h2 id="相關資料"><a href="#相關資料" class="headerlink" title="相關資料"></a>相關資料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/dimitri/pgloader">pgloader github</a></li>
+<li><a target="_blank" rel="noopener" href="https://community.getgrist.com/t/how-to-migrate-from-a-sqlite-db-to-postgresql/3152">how-to-migrate-from-a-sqlite-db-to-postgresql</a></li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>Migrate from SQLite DB to PostgreSQL DB in Grist</p><p><a href="http://blog.yukai0xe.tw/2025/02/18/Migrate-from-SQLite-DB-to-PostgreSQL-DB-in-Grist/">http://blog.yukai0xe.tw/2025/02/18/Migrate-from-SQLite-DB-to-PostgreSQL-DB-in-Grist/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>yukai0xe</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2025-02-18</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2025-02-18</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/grist/">grist</a><a class="link-muted mr-2" rel="tag" href="/tags/database/">database</a></div><div class="notification is-danger">You need to set <code>install_url</code> to use ShareThis. Please set it in <code>_config.yml</code>.</div></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2025/02/11/%E8%AB%87%E8%AB%87-Docker-%E7%92%B0%E5%A2%83%E8%AE%8A%E6%95%B8/"><span class="level-item">談談 Docker 環境變數</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><!--!--><div class="column column-right is-4-tablet is-4-desktop is-4-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#新增環境變數"><span class="level-left"><span class="level-item">1</span><span class="level-item">新增環境變數</span></span></a></li><li><a class="level is-mobile" href="#安裝-PostgreSQL"><span class="level-left"><span class="level-item">2</span><span class="level-item">安裝 PostgreSQL</span></span></a></li><li><a class="level is-mobile" href="#使用-pgloader-轉換-database-file-type"><span class="level-left"><span class="level-item">3</span><span class="level-item">使用 pgloader 轉換 database file type</span></span></a></li><li><a class="level is-mobile" href="#相關資料"><span class="level-left"><span class="level-item">4</span><span class="level-item">相關資料</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">YuKai0xe&#039;s Blog</a><p class="is-size-7"><span>&copy; 2025 yukai0xe</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script data-pjax src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script data-pjax src="/js/back_to_top.js" defer></script><!--!--><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script><script src="/js/pjax.js"></script><!--!--><!--!--><!--!--><script data-pjax src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script data-pjax src="/js/insight.js" defer></script><script data-pjax>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
