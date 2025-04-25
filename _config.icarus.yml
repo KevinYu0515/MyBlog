@@ -3,7 +3,7 @@ version: 5.1.0
 # Icarus theme variant, can be "default" or "cyberpunk"
 variant: default
 # Path or URL to the website's logo
-logo: /img/logo.svg
+logo: 
 # Page metadata configurations
 head:
     # URL or path to the website's icon
@@ -48,7 +48,7 @@ head:
         url: 
         # Page cover (og:image) (optional)
         # You should leave this blank for most of the time
-        image: 
+        image: /img/avatar.jpeg
         # Site name (og:site_name) (optional)
         # You should leave this blank for most of the time
         site_name: 
@@ -210,11 +210,11 @@ widgets:
         # Author's current location
         location: Taiwan / Taichung
         # URL or path to the avatar image
-        avatar: https://avatars.githubusercontent.com/u/60083916?v=4
+        avatar: /img/avatar.jpeg
         # Whether show the rounded avatar image
         avatar_rounded: true
         # Email address for the Gravatar
-        gravatar: marvelo.k0515@gmail.com
+        # gravatar: marvelo.k0515@gmail.com
         # URL or path for the follow button
         follow_link: https://github.com/KevinYu0515
         # Links to be shown on the bottom of the profile widget

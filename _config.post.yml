@@ -38,11 +38,11 @@ sidebar:
 widgets:
     -
         type: toc
-        position: left
+        position: right
         index: true
         collapsed: true
         depth: 3
-    -
-        type: categories
-        position: right
+    # -
+    #     type: categories
+    #     position: left
 
