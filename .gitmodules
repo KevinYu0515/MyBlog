@@ -1,3 +1,3 @@
-[submodule "themes/icarus"]
+[submodule "themes/icarus-custom"]
 	path = themes/icarus
 	url = https://github.com/KevinYu0515/hexo-theme.git
