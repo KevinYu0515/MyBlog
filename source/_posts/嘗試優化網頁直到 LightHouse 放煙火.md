@@ -5,7 +5,7 @@ excerpt:     "本文說明如何使用 react.js + webpack + babel 三件套的�
 date:        2024-04-25
 tags:        ["webpack", "front-end", "react"]
 categories:  ["Develop", "Web"]
-cover:       /gallery/covers/default.jpg
+cover:       /gallery/covers/firework.jpg
 toc:        true
 ---
 
