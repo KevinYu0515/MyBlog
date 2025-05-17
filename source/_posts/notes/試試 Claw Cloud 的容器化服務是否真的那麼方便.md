@@ -4,7 +4,7 @@ date: 2025-05-16T07:54:50.511Z
 tags:
   - PaaS
 toc: true
-categories: ["Useful Resource"]
+categories: ["Resource Study"]
 excerpt: "Claw Cloud 提供 Web 介面配置容器化服務，在 YT 上被捧上天，至於是不是這麼好用，還得觀察觀察"
 cover: /gallery/covers/cloud.jpg
 ---
