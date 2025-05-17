@@ -5,7 +5,7 @@ tags:
   - PaaS
 toc: true
 categories: ["Useful Resource"]
-excerpt: "This is example excerpt"
+excerpt: "Claw Cloud 提供 Web 介面配置容器化服務，在 YT 上被捧上天，至於是不是這麼好用，還得觀察觀察"
 cover: /gallery/covers/cloud.jpg
 ---
 
