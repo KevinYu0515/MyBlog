@@ -196,7 +196,7 @@ End of central directory signature： 0x06054b50
 #### [information](https://play.picoctf.org/practice/challenge/186?category=4&originalEvent=34&page=1)
 
 照著 Simple Recon 走一遍，可以發現在 exiftool 解析時發現奇怪的資訊
-![challenge1](/img/2024-05-06/challenge1.png)
+![challenge1](/gallery/2024-05-06/challenge1.png)
 把這兩段亂碼拿去 base64 decode 看看
 
 ```bash
@@ -204,7 +204,7 @@ echo "7a78f3d9cfb1ce42ab5a3aa30573d617" | bas64 -d
 echo "cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9" | base64 -d
 ```
 
-![challenge1-2](/img/2024-05-06/challenge1-2.png)
+![challenge1-2](/gallery/2024-05-06/challenge1-2.png)
 
 #### [Matryoshka doll](https://play.picoctf.org/practice/challenge/129?category=4&originalEvent=34&page=1)
 
@@ -212,7 +212,7 @@ echo "cGljb0NURnt0aGVfbTN0YWRhdGFfMXNfbW9kaWZpZWR9" | base64 -d
 
 > Zip archive data, at least v2.0 to extract, compressed size: 378952, uncompressed size: 383937, name: base_images/2_c.jpg
 
-![challenge2](/img/2024-05-06/challenge2.png)
+![challenge2](/gallery/2024-05-06/challenge2.png)
 
 所以把圖片擷取出來吧，節取出來的資料夾會以 `_extract` 開頭
 
@@ -221,7 +221,7 @@ binwalk -e dolls.jpg
 ```
 
 然後照著做下去到第四層時，就會找到 FLAG 了，套的真深
-![challenge2-2](/img/2024-05-06/challenge2-2.png)
+![challenge2-2](/gallery/2024-05-06/challenge2-2.png)
 
 ### Format Restore
 
@@ -229,17 +229,17 @@ binwalk -e dolls.jpg
 
 先用 exiftool 解析，在 File Type 資訊可以知道這是一張 BMP  
 
-![challenge3-3](/img/2024-05-06/challenge3-3.png)
+![challenge3-3](/gallery/2024-05-06/challenge3-3.png)
 
 接著打開 Hex Editor，查看 Hex Bytes 有沒有錯誤才會導致程式解析失敗
 
-![challenge3](/img/2024-05-06/challenge3.png)
+![challenge3](/gallery/2024-05-06/challenge3.png)
 
 File Header
 
 - type：符合 42、4D => 不用修改
 - size：8E 26 2C 00，表示 0x2C268E（2893454 bytes），也符合資訊 => 不用修改
-![challenge3-2](/img/2024-05-06/challenge3-2.png)
+![challenge3-2](/gallery/2024-05-06/challenge3-2.png)
 - reserved：00 00 00 00，兩個保留區 => 不用修改
 - **offset**：偏移量不符合 => BA D0 00 00 應該要設置為 36 00 00 00
   
@@ -263,34 +263,34 @@ Info Header
 
 先用 exiftool 解析檔案，但很可惜推測不出檔案類型
 
-![challenge5-8](/img/2024-05-06/challenge5-8.png)
+![challenge5-8](/gallery/2024-05-06/challenge5-8.png)
 
 那就直接打開 Hex Editor 通靈檔案格式，可以看到以 89 開頭，又有 N 的 ASCII，此外又出現 pHYs 的 chunk name，所以應該是 PNG。
 
-![challenge5](/img/2024-05-06/challenge5.png)
+![challenge5](/gallery/2024-05-06/challenge5.png)
 
 那就開始修復 PNG 吧，這邊可以搭配 pngcheck，會幫助我們偵測這張 PNG 哪裡有錯
 
 File Header 修復：89 50 4E 47 0D 0A 1A 0A
-![challenge5-2](/img/2024-05-06/challenge5-2.png)
+![challenge5-2](/gallery/2024-05-06/challenge5-2.png)
 
 Chunks 修復
 
 pngcheck 提示 1： 修復 IHDR
-![challenge5-3](/img/2024-05-06/challenge5-3.png)
-![challenge5-10](/img/2024-05-06/challenge5-10.png)
+![challenge5-3](/gallery/2024-05-06/challenge5-3.png)
+![challenge5-10](/gallery/2024-05-06/challenge5-10.png)
 pngcheck 提示 2： 修復 pHYS 的 CRC 部分
-![challenge5-4](/img/2024-05-06/challenge5-5.png)
-![challenge5-11](/img/2024-05-06/challenge5-11.png)
+![challenge5-4](/gallery/2024-05-06/challenge5-5.png)
+![challenge5-11](/gallery/2024-05-06/challenge5-11.png)
 pngcheck 提示 3： 修復無效的 chunk 長度，將 AA AA FF A5 改成 00 00 FF A5
-![challenge5-5](/img/2024-05-06/challenge5-6.png)
-![challenge5-12](/img/2024-05-06/challenge5-12.png)
+![challenge5-5](/gallery/2024-05-06/challenge5-6.png)
+![challenge5-12](/gallery/2024-05-06/challenge5-12.png)
 pngcheck 提示 4： 修復 IDAT
-![challenge5-6](/img/2024-05-06/challenge5-7.png)
-![challenge5-13](/img/2024-05-06/challenge5-13.png)
+![challenge5-6](/gallery/2024-05-06/challenge5-7.png)
+![challenge5-13](/gallery/2024-05-06/challenge5-13.png)
 
 這樣就完成 PNG 修復了
-![challenge5-7](/img/2024-05-06/challenge5-9.png)
+![challenge5-7](/gallery/2024-05-06/challenge5-9.png)
 
 ### Flow Analyize
 
@@ -299,23 +299,23 @@ pngcheck 提示 4： 修復 IDAT
 用 wireshark 打開檔案後，快速翻閱一下 Protocol，可以看到很多 UDP，猜測 FLAG 應該藏在 UDP 內
 > 可以點擊中間畫面的 Protocol Column，就會以 Protocol Name 的方式排序，這樣就能把相同的 Protocol 聚集起來
 
-![challenge4](/img/2024-05-06/challenge4.png)
+![challenge4](/gallery/2024-05-06/challenge4.png)
 
 要檢視 udp Protocol，可以對想要檢視的 Protocol 點右鍵後就會有一個 Follow > UDP Stream 的功能，這樣就能去分析這份 protocol stream 的內容，要切換 stream 只要點擊右下角
 
-![challenge4-3](/img/2024-05-06/challenge4-3.png)
+![challenge4-3](/gallery/2024-05-06/challenge4-3.png)
 
 翻著翻著就會找到 FLAG 了，可以知道是在 udp stream 6
 
-![challenge4-2](/img/2024-05-06/challenge4-2.png)
+![challenge4-2](/gallery/2024-05-06/challenge4-2.png)
 
 #### [Eavesdrop](https://play.picoctf.org/practice/challenge/264?category=4&originalEvent=70&page=1)
 
 打開 wireshark 查看 pcap，從 tcp stream 0 可以看出以下的聊天紀錄
-![challenge6](/img/2024-05-06/challenge6.png)
+![challenge6](/gallery/2024-05-06/challenge6.png)
 
 從聊天紀錄可以知道用 openssl 來解碼，所以我們還需要在找到被加碼的檔案，在 packet 61，發現這一個被加鹽過的檔案內容，所以我們可以合理懷疑就是這份檔案
-![challenge6-2](/img/2024-05-06/challenge6-2.png)
+![challenge6-2](/gallery/2024-05-06/challenge6-2.png)
 
 所以把這個檔案抓出來，可以使用 pyshark 來抓取，或者將內容以 Hex Bytes 的方式呈現再手動填入。以下為參考腳本
 
@@ -350,7 +350,7 @@ with open('file.txt', 'r') as f:
 ```bash
 mmls disk.flag.img
 ```
-![challenge7](/img/2024-05-06/challenge7.png)
+![challenge7](/gallery/2024-05-06/challenge7.png)
 
 接著用 `fls` 列出資料夾，這裡要搭配 `-o` 參數，可以看到第一個 Linux 的開始位元組是在 2048，所以先把他列出來
 
@@ -358,7 +358,7 @@ mmls disk.flag.img
 fls -o 2048 disk.flag.img
 ```
 
-![challenge7-2](/img/2024-05-06/challenge7-2.png)
+![challenge7-2](/gallery/2024-05-06/challenge7-2.png)
 
 可以看到這些資料夾沒有熟悉的部分，所以繼續往下找
 
@@ -366,7 +366,7 @@ fls -o 2048 disk.flag.img
 fls -o 360448 disk.flag.img
 ```
 
-![challenge7-3](/img/2024-05-06/challenge7-3.png)
+![challenge7-3](/gallery/2024-05-06/challenge7-3.png)
 
 可以看到有一個 root 資料夾，所以繼續往下找
 
@@ -374,7 +374,7 @@ fls -o 360448 disk.flag.img
 fls -o 360448 disk.flag.img 1995
 ```
 
-![challenge7-4](/img/2024-05-06/challenge7-4.png)
+![challenge7-4](/gallery/2024-05-06/challenge7-4.png)
 
 可以看到裡面有個 my_folder 資料夾，繼續往下找
 
@@ -382,7 +382,7 @@ fls -o 360448 disk.flag.img 1995
 fls -o 360448 disk.flag.img 3981
 ```
 
-![challeneg7-5](/img/2024-05-06/challenge7-5.png)
+![challeneg7-5](/gallery/2024-05-06/challenge7-5.png)
 
 接著將 flag.uni.txt 抓取內容出來
 
@@ -390,7 +390,7 @@ fls -o 360448 disk.flag.img 3981
 icat -o 360448 disk.flag.img 2371
 ```
 
-![challeneg7-6](/img/2024-05-06/challenge7-6.png)
+![challeneg7-6](/gallery/2024-05-06/challenge7-6.png)
 
 > d/d：是資料夾  
 > r/r：是檔案，有些檔案會標註 realloc，代表以前有配置這份檔案

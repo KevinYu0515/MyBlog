@@ -194,7 +194,7 @@ module.exports = {
 }
 ```
 
-![bundle 可視化結果](/img/2024-04-25/bundle-analysis.png)
+![bundle 可視化結果](/gallery/2024-04-25/bundle-analysis.png)
 
 ### Optiminization
 
@@ -341,7 +341,7 @@ splitChunks: {
 - 避免使用第三方 cookies
 
 最後附上一張 Lighthouse 的煙火
-![alt](/img/2024-04-25/firework.gif)
+![alt](/gallery/2024-04-25/firework.gif)
 
 ## 相關資料
 

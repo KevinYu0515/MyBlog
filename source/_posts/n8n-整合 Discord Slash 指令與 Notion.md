@@ -21,15 +21,19 @@ toc:         true
 
 這邊先選取 GCP 的 Free Trial，但只有 24hr 的使用，目前對於我這樣實驗性質的使用不影響，但如果要長期使用的話，建議選擇 AWS Tokyo/Japan，主要是距離最近，傳輸速度會快些，但要另外每個月付 5 美元，其實沒有很多啦。
 
-![image](/img/2025-01-23/001.jpg)
+<div style="text-align: center">
+  <img src="/gallery/2025-01-23/001.jpg" width="400" height="800" alt="選擇地區"/>
+</div>
 
 接著搜尋 n8n，然後點擊最多下載量的 service 就可以了
 
-![image](/img/2025-01-23/002.jpg)
+<div style="text-align: center">
+  <img src="/gallery/2025-01-23/002.jpg" width="400" height="800" alt="選擇 n8n 下載版本"/>
+</div>
 
 成功建立 n8n 後，點擊網路並找到網域的欄位，可以使用自訂網域，也可以直接使用 Zeabur 提供的網域，輸入後點擊網址就可以進到 n8n 的工作介面了
 
-![image](/img/2025-01-23/003.jpg)
+![image](/gallery/2025-01-23/003.jpg)
 
 另外還要申請一支 discord bot ，這部分網路資源很多，這邊就不多作介紹
 
@@ -37,20 +41,20 @@ toc:         true
 
 以下是 n8n 的 workflow，會對主要邏輯作說明，細項設定請參考最後的設定 json
 
-![image](/img/2025-01-23/004.jpg)
+![image](/gallery/2025-01-23/004.jpg)
 
 首先需要監聽 discord bot 接收到的指令，所以 n8n 開頭的節點為 webhook，點擊設置，先將 Test URL 的 Request 改成 POST 並將這個 URL 貼到 discord bot 的 Interactions Endpoint URL，到此會發現測試會失敗是正常的，因為我們沒有回覆這個 verify。如果要成功設置，根據 [discord develop](https://discord.com/developers/docs/interactions/overview#configuring-an-interactions-endpoint-url) 需要達成兩點
 
 - 成功確認並回傳 PONG 給來自 Discord 的 PING requests
 - 驗證 security-related request headers (X-Signature-Ed25519 and X-Signature-Timestamp)
 
-![image](/img/2025-01-23/005.jpg)
+![image](/gallery/2025-01-23/005.jpg)
 
 首先來處理第一點，進入第二個節點，我們要將 request 整理成要用來驗證的資料，也就是（X-Signature-Ed25519 and X-Signature-Timestamp），還有 discord bot 的 publicKey
 
 接著使用一個社群開發的 node 來實現驗證，要引入這個 node 的路徑：Settings > Community nodes > Install > 輸入 n8n-nodes-tweetnacl
 
-![image](/img/2025-01-23/006.jpg)
+![image](/gallery/2025-01-23/006.jpg)
 
 經過驗證後會給一欄位（isVerified）表示是否成功驗證，所以要作 if 判斷，成功就回傳 `{"type": 1}`，失敗就回傳 reponse code 401。
 
@@ -85,13 +89,13 @@ application id 應該不用解釋，就是 discord bot 的 application id，而 
 
 最後的 authorization header 要另外添加到 headers，value 為 `BOT [Bot Token]`，雖然 postman 有提供 authorization 的功能，但不知道為甚麼沒有用，所以只好以 header 方式發送就能成功註冊，送出後有回覆 200 或 201 的 response code 就是註冊成功，如果 discord 的指令沒有提示，可以將 bot 踢出後重新邀請試試。
 
-![image](/img/2025-01-23/007.jpg)
+![image](/gallery/2025-01-23/007.jpg)
 
 ### 接收 slash command 並寫入 notion
 
 回到 n8n 完成工作流，如下
 
-![image](/img/2025-01-23/008.jpg)
+![image](/gallery/2025-01-23/008.jpg)
 
 我們可以透過 request body 中的 type 來分析是哪種類型的 event，如果 `type = 1`，就是 PING EVENT，也就是前段的 endpoint 驗證，否則就是我們的 slash command event，所以先用 if 來判斷 `{{ $json.body.type }}`
 
@@ -103,11 +107,15 @@ application id 應該不用解釋，就是 discord bot 的 application id，而 
 
 還有最重要的一點，就是要將 notion database 作 connection 設定，這樣才找得到 database，才能 fetch 出需要的 key property
 
-![image](/img/2025-01-23/010.jpg)
+<div style="text-align: center">
+  <img src="/gallery/2025-01-23/010.jpg" width="400" height="800" alt="將 notion database 作 connection 設定"/>
+</div>
 
 完整的 notion node 設置如下
 
-![image](/img/2025-01-23/009.jpg)
+<div style="text-align: center">
+  <img src="/gallery/2025-01-23/009.jpg" width="400" height="800" alt="完整的 notion node"/>
+</div>
 
 進到最後的節點，也就是完成之後要將回傳訊息給 discord，設置 `{"data":{"content": ""}}`，用來當作 discord bot 回覆的內容，還有記得要設置一個 `{"type": 4}`，來說明此 slash command event 成功完成。
 
