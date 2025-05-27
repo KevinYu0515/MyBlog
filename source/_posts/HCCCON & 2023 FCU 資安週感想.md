@@ -3,7 +3,7 @@ title:       "HCCCON & 2023 FCU 資安週感想"
 subtitle:    "2023 黑客社活動回顧"
 excerpt:     "關於我在逢甲大學身為黑客社幹部，於 2023 的資安週擺攤，一路以來的開發心得，以及黑客社十周年紀念研討會擔任工作人員的心得"
 date:        2024-01-12
-categories:  ["Socity"]
+categories:  ["Society"]
 cover:       /gallery/covers/default.jpg
 toc: true
 ---
