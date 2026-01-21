@@ -30,5 +30,6 @@
     "semver": "^7.5.4",
     "stylus": "^0.64.0",
     "stylus-loader": "^8.1.1"
-  }
+  },
+  "packageManager": "pnpm@10.12.4+sha1.88a0ccfe72d6345dede50dc9d6158400be2420eb"
 }
