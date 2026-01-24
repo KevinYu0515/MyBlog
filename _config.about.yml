@@ -45,9 +45,9 @@ widgets:
     # -
     #     type: categories
     #     position: left
-comment:
-    comment: false 
-    type: disqus
-    # Disqus shortname
-    shortname: yukai
+# comment:
+#     comment: false 
+#     type: disqus
+#     # Disqus shortname
+#     shortname: yukai
 
