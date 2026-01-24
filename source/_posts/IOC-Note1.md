@@ -2,7 +2,9 @@
 title:       "Inversion of Control And Dependency Injection"
 subtitle:    "控制反轉一設計概念經由依賴注入實現的 .Net 案例探討與紀錄"
 date: 2026-01-18 22:41:31
-tags: [back-end]
+tags: [back-end, .Net]
+cover: /gallery/covers/default.jpg
+categories:  ["Develop", "Web"]
 excerpt: "從在 Service 裡直接 new 物件開始，帶你一步步理解 IOC 與 .NET DI，說明為什麼這樣寫程式更好維護，也更容易測試。"
 toc: true
 ---
