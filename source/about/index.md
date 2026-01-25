@@ -14,7 +14,8 @@ comment: false
 <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/typescript/typescript-original.svg" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/nodejs/nodejs-original.svg" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/python/python-original.svg" width="40" height="40"/>
-<img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/java/java-original.svg" width="40" height="40"/>
+<img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/dotnetcore/dotnetcore-original.svg" width="40" height="40"/>
+<!-- <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/java/java-original.svg" width="40" height="40"/> -->
 <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/docker/docker-original.svg" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/react/react-original.svg" width="40" height="40"/>
 <img src="https://raw.githubusercontent.com/devicons/devicon/refs/heads/master/icons/postgresql/postgresql-original.svg" width="40" height="40"/>
@@ -22,7 +23,8 @@ comment: false
 
 ## 實習經驗
 
-- 2024/09 ~ 至今：逢甲大學 人工智慧研究中心研究人員
+- 2025/07 ~ 至今：新加坡商鈦坦科技公司 學年實習生
+- 2024/09 ~ 2025/07：逢甲大學 人工智慧研究中心後端開發
 
 ## 參賽經驗
 
