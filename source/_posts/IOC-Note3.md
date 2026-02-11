@@ -4,7 +4,7 @@ subtitle: 紀錄在 .Net 使用 Middleware 和 Filter 的基本應用
 toc: true
 cover: /gallery/covers/default.jpg
 date: 2026-01-19 23:59:23
-tags: [back-end, .Net]
+tags: [back-end, ASP.Net]
 categories:  ["Develop", "Web"]
 excerpt: "Middleware 與 Filter 基本實作：Request Log、Exception Response、Authorization With Api Endpoint"
 ---

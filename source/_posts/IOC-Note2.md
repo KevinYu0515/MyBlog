@@ -3,7 +3,7 @@ title: "Dependency Injection and Scrutor"
 subtitle: "使用 Scrutor 簡化大量 Service 註冊並使用 Decorate 擴充 Service"
 toc: true
 date: 2026-01-19 22:28:10
-tags: [back-end, .Net]
+tags: [back-end, ASP.Net]
 cover: /gallery/covers/default.jpg
 categories:  ["Develop", "Web"]
 excerpt: "介紹 Scrutor 如何強化 .NET DI 的服務註冊能力，透過 Decorator 與 Scan，讓橫切關注點與大量 Service 註冊變得更乾淨、好維護"

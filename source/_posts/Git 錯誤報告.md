@@ -1,6 +1,6 @@
 ---
 title:       "[ GIT 錯誤報告 ]"
-subtitle:    ""
+subtitle:    "持續更新的 Git 排錯指南"
 excerpt: "主要紀錄使用 git 時的相關錯誤，此外 git 相關的產品使用問題也會一併紀錄於此，不定時更新"
 date:        2022-09-28
 tags:        ["git"]

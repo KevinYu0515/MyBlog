@@ -1,7 +1,7 @@
 ---
 title:       "Commands List"
-subtitle:    "Git是一個強大的版本控制系統，用於追蹤、管理和協同開發程式碼的變更。"
-excerpt:     "Git有助於有效地保存和追蹤版本歷史，解決問題和恢復變更。它支持多人協同開發，並提供分支管理機制，讓開發人員能夠同時進行不同任務，確保穩定性和平行開發。"
+subtitle:    "Git 指令懶人包"
+excerpt:     "一些常用的 Git 指令。"
 date:        2022-09-26
 tags:        ["git"]
 categories:  ["DeveOps", "Version Control"]
