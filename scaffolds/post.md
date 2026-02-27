@@ -1,10 +1,10 @@
 ---
 title: {{ title }}
 date: {{ date }}
-tags:
+tags: ""
 toc: true
-categories:
-excerpt:
+categories: ""
+excerpt: "這是摘要"
 cover: /gallery/covers/default.jpg
 ---
 
