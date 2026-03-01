@@ -1,7 +1,7 @@
 ---
 title: Vue Component 交互設計，你只會 Props 和 Emits 嗎
 toc: true
-cover: /gallery/covers/default.jpg
+cover: /gallery/covers/vue.png
 date: 2026-02-27 10:22:34
 tags: ["front-end", "vue"]
 categories:  ["Develop", "Web"]
