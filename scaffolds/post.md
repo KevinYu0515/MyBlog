@@ -1,9 +1,9 @@
 ---
 title: {{ title }}
 date: {{ date }}
-tags: ""
+tags: []
 toc: true
-categories: ""
+categories: []
 excerpt: "這是摘要"
 cover: /gallery/covers/default.jpg
 ---
@@ -17,10 +17,6 @@ cover: /gallery/covers/default.jpg
 ---
 
 ## Title 3
-
----
-
-## 總結
 
 ---
 

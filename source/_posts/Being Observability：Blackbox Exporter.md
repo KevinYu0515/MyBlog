@@ -1,5 +1,5 @@
 ---
-title: 入門監控觀測技能，Blackbox Exporter 檢測 HealthCheck
+title: Being Observability：Blackbox Exporter 檢測 HealthCheck
 tags: ["grafana"]
 toc: true
 categories: ["DeveOps", "Monitor"]
