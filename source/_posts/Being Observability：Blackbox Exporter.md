@@ -4,7 +4,7 @@ tags: ["grafana"]
 toc: true
 categories: ["DeveOps", "Monitor"]
 excerpt: 使用 Grafana、Prometheus 與 Blackbox Exporter 建立網站 Health Check 與 Uptime 監控系統
-cover: /gallery/covers/default.jpg
+cover: /gallery/covers/monitor.png
 date: 2026-03-01 13:20:42
 ---
 
